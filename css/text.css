@@ -1,0 +1,214 @@
+/*  ===  TEXT  ===
+******************************************* */
+
+/*  Smernice za veličinu teksta
+
+- Desktop: h1 32–48px; h2 24–32px; h3 19–24px; p 16–21px;
+
+- Tablet:  h1 28–42px; h2 21–28px; h3 17–21px; p 14–18px;
+
+- Telefon: h1 26–32px; h2 19–26px; h3 16–19px; p 13–16px;
+
+large - lg
+small -sm
+*/
+
+/*  ===  heading 1  ===  */
+.h1 {
+  line-height: 1.05;
+  font-size: calc(13px + (105 - 13) * ((100vw - 320px) / (1600 - 320)));
+  word-spacing: 4px;
+  letter-spacing: 1px;
+  text-shadow: 2px 1px #303336;
+  font-weight: 900;
+}
+
+/* @media screen and (max-width: 299px) {
+    .h1 {
+        font-size: 48px;
+    }
+}
+
+@media screen and (min-width: 1800px) {
+    .h1 {
+        font-size: 125px;
+    }
+} */
+
+/*  ===  heading 2, heading 3  ===  */
+h2,
+h3 {
+  color: var(--color-heading);
+  letter-spacing: -0.5px;
+}
+
+.h2 {
+  font-size: 3.6rem;
+  margin-bottom: 9.6rem;
+  line-height: 1.2;
+}
+
+.h2:after {
+  display: block;
+  height: 1px;
+  background-color: var(--color-red-white);
+  content: " ";
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.h3-lg {
+  font-size: 3.1rem;
+  line-height: normal;
+  margin-bottom: 4rem;
+}
+
+.h3 {
+  font-size: 2.4rem;
+}
+
+.h3-sm {
+  font-size: 2rem;
+  letter-spacing: 0;
+}
+
+
+/*  ===  subheading  ===  */
+.subheading {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-red-white);
+  text-transform: uppercase;
+  margin: 1.5rem 0;
+  letter-spacing: 0.75px;
+}
+
+.p {
+  font-size: 1.8rem;
+}
+
+.p-sm {
+  font-size: 1.1rem;
+}
+
+/*  ===  text style  ===  */
+.center-text {
+  text-align: center;
+}
+
+.strong {
+  font-weight: bold;
+}
+
+
+/*  ===  text animation  ===  */
+.wiggle {
+  animation: wiggle 200ms 100ms 3 ease-out none;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotateZ(0);
+  }
+
+  50% {
+    transform: rotateZ(-3deg);
+  }
+
+  100% {
+    transform: rotateZ(3deg);
+  }
+}
+
+
+/* rem and em do NOT depend on html font-size in media queries! Instead, 1rem = 1em = 16px */
+/*******************************************/
+/*  ---  BELOW - 1344px
+/*******************************************/
+/* (Smaller desktops) */
+@media (max-width: 84em) {
+  .h1 {
+    font-size: 9rem;
+  }
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 1250px
+  /*******************************************/
+/* (Landscape Tablets) */
+@media (max-width: 78.125em) {}
+
+
+/*******************************************/
+/*  ---  BELOW - 1200px
+  /*******************************************/
+/* (Landscape Tablets) */
+@media (max-width: 75em) {}
+
+
+/*******************************************/
+/*  ---  BELOW - 944px
+  /*******************************************/
+/* (Tablets) */
+@media (max-width: 59em) {
+  .p {
+    font-size: 2rem;
+  }
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 704px
+  /*******************************************/
+/* (Smaller tablets) */
+@media (max-width: 44em) {}
+
+
+/*******************************************/
+/*  ---  BELOW - 544px
+  /*******************************************/
+/* (Phones) */
+@media (max-width: 34em) {}
+
+
+/*******************************************/
+/*  ---  BELOW - 400px
+  /*******************************************/
+/* (Phones) */
+@media (max-width: 25em) {}
+
+
+/*******************************************/
+/*  ---  BELOW - 920px
+  /*******************************************/
+/* (Phones) */
+@media (max-width: 920px) and (orientation: landscape) {
+  .h1 {
+    font-size: 7.5rem;
+  }
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 300px
+  /*******************************************/
+/* (Phones) */
+@media (max-width: 300px) {
+  .h1 {
+    font-size: 6rem;
+  }
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 300px
+  /*******************************************/
+/* (Phones) */
+@media (max-height: 300px) {
+  .heading-primary {
+    font-size: 6rem;
+  }
+}
