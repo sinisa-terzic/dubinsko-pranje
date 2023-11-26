@@ -249,6 +249,22 @@
   /*  ===  SERVICES  ===
 ******************************* */
 
+  /*  ===  SERVICES  ===
+******************************* */
+  .logos {
+    animation: marquee 15s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(110%);
+    }
+
+    100% {
+      transform: translateX(-110%);
+    }
+  }
+
   /*  ===  PRICING  ===
 ******************************* */
 
@@ -455,6 +471,26 @@
 
   /*  ===  PRICING  ===
 ******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+  .logos {
+    animation: marquee 15s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(170%);
+    }
+
+    100% {
+      transform: translateX(-170%);
+    }
+  }
+
+  .logos img {
+    height: 3.8rem;
+  }
 
   /*  ===  CONTACT  ===
 ******************************* */

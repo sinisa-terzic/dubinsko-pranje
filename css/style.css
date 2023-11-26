@@ -742,6 +742,45 @@ input:checked+.chtext {
 
 
 
+/*  ===  OUR PARTNERS  ===
+******************************************* */
+.section-featured {
+    margin: 4.5rem 0;
+    padding: 4.5rem 0 9rem;
+    background-color: #fcfcfc;
+}
+
+.section-featured .h2 {
+    font-size: 3.1rem;
+    line-height: normal;
+    margin-bottom: 9rem;
+}
+
+.logos {
+    justify-content: space-around;
+    gap: 5rem;
+    padding: 0 1rem;
+    animation: marquee 35s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.logos img {
+    height: 4.2rem;
+    filter: brightness(0);
+    opacity: 50%;
+}
+
+
+
 /*  ===  CONTACT  ===
 ******************************************* */
 .section-contact {

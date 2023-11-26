@@ -307,7 +307,7 @@ img {
     vertical-align: bottom;
     width: 100%;
     height: auto;
-    object-fit: cover;
+    /* object-fit: cover; */
 }
 
 /*  ===  image effects clear-effect  ===  */
@@ -645,6 +645,14 @@ input[type=submit] {
 .p-90 {
     padding-top: 9rem;
     padding-bottom: 9rem;
+}
+
+.pt-60 {
+    padding-top: 6rem;
+}
+
+.pb-60 {
+    padding-bottom: 6rem;
 }
 
 .pr-16 {

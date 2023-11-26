@@ -15,7 +15,7 @@ small -sm
 
 /*  ===  heading 1  ===  */
 .h1 {
-  line-height: 1.05;
+  line-height: 1.2;
   font-size: calc(13px + (105 - 13) * ((100vw - 320px) / (1600 - 320)));
   word-spacing: 4px;
   letter-spacing: 1px;
