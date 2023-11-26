@@ -50,18 +50,18 @@ $(document).ready(function () {
 
         // ### gallery content ### 
         items: [
-            { src: './../img/gallery/1200x800/1.jpg', srct: './../img/gallery/1.jpg' },
-            { src: './../img/gallery/1200x800/1.png', srct: './../img/gallery/1.png' },
-            { src: './../img/gallery/1200x800/10.png', srct: './../img/gallery/10.png' },
-            { src: './../img/gallery/1200x800/1.png', srct: './../img/gallery/1.png' },
-            { src: './../img/gallery/1200x800/10.png', srct: './../img/gallery/10.png' },
-            { src: './../img/gallery/1200x800/1.png', srct: './../img/gallery/1.png' },
-            { src: './../img/gallery/1200x800/10.png', srct: './../img/gallery/10.png' },
-            { src: './../img/gallery/1200x800/2.jpg', srct: './../img/gallery/2.jpg' },
-            { src: './../img/gallery/1200x800/3.jpg', srct: './../img/gallery/3.jpg' },
-            { src: './../img/gallery/1200x800/4.jpg', srct: './../img/gallery/4.jpg' },
-            { src: './../img/gallery/1200x800/1.png', srct: './../img/gallery/1.png' },
-            { src: './../img/gallery/1200x800/10.png', srct: './../img/gallery/10.png' }
+            { src: './img/gallery/1200x800/1.jpg', srct: './img/gallery/1.jpg' },
+            { src: './img/gallery/1200x800/1.png', srct: './img/gallery/1.png' },
+            { src: './img/gallery/1200x800/10.png', srct: './img/gallery/10.png' },
+            { src: './img/gallery/1200x800/1.png', srct: './img/gallery/1.png' },
+            { src: './img/gallery/1200x800/10.png', srct: './img/gallery/10.png' },
+            { src: './img/gallery/1200x800/1.png', srct: './img/gallery/1.png' },
+            { src: './img/gallery/1200x800/10.png', srct: './img/gallery/10.png' },
+            { src: './img/gallery/1200x800/2.jpg', srct: './img/gallery/2.jpg' },
+            { src: './img/gallery/1200x800/3.jpg', srct: './img/gallery/3.jpg' },
+            { src: './img/gallery/1200x800/4.jpg', srct: './img/gallery/4.jpg' },
+            { src: './img/gallery/1200x800/1.png', srct: './img/gallery/1.png' },
+            { src: './img/gallery/1200x800/10.png', srct: './img/gallery/10.png' }
         ]
     });
 });
