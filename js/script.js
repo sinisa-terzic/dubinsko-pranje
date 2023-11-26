@@ -79,13 +79,13 @@ allLinks.forEach(function (link) {
 
 ///////////////////////////////////////////////////////////
 // gallery
-var lightbox = new PhotoSwipeLightbox({
+/* var lightbox = new PhotoSwipeLightbox({
     gallery: '#photoGallery',
     children: 'a',
     // dynamic import is not supported in UMD version
     pswpModule: PhotoSwipe
 });
-lightbox.init();
+lightbox.init(); */
 
 
 ///////////////////////////////////////////////////////////
