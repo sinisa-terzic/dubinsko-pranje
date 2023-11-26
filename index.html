@@ -21,13 +21,17 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/queries.css" />
 
-    <link rel="stylesheet" href="css/photoswipe.css" />
+    <!-- <link rel="stylesheet" href="css/photoswipe.css" /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nanogallery2/3.0.5/css/nanogallery2.min.css"
+        integrity="sha512-6sOT9zKSKq1CYgNMqtcY84tFPDnG1yX5mxwdGQiAVpAomVr2kUKJ//pFeU/KfaZDVCOru5iFOVswpT4RWWF2dQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 
-    <script defer src="js/photoswipe.umd.min.js"></script>
-    <script defer src="js/photoswipe-lightbox.umd.min.js"></script>
+    <!-- <script defer src="js/photoswipe.umd.min.js"></script>
+    <script defer src="js/photoswipe-lightbox.umd.min.js"></script> -->
+
     <script defer src="js/script.js"></script>
 
 </head>
@@ -214,87 +218,7 @@
 
 
     <!-- GALLERY ================================== -->
-    <section class="pt-90 pb-90 section-gallery" id="gallery">
-        <span class="subheading center-text">Gallery</span>
-
-
-        <div class="grid col-4 gallery" id="photoGallery">
-            <!-- photo 1 -->
-            <a href="img/gallery/1200x800/1.jpg" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/1.jpg" width="400" height="260" loading="lazy"
-                        alt="Description image, image 1">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 2 -->
-            <a href="img/gallery/1200x800/2.jpg" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/2.jpg" width="400" height="260" loading="lazy"
-                        alt="Description image, image 2">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 3 -->
-            <a href="img/gallery/1200x800/3.jpg" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/3.jpg" width="400" height="260" alt="Description image, image 3">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 4 -->
-            <a href="img/gallery/1200x800/4.jpg" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/4.jpg" width="400" height="260" alt="Description image, image 4">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 5 -->
-            <a href="img/gallery/1200x800/10.png" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/10.png" width="400" height="260" alt="Description image, image 1">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 6 -->
-            <a href="img/gallery/1200x800/1.png" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/1.png" width="400" height="260" alt="Description image, image 2">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 7 -->
-            <a href="img/gallery/1200x800/10.png" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/10.png" width="400" height="260" alt="Description image, image 3">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-            <!-- photo 8-->
-            <a href="img/gallery/1200x800/1.png" data-pswp-width="1200" data-pswp-height="800">
-                <figure class="gallery-effect">
-                    <img src="img/gallery/1.png" width="400" height="260" alt="Description image, image 4">
-                    <div class="gallery-photo">
-                        <img src="img/gallery/zoom.png" width="50" height="50" alt="zoom">
-                    </div>
-                </figure>
-            </a>
-        </div>
-    </section> <!-- END GALLERY -->
+    <div id="nanogallery2" class="pt-90 pb-90"></div> <!-- END GALLERY -->
 
 
     <!-- BORDER - dark fill bottom -->
@@ -842,7 +766,7 @@
 
         <div class="container center-text">
             <!-- <span class="subheading">Pricing</span> -->
-            <h2 class="h2">Naši partneri</h2>
+            <h2 class="h2">OUR PARTNERS</h2>
         </div>
 
         <div class="">
@@ -972,6 +896,14 @@
         </ul>
 
     </footer> <!-- END FOOTER -->
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nanogallery2/3.0.5/jquery.nanogallery2.min.js"
+        integrity="sha512-tvpLVnZrWnnNzV2921XEMx4xkFTUF8xg3s+Mi6cvC/R7A6X1FkpBUXPJFa3Xh5uD9BvOZ2tHeYq/5ZqrweW86Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="js/gallery.js"></script>
 
 </body>
 
