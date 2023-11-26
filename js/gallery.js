@@ -11,7 +11,7 @@ $(document).ready(function () {
         thumbnailDisplayOrder: 'random',
 
         thumbnailWidth: '400',
-        thumbnailHeight: '250',
+        thumbnailHeight: '270',
         "thumbnailBorderVertical": 0,
         "thumbnailBorderHorizontal": 0,
 
