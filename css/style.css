@@ -773,12 +773,15 @@ input:checked+.chtext {
     }
 }
 
+.logos:hover {
+    animation-play-state: paused;
+}
+
 .logos img {
     height: 4.2rem;
     filter: brightness(0);
     opacity: 50%;
 }
-
 
 
 /*  ===  CONTACT  ===
