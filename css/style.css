@@ -757,8 +757,7 @@ input:checked+.chtext {
 }
 
 .logos {
-    justify-content: center;
-    gap: 10rem;
+    justify-content: space-around;
     padding: 0 1rem;
     animation: marquee 45s linear infinite;
 }
