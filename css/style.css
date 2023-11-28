@@ -757,28 +757,28 @@ input:checked+.chtext {
 }
 
 .logos {
-    justify-content: space-around;
-    gap: 5rem;
+    justify-content: center;
+    gap: 10rem;
     padding: 0 1rem;
-    animation: marquee 35s linear infinite;
+    animation: marquee 45s linear infinite;
 }
 
-@keyframes marquee {
+/* @keyframes marquee {
     0% {
         transform: translateX(100%);
     }
 
     100% {
-        transform: translateX(-100%);
+        transform: translateX(-80%);
     }
-}
+} */
 
 .logos:hover {
     animation-play-state: paused;
 }
 
-.logos img {
-    height: 4.2rem;
+#logos img {
+    height: 8rem;
     filter: brightness(0);
     opacity: 50%;
 }

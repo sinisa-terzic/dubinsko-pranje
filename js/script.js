@@ -142,7 +142,7 @@ checkboxes_1.addEventListener('change', function () {
 /* ovo je za ceo niz */
 checkboxes2.forEach(function (checkbox) {
     if (checkbox.checked === true) {
-        output2.innerHTML = "<span class='euro'>€</span>" + Number(checkbox.value).toFixed(2) + "<span class='level'>preuzimanje za 24<sup>h</sup></span>";
+        output2.innerHTML = "<span class='euro'>€</span>" + Number(checkbox.value).toFixed(2) + "<span class='level'>sušenje ~ 24<sup>h</sup></span>";
     };
 });
 
@@ -157,7 +157,7 @@ checkboxes_2.addEventListener('change', function () {
 
 
     if (checkboxes_2_deepWashing.checked == true) {
-        output2.innerHTML = "<span class='euro'>€</span>" + total.toFixed(2) + "<span class='level'>preuzimanje za 24<sup>h</sup></span>";
+        output2.innerHTML = "<span class='euro'>€</span>" + total.toFixed(2) + "<span class='level'>sušenje ~ 24<sup>h</sup></span>";
     } else {
         output2.innerHTML = "<span class='euro'>€</span>" + total.toFixed(2);
     }
