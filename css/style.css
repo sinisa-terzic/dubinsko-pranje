@@ -762,15 +762,15 @@ input:checked+.chtext {
     animation: marquee 45s linear infinite;
 }
 
-/* @keyframes marquee {
+@keyframes marquee {
     0% {
         transform: translateX(100%);
     }
 
     100% {
-        transform: translateX(-80%);
+        transform: translateX(-100%);
     }
-} */
+}
 
 .logos:hover {
     animation-play-state: paused;
