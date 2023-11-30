@@ -359,7 +359,7 @@
 
 .service-photo-link a:hover,
 .service-photo-link a:active {
-    color: var(--color-contact);
+    color: #972400
 }
 
 .service:hover .service-photo-link {
