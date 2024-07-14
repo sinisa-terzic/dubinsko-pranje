@@ -70,7 +70,7 @@
     padding: 0 2rem;
     background-color: rgba(255, 255, 255, 0.97);
     z-index: 999;
-    box-shadow: 0 1.2rem 3.2rem rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.05);
     transition: all 0.1s ease;
     margin: 0;
     align-items: center;
@@ -141,7 +141,7 @@
 .hero {
     height: 100vh;
     background-color: #112e51;
-    background-image: url(../img/hero/hero-1920.webp);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(../img/hero/hero-1920.webp);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
