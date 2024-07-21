@@ -10,8 +10,8 @@ $(document).ready(function () {
         gallerySorting: 'random',
         thumbnailDisplayOrder: 'random',
 
-        thumbnailWidth: '400',
-        thumbnailHeight: '270',
+        thumbnailWidth: '300',
+        thumbnailHeight: '200',
         "thumbnailBorderVertical": 0,
         "thumbnailBorderHorizontal": 0,
 
