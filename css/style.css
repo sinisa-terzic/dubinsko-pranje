@@ -622,8 +622,8 @@ input:checked+.chtext {
 }
 
 .price-list-footer button {
-    background-color: #f5f5f5;
-    color: #000;
+    background-color: #585858;
+    color: #fff;
     padding: 4px 10px;
     margin-top: 15px;
     cursor: pointer;
