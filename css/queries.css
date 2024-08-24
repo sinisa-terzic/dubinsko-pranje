@@ -207,6 +207,12 @@
     gap: 4.8rem;
   }
 
+  #languageImg,
+  .switcherImg,
+  .callImg {
+    width: 10vw;
+  }
+
   .main-nav-link:link,
   .main-nav-link:visited {
     font-size: 3rem;
