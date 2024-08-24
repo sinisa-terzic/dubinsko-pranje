@@ -87,6 +87,10 @@
     border-bottom: 1px solid #607D8B;
 }
 
+.sticky #languageImg {
+    border: 1px solid #121212;
+}
+
 .nav-up {
     height: -8.5rem;
 }
