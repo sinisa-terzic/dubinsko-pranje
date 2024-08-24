@@ -30,7 +30,8 @@ small -sm
 /*  ===  heading 1  ===  */
 .h1 {
   line-height: 1.2;
-  font-size: calc(13px + (105 - 13) * ((100vw - 320px) / (1600 - 320)));
+  /* font-size: calc(13px + (105 - 13) * ((100vw - 320px) / (1600 - 320))); */
+  font-size: 6.5vw;
   word-spacing: 4px;
   letter-spacing: 1px;
   text-shadow: 2px 1px #303336;
@@ -144,7 +145,8 @@ h3 {
 /* (Smaller desktops) */
 @media (max-width: 84em) {
   .h1 {
-    font-size: 8rem;
+    /* font-size: 8rem; */
+    font-size: 15vw;
   }
 }
 

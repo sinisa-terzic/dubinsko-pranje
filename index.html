@@ -20,7 +20,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
 
-    <title>Perfect Shine</title>
+    <title>Dubinsko Pranje</title>
 
     <link rel="stylesheet" href="css/grid.css" />
     <link rel="stylesheet" href="css/general.css" />
@@ -68,10 +68,41 @@
 
             <nav class="main-nav">
                 <div class="main-nav-list flex">
-                    <a class="main-nav-link" href="#services">Services</a>
-                    <a class="main-nav-link" href="#gallery">Gallery</a>
-                    <a class="main-nav-link" href="#pricing">Pricing</a>
-                    <a class="main-nav-link" href="#contact">Contact</a>
+                    <a class="main-nav-link" href="#services">Usluge</a>
+                    <a class="main-nav-link" href="#gallery">Galerija</a>
+                    <a class="main-nav-link" href="#pricing">Cijene</a>
+                    <a class="main-nav-link" href="#contact">Kontakt</a>
+                    <div class="languageSection noSelected">
+
+                        <span id="language"><img id="languageImg" src="img/flag/yu.svg" alt="Srpski"></span>
+
+                        <div class="language noneDisplay">
+                            <!-- ex-yu -->
+                            <div class="ExYu flex between_center">
+                                <div class="flex y_center g-10">
+                                    <img class="flag" src="img/flag/yu.svg" alt="Ex-Yu" width="250" height="150">
+                                    <div id="srButton" data-language="sr">Ex-Yu</div>
+                                </div>
+                                <span class="cyrillic_latin">
+                                    <button class="changeLanguageButton cyrillic_latin_color" id="latin" name="language"
+                                        data-language="sr">Lat</button>
+                                    &nbsp;&nbsp;/&nbsp;&nbsp;
+                                    <button class="changeLanguageButton" id="cyrillic" name="language"
+                                        data-language="sr_cy">Ћир</button>
+                                </span>
+                            </div>
+                            <!-- english -->
+                            <div class="flex y_center g-10">
+                                <img class="flag" src="img/flag/eng.svg" alt="Ex-Yu" width="250" height="150">
+                                <button class="changeLanguageButton" id="enButton" data-language="en">English</button>
+                            </div>
+                            <!-- русский -->
+                            <div class="flex y_center g-10">
+                                <img class="flag" src="img/flag/rus.svg" alt="Ex-Yu" width="250" height="150">
+                                <button class="changeLanguageButton" id="ruButton" data-language="ru">Русский</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </nav>
 
@@ -89,26 +120,26 @@
 
         <div class="hero-text-box">
 
-            <h1 class="h1">PERFECT SHINE</h1>
-            <p>Cars
+            <h1 class="h1">DUBINSKO PRANJE</h1>
+            <p>Automobila
                 <span class="hero-text-box-icon">
                     &nbsp;
                     <img class="header-icon" src="img/icon/header-icon.svg" alt="cristal clear icon">
                     &nbsp;
                 </span>
-                Furniture
+                Garnitura
                 <span class="hero-text-box-icon">
                     &nbsp;
                     <img class="header-icon" src="img/icon/header-icon.svg" alt="cristal clear icon">
                     &nbsp;
                 </span>
-                Carpets
+                Etisona
                 <span class="hero-text-box-icon">
                     &nbsp;
                     <img class="header-icon" src="img/icon/header-icon.svg" alt="cristal clear icon">
                     &nbsp;
                 </span>
-                Mattresses
+                Dušeka
             </p>
 
             <span class="call-us top-left-radius width-100"><span class="call-us-text">Nazovite ili pošaljite
@@ -181,7 +212,7 @@
             </div>
 
             <div class="btn-aboutUs">
-                <a href="#services" class="btn btn--full">Tell mi more</a>
+                <a href="#services" class="btn btn--full">Saznajte više &#187;</a>
             </div>
 
         </div>

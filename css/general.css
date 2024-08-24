@@ -433,8 +433,8 @@ body {
     display: inline-block;
     text-decoration: none;
     font-size: 2rem;
-    font-weight: 600;
-    padding: 1.6rem 3.2rem;
+    font-weight: 500;
+    padding: 1.2rem 2.6rem;
     border-radius: 9px;
     border: 1px solid var(--color-dark);
     cursor: pointer;
@@ -453,6 +453,7 @@ body {
 .btn--full:hover,
 .btn--full:active {
     background-color: #3aaae0;
+    color: #fff;
 }
 
 
@@ -590,6 +591,10 @@ input[type=submit] {
 
 /*  ===  display none  ===  */
 .none {
+    display: none;
+}
+
+.noneDisplay {
     display: none;
 }
 
