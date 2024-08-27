@@ -54,6 +54,7 @@
     width: 1.5vw;
     border-radius: 50%;
     border: 2px solid #fff;
+    cursor: pointer;
 }
 
 /* mobile nav */
