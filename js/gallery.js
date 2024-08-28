@@ -50,20 +50,20 @@ $(document).ready(function () {
 
         // ### gallery content ### 
         items: [
-            { src: './img/gallery/1200x800/1.jpg', srct: './img/gallery/1.jpg' },
-            { src: './img/gallery/1200x800/2.jpg', srct: './img/gallery/2.jpg' },
-            { src: './img/gallery/1200x800/3.jpg', srct: './img/gallery/3.jpg' },
-            { src: './img/gallery/1200x800/4.jpg', srct: './img/gallery/4.jpg' },
-            { src: './img/gallery/1200x800/5.jpg', srct: './img/gallery/5.jpg' },
-            { src: './img/gallery/1200x800/6.jpg', srct: './img/gallery/6.jpg' },
-            { src: './img/gallery/1200x800/7.jpg', srct: './img/gallery/7.jpg' },
-            { src: './img/gallery/1200x800/8.jpg', srct: './img/gallery/8.jpg' },
-            { src: './img/gallery/1200x800/9.jpg', srct: './img/gallery/9.jpg' },
-            { src: './img/gallery/1200x800/10.jpg', srct: './img/gallery/10.jpg' },
-            { src: './img/gallery/1200x800/11.jpg', srct: './img/gallery/11.jpg' },
-            { src: './img/gallery/1200x800/12.jpg', srct: './img/gallery/12.jpg' },
-            { src: './img/gallery/1200x800/13.jpg', srct: './img/gallery/13.jpg' },
-            { src: './img/gallery/1200x800/14.jpg', srct: './img/gallery/14.jpg' }
+            { src: '../img/gallery/1200x800/1.jpg', srct: '../img/gallery/1.jpg' },
+            { src: '../img/gallery/1200x800/2.jpg', srct: '../img/gallery/2.jpg' },
+            { src: '../img/gallery/1200x800/3.jpg', srct: '../img/gallery/3.jpg' },
+            { src: '../img/gallery/1200x800/4.jpg', srct: '../img/gallery/4.jpg' },
+            { src: '../img/gallery/1200x800/5.jpg', srct: '../img/gallery/5.jpg' },
+            { src: '../img/gallery/1200x800/6.jpg', srct: '../img/gallery/6.jpg' },
+            { src: '../img/gallery/1200x800/7.jpg', srct: '../img/gallery/7.jpg' },
+            { src: '../img/gallery/1200x800/8.jpg', srct: '../img/gallery/8.jpg' },
+            { src: '../img/gallery/1200x800/9.jpg', srct: '../img/gallery/9.jpg' },
+            { src: '../img/gallery/1200x800/10.jpg', srct: '../img/gallery/10.jpg' },
+            { src: '../img/gallery/1200x800/11.jpg', srct: '../img/gallery/11.jpg' },
+            { src: '../img/gallery/1200x800/12.jpg', srct: '../img/gallery/12.jpg' },
+            { src: '../img/gallery/1200x800/13.jpg', srct: '../img/gallery/13.jpg' },
+            { src: '../img/gallery/1200x800/14.jpg', srct: '../img/gallery/14.jpg' }
         ]
     });
 });
