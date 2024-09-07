@@ -362,7 +362,7 @@ body {
     width: 0;
     height: 0;
     background-color: rgba(24, 24, 24, 0.15);
-    transition: all 0.3s ease-in;
+    transition: all 0.2s ease;
     z-index: 1;
 }
 
@@ -452,7 +452,8 @@ body {
 
 .btn--full:hover,
 .btn--full:active {
-    background-color: #3aaae0;
+    /* background-color: #3aaae0; */
+    background-color: #cd2026;
     color: #fff;
 }
 

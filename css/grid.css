@@ -88,3 +88,15 @@
   flex-direction: column;
   gap: 0.6rem;
 }
+
+.g-5 {
+  gap: 0.5rem;
+}
+
+.g-10 {
+  gap: 1rem;
+}
+
+.g-15 {
+  gap: 1.5rem;
+}
