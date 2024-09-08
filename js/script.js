@@ -22,6 +22,7 @@ const obs = new IntersectionObserver(
         const ent = entries[0];
         // console.log(ent);
         language.classList.add('noneDisplay');
+        callOptions.classList.add("noneDisplay");
         if (ent.isIntersecting === false) {
             document.body.classList.add("sticky");
             logo1.classList.add("none");
@@ -100,8 +101,15 @@ const phoneNumber = document.querySelector(".phone-number");
 const callOptions = document.querySelector(".call-options");
 
 phoneNumber.addEventListener("click", (event) => {
-    // event.stopPropagation(); // Spreči propagaciju eventa dalje na document
+    event.stopPropagation(); // Spreči propagaciju eventa dalje na document
     callOptions.classList.toggle("noneDisplay");
+});
+
+// Klik bilo gde drugde na dokumentu da se doda klasa noneDisplay
+document.addEventListener('click', () => {
+    if (!callOptions.classList.contains('noneDisplay')) {
+        callOptions.classList.add('noneDisplay');
+    }
 });
 
 
