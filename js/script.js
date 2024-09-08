@@ -21,7 +21,7 @@ const obs = new IntersectionObserver(
     function (entries) {
         const ent = entries[0];
         // console.log(ent);
-
+        language.classList.add('noneDisplay');
         if (ent.isIntersecting === false) {
             document.body.classList.add("sticky");
             logo1.classList.add("none");
@@ -73,6 +73,24 @@ allLinks.forEach(function (link) {
         if (link.classList.contains("main-nav-link"))
             headerEl.classList.toggle("nav-open");
     });
+});
+
+
+///////////////////////////////////////////////////////////
+// Choose language
+const languageImg = document.querySelector("#languageImg");
+const language = document.querySelector(".language");
+
+languageImg.addEventListener("click", (event) => {
+    event.stopPropagation(); // Spreči propagaciju eventa dalje na document
+    language.classList.toggle("noneDisplay");
+});
+
+// Klik bilo gde drugde na dokumentu da se doda klasa noneDisplay
+document.addEventListener('click', () => {
+    if (!language.classList.contains('noneDisplay')) {
+        language.classList.add('noneDisplay');
+    }
 });
 
 
