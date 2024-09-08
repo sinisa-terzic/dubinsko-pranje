@@ -94,6 +94,17 @@ document.addEventListener('click', () => {
 });
 
 
+///////////////////////////////////////////////////////////
+// Call as
+const phoneNumber = document.querySelector(".phone-number");
+const callOptions = document.querySelector(".call-options");
+
+phoneNumber.addEventListener("click", (event) => {
+    // event.stopPropagation(); // Spreči propagaciju eventa dalje na document
+    callOptions.classList.toggle("noneDisplay");
+});
+
+
 
 ///////////////////////////////////////////////////////////
 // gallery

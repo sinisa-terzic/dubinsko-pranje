@@ -240,17 +240,42 @@
 }
 
 .call-us,
-.call-us a {
+.call-us button {
     font-size: 1.15vw;
     font-weight: 600;
     background-color: var(--bg-yellow);
     color: var(--color-dark);
     text-decoration: none;
     z-index: 4;
+    cursor: pointer;
 }
 
 .call-us-icon {
     display: none;
+}
+
+.call-options {
+    width: 10.5vw;
+    position: absolute;
+    top: -6.8vw;
+    background-color: #ffffff;
+    right: 0;
+    padding: 1rem;
+    font-size: 1vw;
+    /* display: flex; */
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.call-option {
+    color: black;
+    text-decoration: none;
+    align-items: center;
+}
+
+.call-option img {
+    width: 1.5vw;
+    height: auto;
 }
 
 /* scroll down header */

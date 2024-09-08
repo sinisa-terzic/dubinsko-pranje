@@ -9,6 +9,11 @@
     scroll-behavior: smooth;
 }
 
+button,
+input[type="checkbox"] {
+    all: unset;
+}
+
 :root {
     --color-heading: #333;
 
