@@ -434,6 +434,25 @@
     width: 100%;
   }
 
+  .call-us,
+  .call-us button {
+    font-size: 4.5vw;
+    padding: 2vw;
+  }
+
+  .call-options {
+    width: 35vw;
+    padding: 3vw;
+    font-size: 4.5vw;
+    top: -29.5vw;
+    gap: 5vw;
+    border-top-left-radius: 3vw;
+  }
+
+  .call-option img {
+    width: 4.5vw;
+  }
+
   /*  ===  HERO  ===
 ******************************* */
   .hero {
