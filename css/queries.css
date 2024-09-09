@@ -208,8 +208,7 @@
   }
 
   #languageImg,
-  .switcherImg,
-  .callImg {
+  .sticky #languageImg {
     width: 10vw;
   }
 
