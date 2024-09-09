@@ -70,8 +70,8 @@
     flex-direction: column;
     /* right: 0px; */
     right: calc(0px - 2rem);
-    width: 10vw;
-    padding: 1rem;
+    width: 8vw;
+    padding: 0.5vw;
     top: calc(100% + 0.7vw);
     background-color: #303336;
     border-top-left-radius: 10px;
@@ -80,7 +80,7 @@
 }
 
 .flag {
-    width: 1.35vw;
+    width: 1.3vw;
     border: 1px solid #e3e3e3;
 }
 
@@ -89,8 +89,13 @@
     gap: 10px;
     align-items: center;
     text-decoration: none;
-    font-size: 1vw;
+    font-size: 0.8vw;
     color: #fff;
+    padding: 0.3vw;
+}
+
+.flagLink:hover {
+    background-color: #121212;
 }
 
 /* mobile nav */
