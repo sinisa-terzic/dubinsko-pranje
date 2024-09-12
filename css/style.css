@@ -708,13 +708,14 @@ input:checked+.chtext {
 }
 
 .price-list-footer button {
-    background-color: #585858;
-    color: #fff;
-    padding: 5px 15px;
+    background-color: #373737;
+    color: #ececec;
+    padding: 7px 16px;
     margin-top: 15px;
     cursor: pointer;
-    border-radius: 10px;
-    border: 1px solid #767676;
+    border-radius: 18px;
+    border: 2px solid #595959;
+    font-size: 1.4rem;
 }
 
 /* info pricing service */
@@ -817,17 +818,18 @@ input:checked+.chtext {
 .open-callUs {
     font-size: 3.5rem;
     cursor: pointer;
-    color: #8e9699;
+    color: #F2C7C9;
     position: fixed;
-    visibility: hidden;
-    transform: translateY(100%);
-    bottom: 0.5rem;
-    right: 1.5rem;
+    /* visibility: hidden; */
+    /* transform: translateY(100%); */
+    bottom: 1vw;
+    right: 1vw;
     z-index: 3;
     padding: 0.8rem;
     color: #fff;
-    background: #ba69c8;
+    background: #cd2026;
     transition: all .01s ease-in;
+    border: 2px solid #F2C7C9;
     border-radius: 50%;
 }
 

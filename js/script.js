@@ -218,11 +218,11 @@ checkboxes_3.addEventListener('change', function () {
 
     if (total_1 >= 1) {
         output3.innerHTML = "<span class='euro'>€</span>" + total.toFixed(2) + "<span class='level wiggle'>cijene po dogovoru</sup></span>";
-        callUs.classList.add("callUs-is-open");
+        // callUs.classList.add("callUs-is-open");
     } else if (total_1 < 1) {
-        callUs.classList.remove("none");
-        callUs.classList.remove("callUs-is-open");
-        callUs_Open.classList.remove('open-callUs-is-open');
+        // callUs.classList.remove("none");
+        // callUs.classList.remove("callUs-is-open");
+        // callUs_Open.classList.remove('open-callUs-is-open');
         output3.innerHTML = "<span class='euro'>€</span>" + total_1.toFixed(2);
     }
 });
@@ -238,7 +238,7 @@ callUs_Close.addEventListener('click', () => {
 
 const callUs_Open = document.querySelector('.open-callUs')
 callUs_Open.addEventListener('click', () => {
-    callUs.classList.remove("none");
+    // callUs.classList.remove("none");
     callUs_Open.classList.remove('open-callUs-is-open');
 });
 
@@ -249,7 +249,7 @@ let navPos = callUs_Open_Header.getBoundingClientRect().top;
 
 window.addEventListener("scroll", e => {
     let scrollPos = window.scrollY;
-    if (scrollPos < navPos + 100) {
+    if (scrollPos < navPos + 250) {
         callUs_Open.classList.add('none');
     } else {
         callUs_Open.classList.remove('none');
