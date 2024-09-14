@@ -1,0 +1,46 @@
+{
+    "hero": {
+        "title": "DUBINSKO PRANJE",
+        "services": [
+            {
+                "name": "Automobila",
+                "icon": "img/icon/header-icon.svg"
+            },
+            {
+                "name": "Garnitura",
+                "icon": "img/icon/header-icon.svg"
+            },
+            {
+                "name": "Etisona",
+                "icon": "img/icon/header-icon.svg"
+            },
+            {
+                "name": "Dušeka",
+                "icon": "img/icon/header-icon.svg"
+            }
+        ],
+        "callToAction": {
+            "text": "Nazovite ili pošaljite SMS:",
+            "phoneNumber": "+382 68 069 211",
+            "options": [
+                {
+                    "platform": "Phone",
+                    "link": "tel:+38268069211",
+                    "icon": "img/call/viber_152851.png"
+                },
+                {
+                    "platform": "Viber",
+                    "link": "viber://add?number=%2B38268069211",
+                    "icon": "img/call/viber_2504948.png"
+                },
+                {
+                    "platform": "WhatsApp",
+                    "link": "https://wa.me/38268069211",
+                    "icon": "img/call/whatsapp_3536445.png"
+                }
+            ]
+        },
+        "scrollDownText": "About",
+        "scrollDownLink": "#about"
+    }
+}

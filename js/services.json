@@ -1,0 +1,173 @@
+{
+    "title": {
+        "subheading": "usluge dubinskog pranja",
+        "h2": "Dubinsko pranje i mašinsko čišćenje"
+    },
+    "services": [
+        {
+            "image": "img/services/furniture-washing.webp",
+            "bottomImage": "img/border/img-bottom-1.svg",
+            "altText": "Dubinsko pranje i čišćenje namještaja, dušeka, etisona",
+            "activities": [
+                "Čišćenje",
+                "Pranje"
+            ],
+            "title": "Dubinsko pranje",
+            "attributes": [
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Garniture",
+                    "link": "#info-services"
+                },
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Dušeci",
+                    "link": "#info-services"
+                },
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Etisoni",
+                    "link": "#info-services"
+                }
+            ]
+        },
+        {
+            "image": "img/services/car--wash.webp",
+            "bottomImage": "img/border/img-bottom-2.svg",
+            "altText": "Dubinsko i obično pranje vozila i plovila, poliranje i polimerizacija farova",
+            "activities": [
+                "Čišćenje",
+                "Pranje",
+                "Polimerizacija"
+            ],
+            "title": "Vozila i plovila",
+            "attributes": [
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Obično pranje",
+                    "link": "#info-services"
+                },
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Dubinsko pranje",
+                    "link": "#info-services"
+                },
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Polimerizacija farova",
+                    "link": "#info-services"
+                }
+            ]
+        },
+        {
+            "image": "img/yacht/porto.jpg",
+            "bottomImage": "img/border/img-bottom-1.svg",
+            "altText": "Pranje spoljašnosti i unutrašnjost hotela i jahti. Održavanje soba, salona i terasa",
+            "activities": [
+                "Čišćenje",
+                "Pranje",
+                "Održavanje"
+            ],
+            "title": "Hoteli & Jahte",
+            "attributes": [
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Spoljašnost Hotela i Jahti",
+                    "link": "#info-services"
+                },
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Unutrašnjost Jahti",
+                    "link": "#info-services"
+                },
+                {
+                    "icon": "arrow-redo-outline",
+                    "name": "Sobe / Saloni / Terase",
+                    "link": "#info-services"
+                }
+            ]
+        }
+    ],
+    "info": {
+        "title": "Šta dobijamo sa redovnim održavanjem životne i radne sredine?",
+        "sections": [
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Dubinskim pranjem</em></strong> - uklanjamo širok spektar alergena, kao što su dlake od kućnih ljubimaca, grinje, prašina, polen i mnogo toga drugog. Rezultat? Vazduh u vašoj kući, vozilu, plovilu ili kancelariji postaje neuporedivo čistiji, čime stvaramo prostor u kojem je boravak ne samo udoban, već i izuzetno zdrav i prijatan. Investirajte u kvalitet vašeg okruženja – doživite udobnost koja ide korak dalje od običnog čišćenja!"
+            },
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Dubinsko čišćenje obuhvata</em></strong> - sve tapacirane i porozne površine, pružajući vašem starom i izbledelom nameštaju novi život. Neka vaš nameštaj ponovno zablista starim sjajem i povrati svoj prvobitni izgled, kao kad je stigao u vaš dom. Osim estetskog poboljšanja, dubinsko čišćenje produžava vek trajanja vašeg nameštaja, čineći ga dugotrajnijim i očuvanim. Oživite svoj prostor uz našu stručnost u vraćanju sjaja i dugovječnosti vašeg voljenog nameštaja!"
+            },
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Kožni namještaj</em></strong> - ima svoju jedinstvenu priču, a mi donosimo vrhunske rezultate koji će vas oduševiti. Iako koža nema duboke slojeve kao drugi materijali, naš proces brzo i efikasno vraća stari sjaj vašem namještaju. Uz nas, vaš kožni namještaj će izgledati potpuno novo – brzo, jednostavno i uz vrhunski rezultat"
+            },
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Obično pranje</em></strong> - ima svoje ograničenje često je brzo i usredsređeno na površinsko uklanjanje mrlja i nečistoća. Međutim, često se dešava da prljavština ostaje zakopana na teško dostupnim mestima. Za potpuno čistoću i obnavljanje vašeg vozila, namještaja i drugih predmeta, potrebno je dubinsko čišćenje. Nudimo vam efikasan i sveobuhvatan pristup, osiguravajući da nijedna nečistoća ne ostane neprepoznata. Dajte svojim stvarima pažnju koju zaslužuju uz našu uslugu dubinskog čišćenja!"
+            },
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Polimerizacija farova</em></strong> - predstavlja izuzetno efikasan tretman koji donosi niz prednosti u poređenju sa klasičnim poliranjem. Osim poboljšanog izgleda farova, pruža dugotrajnu zaštitu od UV zračenja i fizičkih oštećenja, produžavajući vreme trajanja. Nakon tretmana, vaši farovi će blistati poput novih, a vi ćete uživati u dugotrajnom estetskom i funkcionalnom poboljšanju!"
+            },
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Vaše plovilo ili vozilo</em></strong> - zračiće istim sjajem kao u prvom danu kada je izašlo iz fabrike! Naša neizmerna posvećenost detaljima ogleda se u besprekornom izgledu eksterijera, unutrašnjosti kabine i svih prostorija. Trudimo se da očuvamo autentičnost, udobnost i eleganciju, pružajući vam iskustvo kao da je tek napustilo proizvodnu liniju!"
+            },
+            {
+                "icon": "img/services/info-icon.svg",
+                "text": "<strong><em>Zelene površine</em></strong> - oblikujte ih prema svojim željama i potrebama, a naš stručni tim će se posvetiti besprekornoj i profesionalnoj realizaciji. Naš cilj je pretvoriti vaše vizije u stvarnost, stvarajući za vas \"mali zeleni raj\" koji odražava vašu jedinstvenu estetiku i udovoljava svim vašim očekivanjima."
+            }
+        ]
+    },
+    "feature": [
+        {
+            "image": "img/services/berner.webp",
+            "title": "Airbox Cleaner IV",
+            "features": [
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Čisti klima uređaje",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Čisti kabinu vozila",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Bez neprijatnih mirisa",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Osvježava prostor",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Bez mokrih površina"
+            ]
+        },
+        {
+            "image": "img/services/karcher.webp",
+            "title": "Puzzi 8/1 C",
+            "features": [
+                "Dubinsko pranje:",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Unutrašnjost vozila",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Namještaja",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Osvježava prostor",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Mala količina vlage"
+            ]
+        },
+        {
+            "image": "img/services/karcher-5-15.webp",
+            "title": "HD 5/15 C",
+            "features": [
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Pranje pod pritiskom",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Izvanredna mobilnost",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Sofisticirana oprema",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Visoka efikasnost",
+                "<ion-icon class=\"list-icon\" name=\"checkmark-outline\"></ion-icon>Izuzetna brzina"
+            ]
+        },
+        {
+            "title": "Spektar usluga",
+            "features": [
+                "Održavanje jahti",
+                "Održavanje hotela",
+                "Održavanje apartmana",
+                "Održavanje namještaja",
+                "Održavanje vozila",
+                "Dezinfekcija",
+                "Dezinsekcija",
+                "Deratizacija",
+                "Polimerizacija"
+            ]
+        }
+    ]
+}

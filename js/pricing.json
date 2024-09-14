@@ -1,0 +1,281 @@
+{
+    "pricing": {
+        "subheading": "cijene",
+        "h2": "Cijene naših usluga",
+        "plans": [
+            {
+                "title": "dubinsko pranje",
+                "items": [
+                    {
+                        "id": "furniture",
+                        "name": "Garniture",
+                        "value": "40.00",
+                        "checked": true
+                    },
+                    {
+                        "id": "mattresses",
+                        "name": "Dušeci",
+                        "value": "15.00",
+                        "checked": false
+                    },
+                    {
+                        "id": "ethisons",
+                        "name": "Etisoni",
+                        "value": "2.50",
+                        "checked": false
+                    }
+                ],
+                "footerText": "Kalkulator prikazuje početnu cijenu!",
+                "buttonText": "Cjenovnik za dubinsko pranje"
+            },
+            {
+                "title": "vozila i plovila",
+                "items": [
+                    {
+                        "id": "regularWash",
+                        "name": "Obično pranje",
+                        "value": "15.00",
+                        "checked": false
+                    },
+                    {
+                        "id": "deepWashing",
+                        "name": "Dubinsko pranje",
+                        "value": "100.00",
+                        "checked": true
+                    },
+                    {
+                        "id": "headlights",
+                        "name": "Polimerizacija farova",
+                        "value": "50.00",
+                        "checked": false
+                    }
+                ],
+                "footerText": "Kalkulator prikazuje početnu cijenu!",
+                "buttonText": "Cjenovnik za vozila i plovila"
+            },
+            {
+                "title": "Hoteli & Jahte",
+                "items": [
+                    {
+                        "id": "rooms",
+                        "name": "Spoljašnost Hotela i Jahti",
+                        "value": "0.00",
+                        "checked": false
+                    },
+                    {
+                        "id": "terrace",
+                        "name": "Unutrašnjost Jahti",
+                        "value": "1.00",
+                        "checked": false
+                    },
+                    {
+                        "id": "green",
+                        "name": "Sobe / Saloni / Terase",
+                        "value": "2.00",
+                        "checked": false
+                    }
+                ],
+                "footerText": "Kalkulator prikazuje početnu cijenu!",
+                "buttonText": "Cjenovnik za hotele i jahte"
+            }
+        ]
+    },
+    "priceDetails": {
+        "dubinsko pranje": [
+            {
+                "name": "Garniture",
+                "value": "40.00",
+                "details": "Dubinsko pranje garniture",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Trosed",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Fotelja",
+                        "value": "10.00"
+                    }
+                ]
+            },
+            {
+                "name": "Dušeci",
+                "value": "35.00",
+                "details": "Detalji o Dušeci: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            },
+            {
+                "name": "Etisoni",
+                "value": "2.50 po m²",
+                "details": "Detalji o Etisoni: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            },
+            {
+                "name": "Stolice",
+                "value": "2.00 po m²",
+                "details": "Detalji o Stolicama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            }
+        ],
+        "vozila i plovila": [
+            {
+                "name": "Obično pranje",
+                "value": "15.00",
+                "details": "Detalji o garniturama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            },
+            {
+                "name": "Dubinsko pranje",
+                "value": "85.00",
+                "details": "Detalji o garniturama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            },
+            {
+                "name": "Polimerizacija farova",
+                "value": "50.00",
+                "details": "Detalji o garniturama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            }
+        ],
+        "Hoteli & Jahte": [
+            {
+                "name": "Spoljašnost Hotela",
+                "value": "0.00",
+                "details": "Detalji o garniturama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            },
+            {
+                "name": "Unutrašnjost Jahti",
+                "value": "1.00 po m²",
+                "details": "Detalji o garniturama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            },
+            {
+                "name": "Unutrašnjost jahti",
+                "value": "100.00 po m²",
+                "details": "Detalji o garniturama: Dimenzije, materijali, itd.",
+                "subitems": [
+                    {
+                        "name": "Dvosed",
+                        "value": "20.00"
+                    },
+                    {
+                        "name": "Kabina",
+                        "value": "30.00"
+                    },
+                    {
+                        "name": "Kormilo",
+                        "value": "25.00"
+                    }
+                ]
+            }
+        ]
+    }
+}
