@@ -932,8 +932,8 @@ input:checked+.chtext {
     opacity: 0;
     z-index: 3;
     background-color: #ffffff;
-    border-top: 1px solid #CFD8DC;
-    border-left: 1px solid #CFD8DC;
+    border-top: 3px solid #CFD8DC;
+    border-left: 3px solid #CFD8DC;
     border-radius: 4rem 0 0 0;
 }
 
@@ -941,7 +941,7 @@ input:checked+.chtext {
     font-size: 2rem;
     font-weight: 700;
     /* background-color: #fdb81e; */
-    color: #ff0000;
+    color: var(--color-red-white);
     text-decoration: none;
     padding: 1.5rem 2rem;
     /* border-radius: 1.5rem; */

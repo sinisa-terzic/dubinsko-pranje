@@ -268,6 +268,7 @@ const callUs_Open_Header = document.querySelector(".header");
 callUs_Icon.addEventListener('click', () => {
     callUs_Img.classList.add("callUs-is-open");
     callUs_Icon.classList.add("open-callUs-remove");
+    modal.style.display = 'block';
 });
 
 // Zatvori call us dialog i prikaži ikonu
