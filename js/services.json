@@ -17,17 +17,17 @@
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Garniture",
-                    "link": "#info-services"
+                    "link": "furniture.html"
                 },
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Dušeci",
-                    "link": "#info-services"
+                    "link": "furniture.html"
                 },
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Etisoni",
-                    "link": "#info-services"
+                    "link": "furniture.html"
                 }
             ]
         },
@@ -45,17 +45,17 @@
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Obično pranje",
-                    "link": "#info-services"
+                    "link": "vehiclesandvessels.html"
                 },
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Dubinsko pranje",
-                    "link": "#info-services"
+                    "link": "vehiclesandvessels.html"
                 },
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Polimerizacija farova",
-                    "link": "#info-services"
+                    "link": "vehiclesandvessels.html"
                 }
             ]
         },
@@ -73,17 +73,17 @@
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Spoljašnost Hotela i Jahti",
-                    "link": "#info-services"
+                    "link": "hotelsandyachts.html"
                 },
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Unutrašnjost Jahti",
-                    "link": "#info-services"
+                    "link": "hotelsandyachts.html"
                 },
                 {
                     "icon": "arrow-redo-outline",
                     "name": "Sobe / Saloni / Terase",
-                    "link": "#info-services"
+                    "link": "hotelsandyachts.html"
                 }
             ]
         }
