@@ -22,9 +22,9 @@
     <meta name="categories" content="DUBINSKO PRANJE">
 
 
-    <link rel="alternate" hreflang="en" href="https://www.vas-sajt.com/en/index.html" />
+    <!-- <link rel="alternate" hreflang="en" href="https://www.vas-sajt.com/en/index.html" />
     <link rel="alternate" hreflang="ru" href="https://www.vas-sajt.com/ru/index.html" />
-    <link rel="alternate" hreflang="sr" href="https://www.vas-sajt.com/index.html" />
+    <link rel="alternate" hreflang="sr" href="https://www.vas-sajt.com/index.html" /> -->
 
 
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
@@ -316,8 +316,10 @@
         <!-- pop-up za cijene -->
         <div id="priceModal" class="modal noneDisplay">
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <h4 id="modal-title"></h4>
+                <div class="modal-title-box flex-space-between-center">
+                    <h4 id="modal-title"></h4>
+                    <span class="close">&times;</span>
+                </div>
                 <div id="modal-price-items" class="full-price-items"></div>
             </div>
         </div>
@@ -335,7 +337,7 @@
     <!-- dialog box CALL US -->
     <div>
         <div class="callUs">
-            <p>CONTACT US</p>
+            <p>POZOVITE NAS</p>
             <ion-icon class="callUs-close" name="close-outline"></ion-icon>
             <img class="img" src="img/call/callUs.png" width="280" height="350"
                 alt="call us dubinsko pranje i čišćenje tivat" usemap="#image_map">

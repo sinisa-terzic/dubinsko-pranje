@@ -847,11 +847,18 @@ input:checked+.chtext {
 .modal-content {
     background-color: #fefefe;
     margin: 1% auto;
-    padding: 20px;
+    /* padding: 20px; */
     border: 1px solid #888;
-    width: 95%;
+    width: 60%;
     /* max-width: 600px; */
     position: relative;
+}
+
+.modal-title-box {
+    background-color: #3e8de3;
+    padding: 2rem;
+    color: #fff;
+    background-image: url(../img/footer/diag_pattern.png);
 }
 
 .modal-content h4 {
@@ -864,23 +871,37 @@ input:checked+.chtext {
 }
 
 .full-price-items {
-    padding: 2rem;
+    padding: 2rem 4rem;
 }
 
 .priceDetalis {
     margin-bottom: 3rem;
 }
 
+.priceDetalisTitle {
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    border-bottom: 0.1rem solid #000;
+    padding-bottom: 0.7rem;
+}
+
+.subitem-list img {
+    width: 0.2rem;
+    height: auto;
+}
+
 .close {
-    color: #aaa;
-    float: right;
+    color: #fff;
+    /* float: right; */
     font-size: 28px;
     font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    /* color: #aaa; */
+    font-size: 30px;
+    color: #c0d7fb;
     text-decoration: none;
     cursor: pointer;
 }
@@ -889,7 +910,9 @@ input:checked+.chtext {
 /* o detaljima za izabranu listu u cjenovniku */
 .details-icon {
     cursor: pointer;
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    width: 0.9rem;
+    margin: 0 0.8rem 0 0;
 }
 
 .price-details {
@@ -901,6 +924,34 @@ input:checked+.chtext {
     background-color: #f9f9f9;
     position: relative;
 }
+
+.item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0 1.2rem 0;
+    font-size: 1.9rem;
+}
+
+.item-name,
+.item-value {
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    /* Sprečava prelamanje teksta */
+}
+
+.dots {
+    flex-grow: 1;
+    height: 3px;
+    margin: 0 10px;
+    background-image: url('../img/border/dots.svg');
+    background-repeat: repeat-x;
+    background-size: 10px 2px;
+    align-self: end;
+}
+
+
 
 .close-details-icon {
     cursor: pointer;

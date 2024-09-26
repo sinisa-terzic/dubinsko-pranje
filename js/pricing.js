@@ -90,32 +90,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (priceDetails && Array.isArray(priceDetails)) {
                         // Postavi naslov modalnog prozora
                         if (planTitle === 'Hoteli & Jahte') {
-                            modalTitle.innerText = 'Cjenovnik za hotele i jahte';
+                            modalTitle.innerText = 'Cjenovnik za jahte i hotele';
                         } else {
                             modalTitle.innerText = `Cjenovnik za ${planTitle}`;
                         }
                         modalPriceItems.innerHTML = `
-                ${priceDetails.map((item, index) => `
-                    <div class="priceDetalis">
-                        <span class="details-icon" id="detail-icon-${index}">🔍</span>
-                        <span>${item.name}</span>:
-                        <!-- <span class="price">${item.value} €</span> -->
-                        <div id="details-${index}" class="price-details" style="display: none;">
-                            ${item.details}
-                            <span class="close-details-icon" id="close-detail-icon-${index}">✖️</span>
-                        </div>
-                        ${item.subitems ? `
-                        <div class="subitem-list">
-                            ${item.subitems.map(subitem => `
-                            <p>
-                                <span>${subitem.name}</span>: <span class="price">${subitem.value} €</span>
-                            </p>
+                            ${priceDetails.map((item, index) => `
+                                <div class="priceDetalis">
+                                    <dic class="priceDetalisTitle flex-center">
+                                        <img id="detail-icon-${index}" class="rotateImg details-icon" src="img/border/play.svg" alt="play">
+                                        <span>${item.name}</span>:
+                                        <!-- <span class="price">${item.value} €</span> -->
+                                    </dic>
+                                    <div id="details-${index}" class="price-details" style="display: none;">
+                                        ${item.details}
+                                        <span class="close-details-icon" id="close-detail-icon-${index}">✖️</span>
+                                    </div>
+                                    ${item.subitems ? `
+                                    <div class="subitem-list">
+                                        ${item.subitems.map(subitem => `
+                                        <div class="item-row">
+                                            <p class="item-name">${subitem.name}</p>
+                                            <div class="dots"></div>
+                                            <p class="item-value">${subitem.value} €</p>
+                                        </div>
+                                                                                `).join('')}
+                                    </div>
+                                    ` : ''}
+                                </div>
                             `).join('')}
-                        </div>
-                        ` : ''}
-                    </div>
-                `).join('')}
-            `;
+                        `;
 
 
 
