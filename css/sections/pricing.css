@@ -241,7 +241,7 @@ input:checked+.chtext {
     background-color: #3e8de3;
     padding: 2rem;
     color: #fff;
-    background-image: url(../img/footer/diag_pattern.png);
+    background-image: url(../../img/footer/diag_pattern.png);
 }
 
 .modal-pricing-content h4 {
