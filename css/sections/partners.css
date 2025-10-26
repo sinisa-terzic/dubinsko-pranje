@@ -1,0 +1,94 @@
+.section-partners {
+    margin: 4.5rem 0;
+    padding: 4.5rem 0 9rem;
+    background-color: #fafafa;
+}
+
+.partners-container {
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.partners-container::before,
+.partners-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.partners-container::before {
+    left: 0;
+    background: linear-gradient(90deg, white, transparent);
+}
+
+.partners-container::after {
+    right: 0;
+    background: linear-gradient(90deg, transparent, white);
+}
+
+.marquee {
+    overflow-x: hidden;
+    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    /* Optimizacija za performanse */
+    contain: layout style paint;
+}
+
+.marquee-inner {
+    display: flex;
+    align-items: center;
+    gap: 8rem;
+    will-change: transform;
+    padding: 1rem 0;
+    /* Optimizacija za performanse */
+    backface-visibility: hidden;
+    perspective: 1000;
+}
+
+.marquee-inner img {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    /* Optimizacija za performanse */
+    transform: translateZ(0);
+}
+
+.marquee-inner img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .marquee-inner {
+        gap: 4rem;
+    }
+
+    .marquee-inner img {
+        height: 50px;
+    }
+
+    .partners-container::before,
+    .partners-container::after {
+        width: 50px;
+    }
+}
+
+/* Pause animation when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .marquee-inner {
+        animation: none;
+        transform: none !important;
+    }
+}

@@ -1,0 +1,224 @@
+/*  ===  SERVICES  ===
+******************************************* */
+/* services section */
+.services {
+    column-gap: 6.4rem;
+    row-gap: 9.6rem;
+}
+
+.service {
+    background-color: #fbfbfb;
+    box-shadow: 0 2.4rem 4.8rem rgb(0 0 0 / 8%);
+    border-radius: 11px;
+    overflow: hidden;
+    transition: all 0.4s;
+}
+
+.service-photo-link {
+    visibility: hidden;
+    /* padding: 15px 20px; */
+    background-color: var(--color-white);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    transition: all 0.2s;
+    transform: translateY(100%);
+    z-index: 1;
+}
+
+.service:hover .service-photo-link {
+    visibility: visible;
+    transition: all 0.15s;
+    transform: translateY(0%);
+}
+
+.service-content {
+    padding: 2.2rem 4.8rem 3.2rem 2rem;
+}
+
+.activities {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.activity {
+    display: inline-block;
+    padding: 0.5rem 0.8rem;
+    /* font-size: 1.1rem; */
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.activity-cleaning {
+    background-color: #2e8540;
+}
+
+.activity-washing {
+    background-color: #205493;
+}
+
+.activity-polishing {
+    background-color: #5b616b;
+}
+
+
+.activity-upkeep {
+    background-color: #046b99;
+}
+
+.service-title {
+    font-weight: 600;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #100c35;
+    margin-bottom: 3.2rem;
+}
+
+.activity-attributes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.activity-attribute {
+    /* font-size: 1.8rem; */
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+}
+
+.activity-attribute a {
+    text-decoration: none;
+    color: var(--color-dark);
+}
+
+/* info service section */
+.info-service {
+    gap: 2rem;
+    align-items: center;
+}
+
+.info-services {
+    background-color: #fdf2e9;
+    padding: 5rem;
+    line-height: 2.5rem;
+    border-radius: 2rem;
+    position: relative;
+}
+
+.service-icon {
+    height: 3.4rem;
+    width: 3.4rem;
+    color: #981b1e;
+}
+
+/* features service section */
+.features {
+    column-gap: 4.8rem;
+    row-gap: 6.4rem;
+}
+
+.feature-title {
+    font-weight: 700;
+    margin-top: 1.6rem;
+    margin-bottom: 1.6rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+    transition: background-color 0.3s ease;
+    color: var(--color-grey-dark);
+    letter-spacing: -0.5px;
+}
+
+.feature-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.1rem;
+    width: 100%;
+    height: 0.14rem;
+    background-color: #121212;
+    /* transition: background-color 0.3s ease; */
+}
+
+.feature:hover .feature-title {
+    color: var(--color-red-light);
+}
+
+.feature:hover .feature-title:after {
+    background-color: var(--color-red-light);
+    height: 0.2rem;
+}
+
+.feature-text {
+    line-height: 1.8;
+    gap: 1rem;
+    /* align-items: center; */
+}
+
+
+
+/*  ===  image effects darkening-effect  ===  */
+.darkening-effect {
+    position: relative;
+}
+
+.darkening-effect::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: rgba(24, 24, 24, 0.15);
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.service:hover .darkening-effect::before,
+.service-list:hover .darkening-effect::before {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.service-photo-link a:link,
+.service-photo-link a:visited {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 20px;
+    width: 49.7%;
+    background-color: var(--color-accent-yellow);
+    color: var(--color-dark);
+    font-weight: 700;
+    font-size: 2rem;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    border-top: 2px solid var(--color-white);
+    border-bottom: 1px solid var(--color-dark);
+}
+
+.service-photo-link a:hover,
+.service-photo-link a:active {
+    color: var(--color-link-hover-2)
+}
+
+.img-bottom {
+    right: 0;
+    left: 0;
+    bottom: 0px;
+}
+
+.list-icon {
+    width: 3rem;
+    height: 3rem;
+    color: var(--icon-blue);
+    color: #205493;
+}

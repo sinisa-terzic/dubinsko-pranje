@@ -1,0 +1,917 @@
+/* rem and em do NOT depend on html font-size in media queries! Instead, 1rem = 1em = 16px */
+
+/*******************************************/
+/*  ---  BELOW - 1344px
+/*******************************************/
+/* (Smaller desktops) */
+@media (max-width: 84em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  /* .h1 {
+    font-size: 9rem;
+  } */
+
+  /*  ===  HEADER  ===
+******************************* */
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+}
+
+
+
+/*******************************************/
+/*  ---  BELOW - 1250px
+/*******************************************/
+/* (Landscape Tablets) */
+@media (max-width: 78.125em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  .container {
+    /* 1250px */
+    padding-left: 3.2rem;
+    padding-right: 3.2rem;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+}
+
+
+
+/*******************************************/
+/*  ---  BELOW - 1200px
+/*******************************************/
+/* (Landscape Tablets) */
+@media (max-width: 75em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  html,
+  body {
+    /* 9px / 16px  */
+    font-size: 56.25%;
+  }
+
+  .h2 {
+    font-size: 3.6rem;
+  }
+
+  .h3 {
+    font-size: 2.4rem;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+  .main-nav-list {
+    gap: 3.2rem;
+  }
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 944px
+/*******************************************/
+/* (Tablets) */
+@media (max-width: 59em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  html,
+  body {
+    /* 8px / 16px = 0.5 = 50% */
+    font-size: 50%;
+  }
+
+  .elementor-shape-1 {
+    top: -5px;
+  }
+
+  .elementor-shape-1 svg {
+    width: 210%;
+    height: 25px;
+  }
+
+  .elementor-shape-3 svg {
+    height: 30px;
+  }
+
+  .elementor-shape-2 svg {
+    height: 30px;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+  .main-nav {
+    background-color: rgba(255, 255, 255, 0.9);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transform: translateY(-100%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease-in;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .nav-open .main-nav {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(0);
+    transition: all 0.2s ease-in;
+    z-index: 1;
+  }
+
+  .nav-open .icon-mobile-nav[name="close-outline"] {
+    display: block;
+  }
+
+  .nav-open .icon-mobile-nav[name="menu-outline"] {
+    display: none;
+  }
+
+  .main-nav-list {
+    flex-direction: column;
+    gap: 4.8rem;
+  }
+
+  #languageImg,
+  .sticky #languageImg {
+    width: 10vw;
+  }
+
+  .main-nav-link:link,
+  .main-nav-link:visited {
+    font-size: 3rem;
+    color: var(--color-dark);
+    padding: 0;
+  }
+
+  /* mobile navigation */
+  .btn-mobile-nav {
+    display: block;
+    z-index: 9999;
+    align-self: self-start;
+  }
+
+  /*  ===  HERO  ===
+******************************* */
+  .hero {
+    background-image: url(../../img/hero/hero-1000.webp);
+  }
+
+  /*  ===  ABOUT  ===
+******************************* */
+  .services {
+    column-gap: 4rem;
+    row-gap: 9.6rem;
+  }
+
+  .features.col-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .service-list {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+  /*   .logos {
+    animation: marquee 15s linear infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(110%);
+    }
+
+    100% {
+      transform: translateX(-110%);
+    }
+  } */
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+  .maps {
+    grid-column: 1/-1;
+    height: 50rem;
+  }
+
+  .contact-maps {
+    grid-column: 1/-1;
+    grid-row: auto;
+    padding: 5rem 2rem;
+  }
+
+  .footer-maps {
+    grid-column: 1/-1;
+  }
+
+  /*  ===  FOOTER  ===
+******************************* */
+
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 704px
+/*******************************************/
+/* (Smaller tablets) */
+@media (max-width: 44em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  .col-3,
+  .col-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .h2:after {
+    margin-top: 2.5rem;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+
+  /*  ===  HERO  ===
+******************************* */
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+  .service-list {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .feature {
+    box-shadow: 0 2.2rem 2.8rem rgb(0 0 0 / 8%);
+    padding: 3rem;
+  }
+
+  .brand-photo {
+    max-width: 90%;
+    margin: auto;
+    display: block;
+  }
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+  .footer {
+    row-gap: 4rem;
+  }
+
+  .social-links {
+    justify-self: center;
+  }
+
+  .second-column {
+    row-gap: 2.8rem;
+  }
+
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 544px
+/*******************************************/
+/* (Phones) */
+@media (max-width: 34em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  .col-2,
+  .col-40-60,
+  .col-3,
+  .col-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .col-4.gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .btn,
+  .btn:link,
+  .btn:visited {
+    padding: 1.6rem 3.2rem;
+  }
+
+  .activity-attribute a:hover,
+  .activity-attribute a:active {
+    color: var(--color-dark);
+  }
+
+  .p {
+    font-size: 2rem;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+  .h1 {
+    font-size: 14vw;
+    padding-bottom: 10rem;
+  }
+
+  .logo {
+    height: auto;
+    width: 19rem;
+  }
+
+  .sticky .icon-mobile-nav {
+    top: 2.2rem;
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .language {
+    flex-direction: column;
+    gap: 1.2rem;
+    right: 0;
+    left: -10px;
+    width: 35vw;
+    padding: 2vw;
+    top: calc(100% + 3vw);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .flagLink {
+    gap: 15px;
+    font-size: 3.8vw;
+    padding: 0.5vw;
+  }
+
+  .flag {
+    width: 5vw;
+    border: 1px solid #e3e3e3;
+  }
+
+  #scroll-down-arrow {
+    bottom: 15rem;
+  }
+
+  .call-us-text {
+    display: none;
+  }
+
+  .call-us-icon {
+    display: inline-block;
+  }
+
+  .hero-text-box p {
+    display: none;
+  }
+
+  .top-left-radius {
+    border-top-left-radius: 0;
+  }
+
+  .call-us {
+    width: 100%;
+  }
+
+  .call-us,
+  .call-us button {
+    font-size: 4.5vw;
+    padding: 2vw;
+  }
+
+  .call-options {
+    width: 37vw;
+    padding: 3vw;
+    font-size: 4.5vw;
+    top: -29.5vw;
+    gap: 5vw;
+    border-top-left-radius: 3vw;
+  }
+
+  .call-option img {
+    width: 4.5vw;
+  }
+
+  /*  ===  HERO  ===
+******************************* */
+  .hero {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(../../img/hero/hero-414.webp);
+    justify-content: center;
+  }
+
+  /*  ===  ABOUT  ===
+******************************* */
+  .aboutUs {
+    padding: 5%;
+  }
+
+  .about-m-t {
+    margin-top: 3rem;
+  }
+
+  .about-m-b {
+    margin-bottom: 3rem;
+  }
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+  .service-photo-link {
+    visibility: visible;
+    transition: all 0.15s;
+    transform: translateY(0%);
+  }
+
+  .service-photo-link a:hover,
+  .service-photo-link a:active {
+    color: var(--color-dark);
+  }
+
+  .features.col-4 {
+    grid-template-columns: 1fr;
+  }
+
+  /*  ===  PRICING  ===
+******************************* */
+  .modal-pricing-content {
+    margin: 4% auto;
+    width: 95%;
+  }
+
+  .modal-pricing-content h4 {
+    font-size: 4.5vw;
+    line-height: 1.2;
+  }
+
+  .modal-title-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .close {
+    font-size: 2.8rem;
+  }
+
+  .modal-content h4 {
+    font-size: 4.5vw;
+  }
+
+  .full-price-items {
+    padding: 2rem;
+  }
+
+  .priceDetalisTitle {
+    font-size: 2rem;
+  }
+
+
+  /*  ===  SERVICES  ===
+******************************* */
+  /*   .logos {
+    animation: marquee 25s linear infinite;
+    gap: 8rem;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(160%);
+    }
+
+    100% {
+      transform: translateX(-160%);
+    }
+  } */
+
+  /*   .logos img {
+    height: 3.8rem;
+  } */
+
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 400px
+/*******************************************/
+/* (Phones) */
+@media (max-width: 25em) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  .m-r-sm {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 920px
+/*******************************************/
+/* (Phones) */
+@media (max-width: 920px) and (orientation: landscape) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  /* .h1 {
+    font-size: 7.5rem;
+  } */
+
+  /*  ===  HEADER  ===
+******************************* */
+  .logo {
+    height: auto;
+    width: 18rem;
+  }
+
+  .icon-mobile-nav {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  .hero-text-box p {
+    font-size: 2.7rem;
+    margin-top: 0.8rem;
+  }
+
+  .hero-text-box .logo-ionic {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  /*  ===  HERO  ===
+  ******************************* */
+  .hero {
+    background: url(../../img/hero/hero-1920.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+  .services {
+    column-gap: 3rem;
+  }
+
+  .features.col-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .service-content {
+    padding: 2rem 1rem;
+  }
+
+  .service-list {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+
+  .service-photo-link {
+    visibility: visible;
+    transition: all 0.15s;
+    transform: translateY(0%);
+  }
+
+  .service-photo-link a:link,
+  .service-photo-link a:visited {
+    padding: 5px 8px;
+  }
+
+  .service-photo-link a:hover,
+  .service-photo-link a:active {
+    color: var(--color-dark);
+  }
+
+  .brand-photo {
+    max-width: 90%;
+    margin: auto;
+    display: block;
+  }
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 300px
+/*******************************************/
+/* (Phones) */
+@media (max-width: 300px) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  /* .h1 {
+    font-size: 6rem;
+  } */
+
+  /*  ===  HEADER  ===
+******************************* */
+  .nav {
+    padding: 2rem 1rem 0 1rem;
+  }
+
+  .logo {
+    height: auto;
+    width: 15rem;
+  }
+
+  .logo-sm {
+    height: auto;
+    width: 25rem;
+  }
+
+  .icon-mobile-nav {
+    height: 3rem;
+    width: 3rem;
+  }
+
+  .mobile-nav.close,
+  .sticky .icon-mobile-nav {
+    top: 2.5rem;
+    right: 1rem;
+  }
+
+  /*  ===  HERO  ===
+******************************* */
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  PRICING  ===
+******************************* */
+  .price-list .level {
+    bottom: 20px;
+  }
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+
+}
+
+
+/*******************************************/
+/*  ---  BELOW - 300px
+/*******************************************/
+/* (Phones) */
+@media (max-height: 300px) {
+
+  /*  ===  GENERAL  ===
+******************************* */
+  .h1 {
+    font-size: 6rem;
+  }
+
+  /*  ===  HEADER  ===
+******************************* */
+  .header {
+    padding: 0 2rem;
+  }
+
+  .nav {
+    padding: 2.5rem 0 0 0;
+  }
+
+  .logo {
+    height: auto;
+    width: 11rem;
+  }
+
+  .hero-text-box p {
+    display: none;
+  }
+
+  #scroll-down-arrow {
+    bottom: 7rem;
+    width: 4rem;
+    height: 4rem;
+    border: 0.3rem solid #fff;
+  }
+
+  #scroll-down-arrow::before {
+    width: 1rem;
+    height: 1rem;
+    border-left: 0.3rem solid #fff;
+    border-bottom: 0.3rem solid #fff;
+  }
+
+  .call-us {
+    z-index: 0;
+    padding: 10px 20px 10px 35px;
+  }
+
+  /*  ===  HERO  ===
+******************************* */
+
+  /*  ===  ABOUT  ===
+******************************* */
+
+  /*  ===  GALLERY  ===
+******************************* */
+
+  /*  ===  SERVICES  ===
+******************************* */
+
+  /*  ===  PRICING  ===
+******************************* */
+
+  /*  ===  CONTACT  ===
+******************************* */
+
+  /*  ===  FOOTER  ===
+******************************* */
+
+}
+
+
+
+/*******************************************/
+/* Fixing Safari flexbox gap */
+/*******************************************/
+
+.no-flexbox-gap .main-nav-list li:not(:last-child) {
+  margin-right: 4.8rem;
+}
+
+.no-flexbox-gap .list-item:not(:last-child) {
+  margin-bottom: 1.6rem;
+}
+
+.no-flexbox-gap .list-icon:not(:last-child) {
+  margin-right: 1.6rem;
+}
+
+.no-flexbox-gap .delivered-faces {
+  margin-right: 1.6rem;
+}
+
+.no-flexbox-gap .meal-attribute:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.no-flexbox-gap .meal-icon {
+  margin-right: 1.6rem;
+}
+
+.no-flexbox-gap .footer-row div:not(:last-child) {
+  margin-right: 6.4rem;
+}
+
+.no-flexbox-gap .social-links li:not(:last-child) {
+  margin-right: 2.4rem;
+}
+
+.no-flexbox-gap .footer-nav li:not(:last-child) {
+  margin-bottom: 2.4rem;
+}
+
+@media (max-width: 75em) {
+  .no-flexbox-gap .main-nav-list li:not(:last-child) {
+    margin-right: 3.2rem;
+  }
+}
+
+@media (max-width: 59em) {
+  .no-flexbox-gap .main-nav-list li:not(:last-child) {
+    margin-right: 0;
+    margin-bottom: 4.8rem;
+  }
+
+  .tel {
+    margin-top: 25px;
+    display: block;
+  }
+}

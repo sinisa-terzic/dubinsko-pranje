@@ -1,0 +1,148 @@
+/*  ===  CALL US DIALOG  ===
+******************************************* */
+
+/* Floating Call Button */
+.open-callUs {
+    cursor: pointer;
+    position: fixed;
+    bottom: var(--space-15);
+    right: var(--space-15);
+    padding: var(--space-5);
+    background-color: #ffffff;
+    border: 0.3rem solid var(--color-link-hover-1);
+    border-radius: 50%;
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    z-index: 3;
+}
+
+.open-callUs:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.open-callUs-remove {
+    transform: translateY(200%);
+    opacity: 0;
+}
+
+/* Call Us Dialog Box */
+.callUs {
+    position: fixed;
+    width: 25rem;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+    background-color: #ffffff;
+    border-top: 0.3rem solid var(--color-grey-light);
+    border-left: 0.3rem solid var(--color-grey-light);
+    border-radius: var(--space-40) 0 0 0;
+    visibility: hidden;
+    transform: translateX(100%);
+    opacity: 0;
+    box-shadow: -4px -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.callUs-is-open {
+    visibility: visible;
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Dialog Title */
+.callUs p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-red-light);
+    padding: var(--space-15) var(--space-20);
+    margin: 0;
+    border-bottom: 1px solid var(--color-grey-light);
+}
+
+/* Close Button */
+.callUs-close {
+    position: absolute;
+    top: var(--space-0);
+    right: var(--space-0);
+    font-size: 3.2rem;
+    cursor: pointer;
+    color: var(--color-grey-dark);
+    /* padding: var(--space-5); */
+    border-radius: 50%;
+}
+
+.callUs-close:hover {
+    color: var(--color-primary-dark);
+    background-color: var(--color-grey-light);
+    transform: scale(1.1);
+}
+
+/* Call Options */
+.call-options1 {
+    position: absolute;
+    color: black;
+    text-decoration: none;
+    top: 5.2rem;
+    left: 0;
+    padding: 1.4rem;
+    font-size: 1.7rem;
+    flex-direction: column;
+    gap: 1.8rem;
+    font-weight: 600;
+}
+
+/* Social Media Links */
+.callUs_Social {
+    position: absolute;
+    left: var(--space-10);
+    bottom: var(--space-10);
+    gap: var(--space-15);
+    display: flex;
+    align-items: center;
+}
+
+.callUs_Social img {
+    width: 3rem;
+    opacity: 0.9;
+}
+
+/* Call Us Image */
+.callUs .img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Animation for call options */
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.call-option {
+    animation: slideInFromRight 0.08s ease-out forwards;
+}
+
+.call-option:nth-child(1) {
+    animation-delay: 0.015s;
+}
+
+.call-option:nth-child(2) {
+    animation-delay: 0.03s;
+}
+
+.call-option:nth-child(3) {
+    animation-delay: 0.045s;
+}

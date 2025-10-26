@@ -1,0 +1,104 @@
+/*  ===  FOOTER  ===
+******************************************* */
+.footer {
+    background-color: #000;
+    color: #767676;
+    padding: 3rem 4rem 2rem;
+    position: relative;
+    background-image: url(../../img/footer/diag_pattern.png);
+    z-index: 10;
+}
+
+.footer a:hover {
+    color: #fff;
+}
+
+.footer::before {
+    content: '';
+    width: 100%;
+    height: 10px;
+    background: url(../../img/footer/circle.png);
+    position: absolute;
+    top: -2px;
+    background-size: 18px;
+    left: 0;
+}
+
+/* FIRST COLUMN, THIRD COLUMN */
+.social-links {
+    list-style: none;
+    gap: 2.4rem;
+    row-gap: 1em;
+    align-self: center;
+}
+
+.footer-link:link,
+.footer-link:visited {
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: var(--link-footer);
+    transition: all 0.3s;
+}
+
+.social-icon {
+    height: 2.2rem;
+    width: 2.2rem;
+}
+
+/* SECOND COLUMN */
+.second-column {
+    row-gap: 3rem;
+}
+
+/* open stayle footer */
+.real-time-sign .sign {
+    top: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 12px 8px;
+    min-width: 100px;
+    filter: drop-shadow(-2px 4px 10px rgba(0, 0, 0, 0.5));
+    position: relative;
+    top: 10px;
+    left: 50%;
+    transform: rotate(-10deg) translateX(-50%);
+    transform-origin: left;
+    background-color: #2e8540;
+    border: solid 4px #fff;
+    border-radius: 8px;
+    text-shadow: -0.5px -0.9px 1px rgb(0 0 0 / 20%);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 26px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.real-time-sign .sign>div {
+    position: absolute;
+    width: 90px;
+    height: 30px;
+    left: 50%;
+    top: -30px;
+    transform: translateX(-50%);
+}
+
+.real-time-sign .sign span:first-of-type {
+    display: inline;
+    text-transform: uppercase;
+}
+
+
+.logo-sm-light {
+    height: auto;
+    width: 25rem;
+}
+
+.copyright {
+    font-size: 1.6rem;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}

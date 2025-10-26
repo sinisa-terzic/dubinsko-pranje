@@ -1,0 +1,421 @@
+{
+    "pageTitle": "Dubinsko Pranje",
+    "pageDescription": "Perfect Shine - vaše rešenje za savršen sjaj! Nudimo kompletne usluge čišćenja, dubinskog pranja i poliranja za domove, firme, automobile i jahte na crnogorskom primorju. Učinite da vaš prostor i vozilo zablistaju.",
+    "nav": {
+        "services": "Usluge",
+        "gallery": "Galerija",
+        "pricing": "Cijene",
+        "contact": "Kontakt"
+    },
+    "hero": {
+        "title": "DUBINSKO PRANJE",
+        "item1": "Automobila",
+        "item2": "Garnitura",
+        "item3": "Etisona",
+        "item4": "Dušeka",
+        "aboutLink": "O nama"
+    },
+    "gallery": {
+        "subheading": "Galerija"
+    },
+    "callUs": {
+        "prompt": "Nazovite ili pošaljite SMS:",
+        "number": "+382 68 069 211"
+    },
+    "about": {
+        "subheading": "Dubinsko pranje",
+        "title": "Šta je dubinsko pranje i čemu služi?",
+        "description": "<em>Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do pet centimetara, kako bi efikasno uklonila nečistoće iz materijala. Zatim se izvlače iz istih, a za taj proces se koriste <a href=\"#featuree\" class=\"link\">profesionalne mašine</a> i savremena, neškodljiva, biorazgradiva sredstva. <a href=\"#services\" class=\"link\">Usluge vršimo</a> na području Tivta, Kotora, Budve i drugih gradova na crnogorskom primorju.</em>",
+        "button": "Saznajte više »"
+    },
+    "services": {
+        "subheading": "usluge dubinskog pranja",
+        "title": "Dubinsko pranje i mašinsko čišćenje",
+        "service1": {
+            "title": "Dubisko pranje",
+            "activities": {
+                "cleaning": "Čišćenje",
+                "washing": "Pranje"
+            },
+            "items": {
+                "furniture": "Garniture",
+                "mattresses": "Dušeci",
+                "cushions": "Etisoni"
+            },
+            "links": {
+                "gallery": "Galerija",
+                "pricing": "Cijene"
+            }
+        },
+        "service2": {
+            "title": "Vozila i plovila",
+            "activities": {
+                "cleaning": "Čišćenje",
+                "washing": "Pranje",
+                "polishing": "Polimerizacija"
+            },
+            "items": {
+                "regularWash": "Obično pranje",
+                "deepWashing": "Dubinsko pranje",
+                "headlights": "Polimerizacija farova"
+            },
+            "links": {
+                "gallery": "Galerija",
+                "pricing": "Cijene"
+            }
+        },
+        "service3": {
+            "title": "Hoteli & Jahte",
+            "activities": {
+                "cleaning": "Čišćenje",
+                "washing": "Pranje",
+                "upkeep": "Održavanje"
+            },
+            "items": {
+                "exterior": "Spoljašnost Hotela i Jahti",
+                "yachtInterior": "Unutrašnjost Jahti",
+                "rooms": "Sobe / Saloni / Terase"
+            },
+            "links": {
+                "gallery": "Galerija",
+                "pricing": "Cijene"
+            }
+        },
+        "info": {
+            "title": "Šta dobijamo sa redovnim održavanjem životne i radne sredine?",
+            "points": {
+                "point1": "<strong><em>Dubinskim pranjem</em></strong> - uklanjamo širok spektar alergena, kao što su dlake od kućnih ljubimaca, grinje, prašina, polen i mnogo toga drugog. Rezultat? Vazduh u vašoj kući, vozilu, plovilu ili kancelariji postaje neuporedivo čistiji, čime stvaramo prostor u kojem je boravak ne samo udoban, već i izuzetno zdrav i prijatan. Investirajte u kvalitet vašeg okruženja – doživite udobnost koja ide korak dalje od običnog čišćenja!",
+                "point2": "<strong><em>Dubinsko čišćenje obuhvata</em></strong> - sve tapacirane i porozne površine, pružajući vašem starom i izbledelom nameštaju novi život. Neka vaš nameštaj ponovno zablista starim sjajem i povrati svoj prvobitni izgled, kao kad je stigao u vaš dom. Osim estetskog poboljšanja, dubinsko čišćenje produžava vek trajanja vašeg nameštaja, čineći ga dugotrajnijim i očuvanim. Oživite svoj prostor uz našu stručnost u vraćanju sjaja i dugovječnosti vašeg voljenog nameštaja!",
+                "point3": "<strong><em>Kožni namještaj</em></strong> - ima svoju jedinstvenu priču, a mi donosimo vrhunske rezultate koji će vas oduševiti. Iako koža nema duboke slojeve kao drugi materijali, naš proces brzo i efikasno vraća stari sjaj vašem namještaju. Uz nas, vaš kožni namještaj će izgledati potpuno novo – brzo, jednostavno i uz vrhunski rezultat",
+                "point4": "<strong><em>Obično pranje</em></strong> - ima svoje ograničenje, često je brzo i usredsređeno na površinsko uklanjanje mrlja i nečistoća. Međutim, često se dešava da prljavština ostaje zakopana na teško dostupnim mestima. Za potpuno čistoću i obnavljanje vašeg vozila, namještaja i drugih predmeta, potrebno je dubinsko čišćenje. Nudimo vam efikasan i sveobuhvatan pristup, osiguravajući da nijedna nečistoća ne ostane neprepoznata. Dajte svojim stvarima pažnju koju zaslužuju uz našu uslugu dubinskog čišćenja!",
+                "point5": "<strong><em>Polimerizacija farova</em></strong> - predstavlja izuzetno efikasan tretman koji donosi niz prednosti u poređenju sa klasičnim poliranjem. Osim poboljšanog izgleda farova, pruža dugotrajnu zaštitu od UV zračenja i fizičkih oštećenja, produžavajući vreme trajanja. Nakon tretmana, vaši farovi će blistati poput novih, a vi ćete uživati u dugotrajnom estetskom i funkcionalnom poboljšanju!",
+                "point6": "<strong><em>Vaše plovilo ili vozilo</em></strong> - zračiće istim sjajem kao u prvom danu kada je izašlo iz fabrike! Naša neizmerna posvećenost detaljima ogleda se u besprekornom izgledu eksterijera, unutrašnjosti kabine i svih prostorija. Trudimo se da očuvamo autentičnost, udobnost i eleganciju, pružajući vam iskustvo kao da je tek napustilo proizvodnu liniju!",
+                "point7": "<strong><em>Zelene površine</em></strong> - oblikujte ih prema svojim željama i potrebama, a naš stručni tim će se posvetiti besprekornoj i profesionalnoj realizaciji. Naš cilj je pretvoriti vaše vizije u stvarnost, stvarajući za vas \"mali zeleni raj\" koji odražava vašu jedinstvenu estetiku i udovoljava svim vašim očekivanjima."
+            }
+        }
+    },
+    "features": {
+        "feature1": {
+            "title": "Airbox Cleaner IV",
+            "points": {
+                "point1": "Čisti klima uređaje",
+                "point2": "Čisti kabinu vozila",
+                "point3": "Bez neprijatnih mirisa",
+                "point4": "Osvježava prostor",
+                "point5": "Bez mokrih površina"
+            }
+        },
+        "feature2": {
+            "title": "Puzzi 8/1 C",
+            "description": "Dubinsko pranje:",
+            "points": {
+                "point1": "Unutrašnjost vozila",
+                "point2": "Namještaja",
+                "point3": "Osvježava prostor",
+                "point4": "Mala količina vlage"
+            }
+        },
+        "feature3": {
+            "title": "HD 5/15 C",
+            "points": {
+                "point1": "Pranje pod pritiskom",
+                "point2": "Izvanredna mobilnost",
+                "point3": "Sofisticirana oprema",
+                "point4": "Visoka efikasnost",
+                "point5": "Izuzetna brzina"
+            }
+        },
+        "serviceList": {
+            "title": "Spektar usluga:",
+            "services": {
+                "service1": "Održavanje jahti",
+                "service2": "Održavanje hotela",
+                "service3": "Održavanje apartmana",
+                "service4": "Održavanje namještaja",
+                "service5": "Održavanje vozila",
+                "service6": "Dezinfekcija",
+                "service7": "Dezinsekcija",
+                "service8": "Deratizacija",
+                "service9": "Polimerizacija"
+            }
+        }
+    },
+    "callUsDialog": {
+        "title": "POZOVITE NAS"
+    },
+    "pricing": {
+        "title": "Cijene naših usluga",
+        "subheading": "Cjenovnik",
+        "selectService": "Izaberite servis",
+        "calculatorNote": "Kalkulator prikazuje početnu cijenu!",
+        "dryingText": "sušenje",
+        "plans": {
+            "deepCleaning": {
+                "title": "dubinsko pranje",
+                "items": {
+                    "furniture": {
+                        "label": "Garniture",
+                        "price": "40.00 €"
+                    },
+                    "mattresses": {
+                        "label": "Dušeci",
+                        "price": "15.00 €"
+                    },
+                    "cushions": {
+                        "label": "Etisoni",
+                        "price": "2.50"
+                    }
+                },
+                "fullPriceButton": "Cjenovnik za dubinsko pranje",
+                "modalTitle": "Cjenovnik za dubinsko pranje"
+            },
+            "vehicles": {
+                "title": "vozila i plovila",
+                "items": {
+                    "regularWash": {
+                        "label": "Obično pranje",
+                        "price": "15.00 €"
+                    },
+                    "deepWashing": {
+                        "label": "Dubinsko pranje",
+                        "price": "100.00 €"
+                    },
+                    "headlights": {
+                        "label": "Polimerizacija farova",
+                        "price": "50.00 €"
+                    }
+                },
+                "fullPriceButton": "Cjenovnik za vozila i plovila",
+                "modalTitle": "Cjenovnik za vozila i plovila"
+            },
+            "hotels": {
+                "title": "Hoteli & Jahte",
+                "items": {
+                    "exterior": {
+                        "label": "Spoljašnost Hotela i Jahti",
+                        "price": "0.00 €"
+                    },
+                    "yachtInterior": {
+                        "label": "Unutrašnjost Jahti",
+                        "price": "1.00 €"
+                    },
+                    "rooms": {
+                        "label": "Sobe / Saloni / Terase",
+                        "price": "2.00 €"
+                    }
+                },
+                "fullPriceButton": "Cjenovnik za hotele i jahte",
+                "modalTitle": "Cjenovnik za jahte i hotele"
+            }
+        },
+        "modal": {
+            "close": "Zatvori",
+            "contactPrompt": "Kontaktirajte nas za preciznu procjenu i dogovor.",
+            "phoneText": "Pozovite nas:",
+            "emailText": "📧 Pošaljite email:",
+            "services": {
+                "consultation": "Besplatna procjena i konsultacija",
+                "emergency": "Hitne intervencije",
+                "warranty": "Garancija na radove"
+            },
+            "prices": {
+                "deep_cleaning": [
+                    {
+                        "name": "Garniture",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Stolice",
+                                "value": "<small>od</small> &nbsp;5.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Tabure",
+                                "value": "<small>od</small> &nbsp;10.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Fotelja",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Dvosed",
+                                "value": "25.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Trosed",
+                                "value": "35.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Ugaona garnitura",
+                                "value": "<small>od</small> &nbsp;10.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Jastuk",
+                                "value": "<small>od</small> &nbsp;2.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Dušeci",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Dječiji",
+                                "value": "10.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Samac",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Bračni",
+                                "value": "35.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Podne obloge",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Tepisi",
+                                "value": "<small>od</small> &nbsp;2.50"
+                            },
+                            {
+                                "name": "&#x2022; Itisoni (po m²)",
+                                "value": "3.00 €"
+                            }
+                        ]
+                    }
+                ],
+                "vehicles_and_vessels": [
+                    {
+                        "name": "Obično pranje",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Malo vozilo",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Karavan",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Džip",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Motorni prostor",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Airbox tretman ~ 30 min.",
+                                "value": "40.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Dubinsko pranje",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Malo vozilo",
+                                "value": "<small>od</small> &nbsp;100.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Karavan",
+                                "value": "<small>od</small> &nbsp;120.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Džip",
+                                "value": "<small>od</small> &nbsp;150.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Sređivanje farova",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Poliranje",
+                                "value": "40.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Polimerizacija",
+                                "value": "50.00 €"
+                            }
+                        ]
+                    }
+                ],
+                "hotels_and_yachts": [
+                    {
+                        "name": "Održavanje jahte",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Spoljašnost",
+                                "value": "150.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Kabina",
+                                "value": "30.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Kormilo",
+                                "value": "25.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Održavanje hotela",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Spoljašnost",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Sobe",
+                                "value": "30.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Zelene površine",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Dvosed",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Kabina",
+                                "value": "30.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Bašte",
+                                "value": "25.00 €"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "partners": {
+        "title": "Naši partneri"
+    },
+    "contact": {
+        "title": "Lokacija",
+        "sendEmail": "Pošalji imejl",
+        "address": "Adresa",
+        "subjectPlaceholder": "Naslov poruke",
+        "phonePlaceholder": "Telefon",
+        "messagePlaceholder": "Vaša poruka...",
+        "sendButton": "Pošalji",
+        "enterData": "Unesi podatke",
+        "sending": "Slanje...",
+        "successMessage": "Poruka je uspješno poslata!",
+        "errorMessage": "Greška pri slanju poruke. Pokušajte ponovo.",
+        "subjectRequired": "Naslov je obavezan",
+        "phoneRequired": "Broj telefona je obavezan",
+        "phoneInvalid": "Unesite ispravan broj telefona",
+        "messageRequired": "Poruka je obavezna",
+        "messageTooShort": "Poruka mora imati najmanje 10 karaktera",
+        "fieldRequired": "Ovo polje je obavezno",
+        "validationError": "Molimo popunite sva polja ispravno",
+        "submissionError": "Greška pri slanju. Kontaktirajte nas direktno.",
+        "resetForm": "Resetuj Formu"
+    }
+}

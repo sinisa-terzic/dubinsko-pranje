@@ -1,0 +1,748 @@
+/* =============================================================================
+   MODERN GALLERY - KOMPLETAN CSS
+   
+   Ova stylesheet implementira:
+   - Responzivni grid sistem galerije
+   - Rotirajuće slike za prikaz viška slika
+   - Modal pregled s naprednim kontrolama
+   - Glass morphism efekte za dugmiće
+   - SVG ikonice za sve akcije
+   - Touch-friendly dizajn za mobilne uređaje
+   ============================================================================= */
+
+/*.gallery-container {
+    margin: 0 auto; 
+}*/
+
+/* =============================================================================
+   GALERIJA - GRID SISTEM
+   ============================================================================= */
+.gallery {
+    display: grid;
+    gap: 20px;
+}
+
+.gallery-item {
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: white;
+    aspect-ratio: 4/3;
+    position: relative;
+    border-radius: 8px;
+}
+
+.gallery-item:hover {
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+/* =============================================================================
+   ROTIRAJUĆE SLIKE
+   ============================================================================= */
+.gallery-item.rotating-item {
+    position: relative;
+}
+
+.gallery-item.rotating-item .rotating-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.gallery-item.rotating-item .rotating-image.active {
+    opacity: 1;
+}
+
+.gallery-item.rotating-item .more-text {
+    color: #fff;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+}
+
+/* =============================================================================
+   HOVER EFEKTI ZA DESKTOP
+   ============================================================================= */
+@media (min-width: 992px) {
+
+    .gallery-item:not(.rotating-item)::before,
+    .gallery-item.rotating-item.no-rotation::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1;
+        pointer-events: none;
+        border-radius: 8px;
+    }
+
+    .gallery-item:not(.rotating-item):hover::before,
+    .gallery-item.rotating-item.no-rotation:hover::before {
+        opacity: 1;
+    }
+
+    .gallery-item:not(.rotating-item)::after,
+    .gallery-item.rotating-item.no-rotation::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.7);
+        width: 40px;
+        height: 40px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 2;
+        pointer-events: none;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+    }
+
+    .gallery-item:not(.rotating-item):hover::after,
+    .gallery-item.rotating-item.no-rotation:hover::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .gallery-item:not(.rotating-item):hover img,
+    .gallery-item.rotating-item.no-rotation:hover img {
+        filter: brightness(0.9);
+        transform: scale(1.05);
+    }
+}
+
+/* =============================================================================
+   ROTIRAJUĆI ELEMENT KADA NEMA SLIKA ZA ROTACIJU
+   ============================================================================= */
+.gallery-item.rotating-item.no-rotation {
+    position: relative;
+}
+
+/* Sakrij more-text kada nema rotacije */
+.gallery-item.rotating-item.no-rotation .more-text {
+    display: none !important;
+}
+
+/* =============================================================================
+   MODALNI PROZOR
+   ============================================================================= */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modalImageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+#modalImage {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.4s ease-out;
+    cursor: grab;
+    user-select: none;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.15s ease-in-out;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+@keyframes slideIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#modalImage.transitioning {
+    opacity: 0;
+}
+
+/* Zoom stanje - POBOLJŠANO */
+#modalImageContainer.zoomed {
+    cursor: grab;
+    overflow: visible;
+}
+
+#modalImageContainer.zoomed #modalImage {
+    cursor: grab;
+    object-fit: contain;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+#modalImage:active {
+    cursor: grabbing;
+}
+
+#modalImageContainer.zoomed #modalImage:active {
+    cursor: grabbing;
+}
+
+/* Poboljšanja za panning */
+#modalImage.panning {
+    transition: none !important;
+}
+
+/* =============================================================================
+   MODAL KONTROLE - SVG IKONICE
+   ============================================================================= */
+
+/* Zatvaranje - SVG ikonica */
+#closeBtn {
+    position: absolute;
+    top: 25px;
+    right: 45px;
+    color: #fff;
+    font-size: 0;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+#closeBtn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#closeBtn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Navigacijske strelice - SVG ikonice */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: none;
+    font-size: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+    backdrop-filter: blur(10px);
+}
+
+#prevBtn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#nextBtn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+#prevBtn {
+    left: 30px;
+}
+
+#nextBtn {
+    right: 30px;
+}
+
+/* Kontrole modala - SVG ikonice */
+.gallery-modal-controls {
+    position: absolute;
+    top: 25px;
+    left: 45px;
+    display: flex;
+    gap: 10px;
+    z-index: 1001;
+}
+
+.control-btn {
+    color: #fff;
+    font-size: 0;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Autoplay ikonice */
+#autoplayBtn.play::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-left: 2px;
+}
+
+#autoplayBtn.pause::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* Zoom ikonice */
+#zoomInBtn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#zoomOutBtn::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13H5v-2h14v2z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#zoomResetBtn::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* =============================================================================
+   INDIKATORI I PROGRESS
+   ============================================================================= */
+
+/* Zoom level indicator */
+.zoom-level {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 12px;
+    border-radius: 20px;
+    z-index: 1001;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.zoom-level.show {
+    opacity: 1;
+}
+
+/* Progress bar za autoplay */
+.autoplay-progress {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.autoplay-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #667eea);
+    width: 0%;
+    border-radius: 2px;
+}
+
+/* Indikatori slika */
+.image-indicators {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 1001;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.indicator.active {
+    background: #fff;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.indicator:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(1.2);
+}
+
+/* =============================================================================
+   RESPOZIVNOST
+   ============================================================================= */
+
+@media (max-width: 768px) {
+
+    .gallery {
+        gap: 15px;
+    }
+
+    /* Modal kontrole za mobilne */
+    #closeBtn {
+        top: 15px;
+        right: 25px;
+        width: 40px;
+        height: 40px;
+    }
+
+    #closeBtn::before {
+        width: 20px;
+        height: 20px;
+    }
+
+    .gallery-modal-controls {
+        top: 15px;
+        left: 20px;
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Prilagodbe SVG ikonica za mobilne */
+    #autoplayBtn.play::before {
+        width: 16px;
+        height: 16px;
+    }
+
+    #autoplayBtn.pause::before {
+        width: 14px;
+        height: 14px;
+    }
+
+    #zoomInBtn::before,
+    #zoomOutBtn::before {
+        width: 20px;
+        height: 20px;
+    }
+
+    #zoomResetBtn::before {
+        width: 16px;
+        height: 16px;
+    }
+
+    .nav-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    #prevBtn::before,
+    #nextBtn::before {
+        width: 20px;
+        height: 20px;
+    }
+
+    #prevBtn {
+        left: 15px;
+    }
+
+    #nextBtn {
+        right: 15px;
+    }
+
+    .zoom-level {
+        top: 65px;
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+
+    .image-indicators {
+        bottom: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .gallery {
+        gap: 10px;
+    }
+
+    .gallery-modal-controls {
+        gap: 6px;
+    }
+
+    .control-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Još manje ikonice za vrlo male ekrane */
+    #autoplayBtn.play::before {
+        width: 14px;
+        height: 14px;
+    }
+
+    #autoplayBtn.pause::before {
+        width: 12px;
+        height: 12px;
+    }
+
+    #zoomInBtn::before,
+    #zoomOutBtn::before {
+        width: 18px;
+        height: 18px;
+    }
+
+    #zoomResetBtn::before {
+        width: 14px;
+        height: 14px;
+    }
+
+    .nav-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    #prevBtn::before,
+    #nextBtn::before {
+        width: 18px;
+        height: 18px;
+    }
+
+    #closeBtn::before {
+        width: 18px;
+        height: 18px;
+    }
+
+    .image-indicators {
+        gap: 8px;
+        bottom: 50px;
+    }
+
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* =============================================================================
+   POBOLJŠANJA ZA TOUCH UREĐAJE
+   ============================================================================= */
+@media (hover: none) and (pointer: coarse) {
+    .gallery-item:hover {
+        transform: none;
+    }
+
+    .gallery-item:hover img {
+        filter: none;
+        transform: none;
+    }
+
+    .gallery-item:not(.rotating-item):hover::before,
+    .gallery-item:not(.rotating-item):hover::after,
+    .gallery-item.rotating-item.no-rotation:hover::before,
+    .gallery-item.rotating-item.no-rotation:hover::after {
+        opacity: 0;
+    }
+
+    /* Bolje tap targets za mobilne */
+    .control-btn,
+    .nav-btn,
+    #closeBtn {
+        min-width: 44px;
+        min-height: 44px;
+    }
+}
+
+/* =============================================================================
+   PRISTUPAČNOST
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Fokus stilovi za pristupačnost */
+.control-btn:focus,
+.nav-btn:focus,
+#closeBtn:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* =============================================================================
+   DODATNI SELEKTORI ZA JAVASCRIPT
+   ============================================================================= */
+#autoplayBtn,
+#zoomInBtn,
+#zoomOutBtn,
+#zoomResetBtn,
+#prevBtn,
+#nextBtn,
+#closeBtn,
+#modalImageContainer,
+#modalImage,
+#zoomLevel,
+#imageIndicators,
+#autoplayProgressBar {
+    /* Osnovni reset za sve elemente */
+    box-sizing: border-box;
+}

@@ -1,0 +1,421 @@
+{
+    "pageTitle": "Deep Clearning",
+    "pageDescription": "Perfect Shine – your solution for the perfect shine! We offer complete cleaning, deep washing (shampooing), and polishing services for homes, businesses, cars, and yachts on the Montenegrin coast (Crnogorsko primorje). Make your space and vehicle sparkle!",
+    "nav": {
+        "services": "Services",
+        "gallery": "Gallery",
+        "pricing": "Pricing",
+        "contact": "Contact"
+    },
+    "hero": {
+        "title": "PERFECT CLEANING",
+        "item1": "Cars",
+        "item2": "Furniture",
+        "item3": "Carpets",
+        "item4": "Mattresses",
+        "aboutLink": "About Us"
+    },
+    "callUs": {
+        "prompt": "Call or send SMS:",
+        "number": "+382 68 069 211"
+    },
+    "about": {
+        "subheading": "Deep Cleaning",
+        "title": "What is deep cleaning and what is it used for?",
+        "description": "<em>Deep cleaning is a type of machine washing where agents penetrate deeper layers, up to five centimeters, to effectively remove impurities from materials. These are then extracted using <a href=\"#featuree\" class=\"link\">professional machines</a> and modern, harmless, biodegradable products. <a href=\"#services\" class=\"link\">We provide services</a> in the area of Tivat, Kotor, Budva and other towns on the Montenegrin coast.</em>",
+        "button": "Find out more »"
+    },
+    "services": {
+        "subheading": "deep cleaning services",
+        "title": "Deep Cleaning and Machine Cleaning",
+        "service1": {
+            "title": "Deep Cleaning",
+            "activities": {
+                "cleaning": "Cleaning",
+                "washing": "Washing"
+            },
+            "items": {
+                "furniture": "Furniture sets",
+                "mattresses": "Mattresses",
+                "cushions": "Carpets/Cushions"
+            },
+            "links": {
+                "gallery": "Gallery",
+                "pricing": "Prices"
+            }
+        },
+        "service2": {
+            "title": "Vehicles and Vessels",
+            "activities": {
+                "cleaning": "Cleaning",
+                "washing": "Washing",
+                "polishing": "Polymerization"
+            },
+            "items": {
+                "regularWash": "Regular wash",
+                "deepWashing": "Deep washing",
+                "headlights": "Headlight polymerization"
+            },
+            "links": {
+                "gallery": "Gallery",
+                "pricing": "Prices"
+            }
+        },
+        "service3": {
+            "title": "Hotels & Yachts",
+            "activities": {
+                "cleaning": "Cleaning",
+                "washing": "Washing",
+                "upkeep": "Maintenance"
+            },
+            "items": {
+                "exterior": "Exterior of Hotels and Yachts",
+                "yachtInterior": "Yacht Interior",
+                "rooms": "Rooms / Lounges / Terraces"
+            },
+            "links": {
+                "gallery": "Gallery",
+                "pricing": "Prices"
+            }
+        },
+        "info": {
+            "title": "What do we get with regular maintenance of living and working environments?",
+            "points": {
+                "point1": "<strong><em>With deep cleaning</em></strong> - we remove a wide range of allergens, such as pet hair, dust mites, dust, pollen, and much more. The result? The air in your house, vehicle, vessel, or office becomes incomparably cleaner, creating a space where staying is not only comfortable but also extremely healthy and pleasant. Invest in the quality of your environment – experience comfort that goes a step further than ordinary cleaning!",
+                "point2": "<strong><em>Deep cleaning includes</em></strong> - all upholstered and porous surfaces, giving your old and faded furniture a new life. Let your furniture shine with its old brilliance again and regain its original look, as when it arrived in your home. In addition to aesthetic improvement, deep cleaning extends the lifespan of your furniture, making it more durable and preserved. Revitalize your space with our expertise in restoring the shine and longevity of your beloved furniture!",
+                "point3": "<strong><em>Leather furniture</em></strong> - has its unique story, and we bring top results that will delight you. Although leather does not have deep layers like other materials, our process quickly and efficiently restores the old shine to your furniture. With us, your leather furniture will look completely new – quickly, simply, and with excellent results",
+                "point4": "<strong><em>Regular washing</em></strong> - has its limitations, often being fast and focused on surface removal of stains and dirt. However, dirt often remains buried in hard-to-reach places. For complete cleanliness and restoration of your vehicle, furniture, and other items, deep cleaning is necessary. We offer you an efficient and comprehensive approach, ensuring that no dirt remains undetected. Give your belongings the attention they deserve with our deep cleaning service!",
+                "point5": "<strong><em>Headlight polymerization</em></strong> - is an extremely effective treatment that brings a series of advantages compared to classic polishing. Besides the improved appearance of the headlights, it provides long-lasting protection against UV radiation and physical damage, extending the lifespan. After the treatment, your headlights will shine like new, and you will enjoy a long-lasting aesthetic and functional improvement!",
+                "point6": "<strong><em>Your vessel or vehicle</em></strong> - will radiate the same shine as on the first day it left the factory! Our immense dedication to detail is reflected in the impeccable appearance of the exterior, the cabin interior, and all rooms. We strive to preserve authenticity, comfort, and elegance, providing you with an experience as if it has just left the production line!",
+                "point7": "<strong><em>Green areas</em></strong> - shape them according to your wishes and needs, and our expert team will dedicate itself to flawless and professional implementation. Our goal is to turn your visions into reality, creating for you a \"small green paradise\" that reflects your unique aesthetic and meets all your expectations."
+            }
+        }
+    },
+    "features": {
+        "feature1": {
+            "title": "Airbox Cleaner IV",
+            "points": {
+                "point1": "Cleans air conditioners",
+                "point2": "Cleans vehicle cabin",
+                "point3": "No unpleasant odors",
+                "point4": "Refreshes the space",
+                "point5": "No wet surfaces"
+            }
+        },
+        "feature2": {
+            "title": "Puzzi 8/1 C",
+            "description": "Deep cleaning:",
+            "points": {
+                "point1": "Vehicle interior",
+                "point2": "Furniture",
+                "point3": "Refreshes the space",
+                "point4": "Low moisture"
+            }
+        },
+        "feature3": {
+            "title": "HD 5/15 C",
+            "points": {
+                "point1": "Pressure washing",
+                "point2": "Excellent mobility",
+                "point3": "Advanced equip.",
+                "point4": "High efficiency",
+                "point5": "Exceptional speed"
+            }
+        },
+        "serviceList": {
+            "title": "Range of services:",
+            "services": {
+                "service1": "Yacht maintenance",
+                "service2": "Hotel maintenance",
+                "service3": "Apt. maintenance",
+                "service4": "Furniture maintenance",
+                "service5": "Vehicle maintenance",
+                "service6": "Disinfection",
+                "service7": "Disinsection",
+                "service8": "Deratization",
+                "service9": "Polymerization"
+            }
+        }
+    },
+    "gallery": {
+        "subheading": "Gallery"
+    },
+    "callUsDialog": {
+        "title": "CALL US"
+    },
+    "pricing": {
+        "title": "Our service prices",
+        "subheading": "Price List",
+        "selectService": "Select Service",
+        "calculatorNote": "Calculator shows starting price!",
+        "dryingText": "drying",
+        "plans": {
+            "deepCleaning": {
+                "title": "deep cleaning",
+                "items": {
+                    "furniture": {
+                        "label": "Furniture Sets",
+                        "price": "40.00 €"
+                    },
+                    "mattresses": {
+                        "label": "Mattresses",
+                        "price": "15.00 €"
+                    },
+                    "cushions": {
+                        "label": "Carpets/Runners",
+                        "price": "2.50"
+                    }
+                },
+                "fullPriceButton": "Deep Cleaning Price List",
+                "modalTitle": "Deep Cleaning Price List"
+            },
+            "vehicles": {
+                "title": "vehicles and vessels",
+                "items": {
+                    "regularWash": {
+                        "label": "Regular Wash",
+                        "price": "15.00 €"
+                    },
+                    "deepWashing": {
+                        "label": "Deep Washing",
+                        "price": "100.00 €"
+                    },
+                    "headlights": {
+                        "label": "Headlight Polymerization",
+                        "price": "50.00 €"
+                    }
+                },
+                "fullPriceButton": "Vehicle and Vessel Price List",
+                "modalTitle": "Vehicle and Vessel Price List"
+            },
+            "hotels": {
+                "title": "Hotels & Yachts",
+                "items": {
+                    "exterior": {
+                        "label": "Hotel and Yacht Exterior",
+                        "price": "0.00 €"
+                    },
+                    "yachtInterior": {
+                        "label": "Yacht Interior",
+                        "price": "1.00 €"
+                    },
+                    "rooms": {
+                        "label": "Rooms / Lounges / Terraces",
+                        "price": "2.00 €"
+                    }
+                },
+                "fullPriceButton": "Hotels and Yachts Price List",
+                "modalTitle": "Yachts and Hotels Price List"
+            }
+        },
+        "modal": {
+            "close": "Close",
+            "contactPrompt": "Contact us for an accurate quote and agreement.",
+            "phoneText": "Call us:",
+            "emailText": "📧 Send email:",
+            "services": {
+                "consultation": "Free estimate and consultation",
+                "emergency": "Emergency interventions",
+                "warranty": "Warranty on works"
+            },
+            "prices": {
+                "deep_cleaning": [
+                    {
+                        "name": "Furniture Sets",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Chairs",
+                                "value": "<small>from</small> &nbsp;5.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Stool/Pouf",
+                                "value": "<small>from</small> &nbsp;10.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Armchair",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Loveseat (Two-seater)",
+                                "value": "25.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Three-seater",
+                                "value": "35.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Corner Sofa",
+                                "value": "<small>from</small> &nbsp;10.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Pillow/Cushion",
+                                "value": "<small>from</small> &nbsp;2.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Mattresses",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Children's",
+                                "value": "10.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Single",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Double/Queen",
+                                "value": "35.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Floor Coverings",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Rugs",
+                                "value": "<small>from</small> &nbsp;2.50"
+                            },
+                            {
+                                "name": "&#x2022; Wall-to-Wall Carpet (per m²)",
+                                "value": "3.00 €"
+                            }
+                        ]
+                    }
+                ],
+                "vehicles_and_vessels": [
+                    {
+                        "name": "Regular Wash",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Small vehicle",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Station Wagon",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; SUV",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Engine bay",
+                                "value": "15.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Airbox treatment ~ 30 min.",
+                                "value": "40.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Deep Cleaning",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Small vehicle",
+                                "value": "<small>from</small> &nbsp;100.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Station Wagon",
+                                "value": "<small>from</small> &nbsp;120.00 €"
+                            },
+                            {
+                                "name": "&#x2022; SUV",
+                                "value": "<small>from</small> &nbsp;150.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Headlight Restoration",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Polishing",
+                                "value": "40.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Polymerization",
+                                "value": "50.00 €"
+                            }
+                        ]
+                    }
+                ],
+                "hotels_and_yachts": [
+                    {
+                        "name": "Yacht Maintenance",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Exterior",
+                                "value": "150.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Cabin",
+                                "value": "30.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Helm/Steering",
+                                "value": "25.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Hotel Maintenance",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Exterior",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Rooms",
+                                "value": "30.00 €"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Green Areas",
+                        "subitems": [
+                            {
+                                "name": "&#x2022; Loveseat (Outdoor)",
+                                "value": "20.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Cabin (Outdoor)",
+                                "value": "30.00 €"
+                            },
+                            {
+                                "name": "&#x2022; Gardens",
+                                "value": "25.00 €"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "partners": {
+        "title": "Our partners"
+    },
+    "contact": {
+        "title": "Location",
+        "sendEmail": "Send email",
+        "address": "Address",
+        "subjectPlaceholder": "Message subject",
+        "phonePlaceholder": "Phone",
+        "messagePlaceholder": "Your message...",
+        "sendButton": "Send",
+        "enterData": "Enter Data",
+        "sending": "Sending...",
+        "successMessage": "Message sent successfully!",
+        "errorMessage": "Error sending message. Please try again.",
+        "subjectRequired": "Subject is required",
+        "phoneRequired": "Phone number is required",
+        "phoneInvalid": "Please enter a valid phone number",
+        "messageRequired": "Message is required",
+        "messageTooShort": "Message must be at least 10 characters",
+        "fieldRequired": "This field is required",
+        "validationError": "Please fill all fields correctly",
+        "submissionError": "Error sending. Please contact us directly.",
+        "resetForm": "Reset Form"
+    }
+}

@@ -1,0 +1,94 @@
+/* Text Styles */
+.subheading {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-red-light);
+  text-transform: uppercase;
+  padding: 1.5rem 0;
+  letter-spacing: 0.75px;
+}
+
+/* Headings */
+h2,
+h3 {
+  color: var(--color-heading);
+  letter-spacing: -0.5px;
+}
+
+.h1 {
+  line-height: 1.2;
+  font-size: 6.5vw;
+  word-spacing: 4px;
+  letter-spacing: 1px;
+  text-shadow: 2px 1px #303336;
+  font-weight: 900;
+}
+
+.h2 {
+  font-size: 3.6rem;
+  margin-bottom: 8rem;
+  line-height: 1.2;
+}
+
+.h2:after {
+  display: block;
+  height: 1px;
+  background-color: var(--color-red-light);
+  content: " ";
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+
+.h3-lg {
+  font-size: 3.1rem;
+  line-height: normal;
+  margin-bottom: 4rem;
+}
+
+.h3 {
+  font-size: 2.4rem;
+}
+
+.h3-sm {
+  font-size: 2rem;
+  letter-spacing: 0;
+}
+
+/* Paragraphs */
+.p {
+  font-size: 1.8rem;
+}
+
+.p-sm {
+  font-size: 1.1rem;
+}
+
+/* Text Utilities */
+.center-text {
+  text-align: center;
+}
+
+.strong {
+  font-weight: bold;
+}
+
+/* Text Animation */
+.wiggle {
+  animation: wiggle 200ms 100ms 3 ease-out none;
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotateZ(0);
+  }
+
+  50% {
+    transform: rotateZ(-3deg);
+  }
+
+  100% {
+    transform: rotateZ(3deg);
+  }
+}

@@ -1,0 +1,183 @@
+/* === GAP === */
+.gap-5 {
+    gap: var(--space-5);
+}
+
+.gap-10 {
+    gap: var(--space-10);
+}
+
+.gap-15 {
+    gap: var(--space-15);
+}
+
+.gap-20 {
+    gap: var(--space-20);
+}
+
+.gap-30 {
+    gap: var(--space-30);
+}
+
+.gap-40 {
+    gap: var(--space-40);
+}
+
+/* === PADDING === */
+.p-5 {
+    padding: var(--space-5);
+}
+
+.p-10 {
+    padding: var(--space-10);
+}
+
+.p-15 {
+    padding: var(--space-15);
+}
+
+.p-20 {
+    padding: var(--space-20);
+}
+
+.px-10 {
+    padding-left: var(--space-10);
+    padding-right: var(--space-10);
+}
+
+.px-20 {
+    padding-left: var(--space-20);
+    padding-right: var(--space-20);
+}
+
+.py-10 {
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-10);
+}
+
+.py-20 {
+    padding-top: var(--space-20);
+    padding-bottom: var(--space-20);
+}
+
+.pt-10 {
+    padding-top: var(--space-10);
+}
+
+.pt-15 {
+    padding-top: var(--space-15);
+}
+
+.pt-20 {
+    padding-top: var(--space-20);
+}
+
+.pt-25 {
+    padding-top: var(--space-25);
+}
+
+.pt-90 {
+    padding-top: var(--space-90);
+}
+
+.pb-10 {
+    padding-bottom: var(--space-10);
+}
+
+.pb-15 {
+    padding-bottom: var(--space-15);
+}
+
+.pb-20 {
+    padding-bottom: var(--space-20);
+}
+
+.pb-90 {
+    padding-bottom: var(--space-90);
+}
+
+.pl-10 {
+    padding-left: var(--space-10);
+}
+
+.pl-20 {
+    padding-left: var(--space-20);
+}
+
+.pr-10 {
+    padding-right: var(--space-10);
+}
+
+.pr-20 {
+    padding-right: var(--space-20);
+}
+
+/* === MARGIN === */
+.m-5 {
+    margin: var(--space-5);
+}
+
+.m-10 {
+    margin: var(--space-10);
+}
+
+.m-15 {
+    margin: var(--space-15);
+}
+
+.m-20 {
+    margin: var(--space-20);
+}
+
+.m-auto {
+    margin: auto;
+}
+
+.mx-10 {
+    margin-left: var(--space-10);
+    margin-right: var(--space-10);
+}
+
+.mx-20 {
+    margin-left: var(--space-20);
+    margin-right: var(--space-20);
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.my-10 {
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-10);
+}
+
+.my-20 {
+    margin-top: var(--space-20);
+    margin-bottom: var(--space-20);
+}
+
+.mt-10 {
+    margin-top: var(--space-10);
+}
+
+.mt-90 {
+    margin-top: var(--space-90);
+}
+
+.mb-10 {
+    margin-bottom: var(--space-10);
+}
+
+.mb-90 {
+    margin-bottom: var(--space-90);
+}
+
+.ml-10 {
+    margin-left: var(--space-10);
+}
+
+.mr-10 {
+    margin-right: var(--space-10);
+}

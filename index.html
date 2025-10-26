@@ -3,120 +3,164 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#fdc64a" />
-    <!-- <meta name="theme-color" content="#3aaae0" /> -->
-    <meta name="author" content="Siniša Terzić">
     <meta name="google" content="notranslate" />
-    <meta name="robots" content="notranslate">
+    <meta name="theme-color" content="#fdc64a" />
+    <meta name="author" content="Siniša Terzić">
 
-    <!-- <meta name="description"
-        content="Perfect Shine nudi vrhunske usluge čišćenja, dubinskog pranja i poliranja za domove, firme, automobile, jahte i hotele u Tivtu, Kotoru, Budvi i širom Crne Gore. Postignite besprekorno čiste površine uz naš profesionalni tim. Kontaktirajte nas za besplatnu procenu." /> -->
-    <meta name="description"
-        content="Perfect Shine nudi čišćenje, dubinsko pranje i poliranje za domove, firme i jahte na crnogorskom primorju. Kontaktirajte nas tim!" />
+    <meta name="description" data-i18n="pageDescription"
+        content="Perfect Shine - vaše rešenje za savršen sjaj! Nudimo kompletne usluge čišćenja, dubinskog pranja i poliranja za domove, firme, automobile i jahte na crnogorskom primorju. Učinite da vaš prostor i vozilo zablistaju" />
 
     <meta name="keywords"
         content="Dubinsko pranje, Dubinsko pranje Tivat, Dubinsko pranje Kotor, dubinsko pranje Budva, Perfect Shine, Perfect Shine Tivat, Perfect Shine Kotor, Perfect Shine Budva, Tivat, Kotor, Budva, Dubinsko čišćenje, Auta, Jahti, Namještaja, Furniture, Yachts, Pranje, Washing">
 
-    <meta name="categories" content="DUBINSKO PRANJE">
-
-
-    <!-- <link rel="alternate" hreflang="en" href="https://www.vas-sajt.com/en/index.html" />
-    <link rel="alternate" hreflang="ru" href="https://www.vas-sajt.com/ru/index.html" />
-    <link rel="alternate" hreflang="sr" href="https://www.vas-sajt.com/index.html" /> -->
-
-
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
 
-    <title>Dubinsko Pranje</title>
+    <title data-i18n="pageTitle">Dubinsko Pranje</title>
 
-    <link rel="stylesheet" href="css/grid.css" />
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/text.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/queries.css" />
+    <!-- 1. BASE -->
+    <link rel="stylesheet" href="css/base/reset.css" />
+    <link rel="stylesheet" href="css/base/variables.css" />
+    <link rel="stylesheet" href="css/base/typography.css" />
 
-    <!-- <link rel="stylesheet" href="css/photoswipe.css" /> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nanogallery2/3.0.5/css/nanogallery2.min.css"
-        integrity="sha512-6sOT9zKSKq1CYgNMqtcY84tFPDnG1yX5mxwdGQiAVpAomVr2kUKJ//pFeU/KfaZDVCOru5iFOVswpT4RWWF2dQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- 2. UTILITIES -->
+    <link rel="stylesheet" href="css/utilities/spacing.css" />
+    <link rel="stylesheet" href="css/utilities/layout.css" />
+
+    <!-- 3. COMPONENTS -->
+    <link rel="stylesheet" href="css/components/components.css" />
+
+    <!-- 4. SECTIONS -->
+    <link rel="stylesheet" href="css/sections/header.css" />
+    <link rel="stylesheet" href="css/sections/hero.css" />
+    <link rel="stylesheet" href="css/sections/about.css" />
+    <link rel="stylesheet" href="css/sections/gallery.css" />
+    <link rel="stylesheet" href="css/sections/service.css" />
+    <link rel="stylesheet" href="css/sections/pricing.css" />
+    <link rel="stylesheet" href="css/sections/partners.css" />
+    <link rel="stylesheet" href="css/sections/contact.css" />
+    <link rel="stylesheet" href="css/sections/footer.css" />
+
+    <!-- 5. GLOBAL -->
+    <link rel="stylesheet" href="css/global/queries.css" />
+
 
     <script type="module" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule="" src="https://unpkg.com/ionicons@5.4.0/dist/ionicons/ionicons.js"></script>
 
-    <script defer src="js/hero.js"></script>
-    <script defer src="js/service.js"></script>
-    <script defer src="js/pricing.js"></script>
-    <script defer src="js/script.js"></script>
-
 </head>
 
 <body>
-    <!-- /* style 1 */ -->
-    <!-- <div id="loader-wrapper">
-        <div id="loader"></div>
+    <!-- Loader -->
+    <div class="loader-wrapper" id="loaderWrapper">
         <div class="loader-section section-left"></div>
         <div class="loader-section section-right"></div>
-    </div> -->
-
-    <!-- /* style 2 */ -->
-    <div class="loader-wrapper">
-        <div class="loader">
+        <div class="loader"></div>
+        <div class="loader-image">
+            <!-- Ovdje možeš dodati svoju sliku -->
+            <img src="img/logo/logo.svg" alt="Logo">
         </div>
-        <div class="loader-section section-left"></div>
-        <div class="loader-section section-right"></div>
-    </div>
+    </div> <!-- end Loader -->
+
 
     <!-- HEADER ================================== -->
     <header class="header" id="header">
-
-        <div class="nav flex-space-between">
-            <a href="#">
-                <img class="logo" width="100" height="80" alt="Dubinsko pranje logo" src="img/logo/logo.svg" />
-                <img class="logo-sm none" width="100" height="7" alt="Dubinsko pranje logo"
-                    src="img/logo/logo-sm.svg" />
+        <div class="nav flex justify-between pt-25 pr-20 pl-20">
+            <!-- VELIKI LOGO (logo) i MALI LOGO (logo-sm) -->
+            <a href="#hero">
+                <img class="logo" width="100" height="80" alt="Dubinsko pranje logo" src="img/logo/logo.svg"
+                    onerror="this.onerror=null; this.src='https://placehold.co/100x80/264653/ffffff?text=LOGO';" />
+                <img class="logo-sm hidden" width="100" height="7" alt="Dubinsko pranje logo" src="img/logo/logo-sm.svg"
+                    onerror="this.onerror=null; this.src='https://placehold.co/100x7/264653/ffffff?text=LOGO';" />
             </a>
 
             <nav class="main-nav">
-                <div class="main-nav-list flex">
-                    <a class="main-nav-link" href="#services">Usluge</a>
-                    <a class="main-nav-link" href="#gallery">Galerija</a>
-                    <a class="main-nav-link" href="#pricing">Cijene</a>
-                    <a class="main-nav-link" href="#contact">Kontakt</a>
+                <div class="main-nav-list flex align-center">
+                    <a class="main-nav-link" href="#services" data-i18n="nav.services">Usluge</a>
+                    <a class="main-nav-link" href="#gallerySection" data-i18n="nav.gallery">Galerija</a>
+                    <a class="main-nav-link" href="#pricing" data-i18n="nav.pricing">Cijene</a>
+                    <a class="main-nav-link" href="#contact" data-i18n="nav.contact">Kontakt</a>
 
-                    <img id="languageImg" src="img/flag/mne+.svg" alt="Srpski">
+                    <!-- Dugme za promenu jezika -->
+                    <button id="languageImg" class="language-btn" type="button">
+                        <img src="img/flag/mne+.svg" alt="Crnogorski" width="24" height="24">
+                    </button>
 
-                    <div class="language flex g-5 noneDisplay">
-                        <a class="flagLink" href="en/index.html"><img class="flag" src="img/flag/eng.svg"
-                                alt="Srpski">English</a>
-                        <a class="flagLink" href="ru/index.html"><img class="flag" src="img/flag/rus.svg"
-                                alt="Srpski">Русский</a>
+                    <!-- PADAJUĆI MENI -->
+                    <div class="language flex gap-5 hidden">
+                        <a class="flagLink" href="#" data-lang-code="sr">
+                            <img class="flag" src="img/flag/mne.svg" alt="Srpski" width="20" height="20">
+                            Crnogorski
+                        </a>
+                        <a class="flagLink" href="#" data-lang-code="en">
+                            <img class="flag" src="img/flag/eng.svg" alt="English" width="20" height="20">
+                            English
+                        </a>
+                        <a class="flagLink" href="#" data-lang-code="ru">
+                            <img class="flag" src="img/flag/rus.svg" alt="Русский" width="20" height="20">
+                            Русский
+                        </a>
                     </div>
-
                 </div>
             </nav>
 
-            <button class="btn-mobile-nav none">
+            <button class="btn-mobile-nav hidden">
                 <ion-icon class="icon-mobile-nav" name="menu-outline"></ion-icon>
-                <ion-icon class="icon-mobile-nav close none" name="close-outline"></ion-icon>
+                <ion-icon class="icon-mobile-nav close hidden" name="close-outline"></ion-icon>
             </button>
         </div>
-
     </header> <!-- END HEADER -->
 
 
     <!-- HERO ================================== -->
     <section class="hero grid" id="hero">
         <div class="hero-text-box">
-            <!-- Naslov i usluge sa ikonama biće dinamički dodati putem JavaScript-a -->
+            <h1 class="h1" data-i18n="hero.title">DUBINSKO PRANJE</h1>
 
-            <!-- Ovaj deo će takođe biti generisan -->
-            <div class="call-us top-left-radius width-100">
-                <!-- Call to Action biće dinamički generisan -->
+            <p>
+                <span data-i18n="hero.item1">Automobila</span>
+                <span class="hero-text-box-icon">
+                    &nbsp;
+                    <img class="header-icon" src="img/icon/header-icon.svg" alt="cristal clear icon">
+                    &nbsp;
+                </span>
+                <span data-i18n="hero.item2">Garnitura</span>
+                <span class="hero-text-box-icon">
+                    &nbsp;
+                    <img class="header-icon" src="img/icon/header-icon.svg" alt="cristal clear icon">
+                    &nbsp;
+                </span>
+                <span data-i18n="hero.item3">Etisona</span>
+                <span class="hero-text-box-icon">
+                    &nbsp;
+                    <img class="header-icon" src="img/icon/header-icon.svg" alt="cristal clear icon">
+                    &nbsp;
+                </span>
+                <span data-i18n="hero.item4">Dušeka</span>
+            </p>
+
+            <div class="call-us top-left-radius">
+                <span class="call-us-text" data-i18n="callUs.prompt">Nazovite ili pošaljite
+                    SMS:
+                </span>
+                <span class="call-us-icon">
+                    ☎&nbsp;
+                </span>
+                <button class="phone-number" data-i18n="callUs.number" href="tel:+38268069211">+382
+                    68 069 211</button>
+
+                <div class="call-options flex hidden" id="callOptions">
+                    <a href="tel:+38268069211" class="call-option flex gap-10 align-center"><img
+                            src="img/call/viber_152851.png" alt="phone" width="128" height="128">Phone</a>
+                    <a href="viber://add?number=%2B38268069211" class="call-option flex gap-10 align-center"><img
+                            src="img/call/viber_2504948.png" alt="phone" width="128" height="128"> Viber</a>
+                    <a href="https://wa.me/38268069211" class="call-option flex gap-10 align-center"><img
+                            src="img/call/whatsapp_3536445.png" alt="phone" width="128" height="128"> WhatsApp</a>
+                </div>
             </div>
 
-            <!-- Strelica za skrolovanje biće dodata putem JavaScript-a -->
+            <a id="scroll-down-arrow" href="#about"><span class="scroll-down-arrow"
+                    data-i18n="hero.aboutLink">About</span></a>
         </div>
     </section> <!-- END HERO -->
 
@@ -156,33 +200,32 @@
 
 
     <!-- ABOUT ================================== -->
-    <section class="section-about pt-90 pb-90 grid col-2--40-60" id="about">
-
+    <section class="section-about mt-90 mb-90 grid col-40-60" id="about">
         <div class="clear-effect">
             <img class="img about-photo" width="770" height="650" src="img/about/puzi-hero+.webp"
-                alt="about alt tag description">
+                alt="about alt tag description"
+                onerror="this.onerror=null; this.src='https://placehold.co/770x650/333/fff?text=ABOUT';" />
         </div>
 
-        <div class="aboutUs center-text">
-
-            <span class="subheading">Dubinsko pranje</span>
-            <h2 class="h2">Šta je dubinsko pranje i čemu služi?</h2>
+        <div class="aboutUs">
+            <span class="subheading" data-i18n="about.subheading">Dubinsko pranje</span>
+            <h2 class="h2" data-i18n="about.title">Šta je dubinsko pranje i čemu služi?</h2>
 
             <div class="about-description">
-                <p class="p"><em>Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva
-                        materijala, čak do pet centimetara, kako bi efikasno uklonila nečistoće. Nakon toga, sredstva se
-                        izvlače iz materijala, a u tom procesu se koriste <a href="#featuree" class="link">profesionalne
-                            mašine</a> i savremena, neškodljiva, biorazgradiva sredstva. <a href="#services"
-                            class="link">Usluge pružamo</a> na području Tivta, Kotora, Budve i drugih gradova na
-                        crnogorskom primorju.</em></p>
+                <p class="p" data-i18n-html="about.description">
+                    <em>Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do
+                        pet centimetara, kako bi efikasno uklonila nečistoće iz materijala. Zatim se izvlače iz istih, a
+                        za taj proces se koriste <a class="link" href="#featuree">profesionalne mašine</a> i savremena,
+                        neškodljiva biorazgradiva sredstva. <a href="#services" class="link">Usluge vršimo</a> na
+                        području Tivta, Kotora, Budve i
+                        drugih gradova na crnogorskom primorju.</em>
+                </p>
             </div>
 
             <div class="btn-aboutUs">
-                <a href="#services" class="btn btn--full">Saznajte više &#187;</a>
+                <a href="#services" class="btn btn--full" data-i18n="about.button">Saznajte više &#187;</a>
             </div>
-
         </div>
-
     </section> <!-- END ABOUT -->
 
 
@@ -219,13 +262,50 @@
         </svg>
     </div>
 
-
     <!-- GALLERY ================================== -->
-    <section class="pt-90 pb-90 section-gallery" id="gallery">
+    <section class="gallery-container mt-90 mb-90" id="gallerySection">
 
-        <span class="subheading center-text">Galerija</span>
+        <span class="subheading text-c" data-i18n="gallery.subheading">Galerija</span>
 
-        <div id="nanogallery2" class=""> </div>
+        <!-- Galerija -->
+        <div id="gallery" class="gallery"></div>
+
+        <!-- Modal -->
+        <div id="imageModal" class="gallery-modal">
+            <div class="modal-content">
+                <!-- Kontrole - Fiksni redosled -->
+                <div class="gallery-modal-controls">
+                    <button id="autoplayBtn" class="control-btn play" title="Pokreni autoplay"></button>
+                    <button id="zoomInBtn" class="control-btn" title="Povećaj (Ctrl +)"></button>
+                    <button id="zoomOutBtn" class="control-btn" title="Smanji (Ctrl -)"></button>
+                    <button id="zoomResetBtn" class="control-btn" title="Resetiraj zoom (Ctrl 0)"></button>
+                </div>
+
+                <!-- Navigacijske strelice -->
+                <button id="prevBtn" class="nav-btn" title="Prethodna slika"></button>
+
+                <!-- Slika -->
+                <div id="modalImageContainer">
+                    <img id="modalImage" src="" alt="">
+                </div>
+
+                <button id="nextBtn" class="nav-btn" title="Sljedeća slika"></button>
+
+                <!-- Zatvaranje -->
+                <span id="closeBtn" class="gallery-close" title="Zatvori"></span>
+
+                <!-- Zoom level -->
+                <div id="zoomLevel" class="zoom-level">100%</div>
+
+                <!-- Indikatori -->
+                <div id="imageIndicators" class="image-indicators"></div>
+
+                <!-- Progress bar -->
+                <div class="autoplay-progress">
+                    <div id="autoplayProgressBar" class="autoplay-progress-bar"></div>
+                </div>
+            </div>
+        </div>
 
     </section> <!-- END GALLERY -->
 
@@ -263,37 +343,446 @@
         </svg>
     </div>
 
-
     <!-- SEVICES ================================== -->
-    <section class="pt-90 pb-90 section-services" id="services">
+    <section class="mt-90 mb-90 section-services" id="services">
 
-        <!-- services-title -->
-        <div class="container" id="services-title">
-        </div> <!-- end services-title -->
+        <div class="container">
+            <span class="subheading" data-i18n="services.subheading">usluge dubinskog pranja</span>
+            <h2 class="h2" data-i18n="services.title">
+                Dubinsko pranje i mašinsko čišćenje
+            </h2>
+        </div>
 
-        <!-- services-container -->
-        <div class="container grid col-3 services" id="services-container">
-        </div><!-- end services-container -->
+
+        <div class="container grid col-3 services">
+
+            <!-- 1 -->
+            <div class="service">
+
+                <div class="relative overflow-hidden">
+                    <div class="darkening-effect relative">
+                        <img src="img/services/furniture-washing.webp" width="500" height="367"
+                            class="img service-photo" alt="Japanese Gyozas" />
+                        <img src="img/border/img-bottom-1.svg" width="1680" height="95" class="img absolute img-bottom"
+                            alt="image bottom effect">
+                    </div>
+                    <div class="service-photo-link absolute flex-space-between">
+                        <a class="" href="#gallerySection" data-i18n="services.service1.links.gallery">Galerija</a>
+                        <a class="" href="#pricing" data-i18n="services.service1.links.pricing">Cijene</a>
+                    </div>
+                </div>
+
+                <div class="service-content">
+                    <div class="activities">
+                        <span class="activity p-sm activity-cleaning"
+                            data-i18n="services.service1.activities.cleaning">Čišćenje</span>
+                        <span class="activity p-sm activity-washing"
+                            data-i18n="services.service1.activities.washing">Pranje</span>
+                    </div>
+
+                    <h3 class="service-title h3" data-i18n="services.service1.title">Dubisko pranje</h3>
+                    <ul class="activity-attributes">
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service1.items.furniture"><strong>Garniture</strong></span></a>
+                        </li>
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service1.items.mattresses"><strong>Dušeci</strong></span></a>
+                        </li>
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service1.items.cushions"><strong>Etisoni</strong></span></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- 2 -->
+            <div class="service">
+
+                <div class="relative overflow-hidden">
+                    <div class="darkening-effect">
+                        <img src="img/services/car--wash.webp" width="500" height="367" class="img service-photo"
+                            alt="Japanese Gyozas" />
+                        <img src="img/border/img-bottom-2.svg" width="1680" height="95" class="img absolute img-bottom"
+                            alt="image bottom effect">
+                    </div>
+                    <div class="service-photo-link absolute flex-space-between">
+                        <a class="" href="#gallerySection" data-i18n="services.service2.links.gallery">Galerija</a>
+                        <a class="" href="#pricing" data-i18n="services.service2.links.pricing">Cijene</a>
+                    </div>
+                </div>
+
+                <div class="service-content">
+                    <div class="activities">
+                        <span class="activity p-sm activity-cleaning"
+                            data-i18n="services.service2.activities.cleaning">Čišćenje</span>
+                        <span class="activity p-sm activity-washing"
+                            data-i18n="services.service2.activities.washing">Pranje</span>
+                        <span class="activity p-sm activity-polishing"
+                            data-i18n="services.service2.activities.polishing">Polimerizacija</span>
+                    </div>
+                    <h3 class="service-title h3" data-i18n="services.service2.title">Vozila i plovila</h3>
+                    <ul class="activity-attributes">
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service2.items.regularWash"><strong>Obično
+                                        pranje</strong></span></a>
+                        </li>
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service2.items.deepWashing"><strong>Dubinsko
+                                        pranje</strong></span></a>
+                        </li>
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service2.items.headlights"><strong>Polimerizacija
+                                        farova</strong></span></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- 3 -->
+            <div class="service">
+
+                <div class="relative overflow-hidden">
+                    <div class="darkening-effect">
+                        <img src="img/services/porto.webp" width="500" height="367" class="img service-photo"
+                            alt="Japanese Gyozas" />
+                        <img src="img/border/img-bottom-1.svg" width="1680" height="95" class="img absolute img-bottom"
+                            alt="image bottom effect">
+                    </div>
+                    <div class="service-photo-link absolute flex-space-between">
+                        <a class="" href="#gallerySection" data-i18n="services.service3.links.gallery">Galerija</a>
+                        <a class="" href="#pricing" data-i18n="services.service3.links.pricing">Cijene</a>
+                    </div>
+                </div>
+
+                <div class="service-content">
+                    <div class="activities">
+                        <span class="activity p-sm activity-cleaning"
+                            data-i18n="services.service3.activities.cleaning">Čišćenje</span>
+                        <span class="activity p-sm activity-washing"
+                            data-i18n="services.service3.activities.washing">Pranje</span>
+                        <span class="activity p-sm activity-upkeep"
+                            data-i18n="services.service3.activities.upkeep">Održavanje</span>
+                    </div>
+                    <h3 class="service-title h3" data-i18n="services.service3.title">Hoteli & Jahte</h3>
+                    <ul class="activity-attributes">
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service3.items.exterior"><strong>Spoljašnost Hotela i
+                                        Jahti</strong></span></a>
+                        </li>
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span
+                                    data-i18n="services.service3.items.yachtInterior"><strong>Unutrašnjost
+                                        Jahti</strong></span></a>
+                        </li>
+                        <li class="activity-attribute p">
+                            <ion-icon class="service-icon" name="arrow-redo-outline"></ion-icon>
+                            <a href="#info-services"><span data-i18n="services.service3.items.rooms"><strong>Sobe /
+                                        Saloni / Terase</strong></span></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div> <!-- end grid col-3 -->
+
+
 
         <!-- border dots 2 row -->
-        <div class="border-2-row-p-90-0 container" id="info-services">
+        <div class="pt-90 pb-90 container">
             <img class="img" src="img/border/border-sm.png" alt="Border for page">
         </div>
 
-        <!-- info-services -->
-        <div class="container info-services" id="services-info">
+
+
+        <div class="container info-services" id="info-services">
+
+            <h3 class="h3-lg" data-i18n="services.info.title">Šta dobijamo sa redovnim održavanjem životne i radne
+                sredine?</h3>
+
+            <!-- 1 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point1">
+                    <strong><em>Dubinskim pranjem</em></strong> - uklanjamo širok spektar alergena, kao što su
+                    dlake od kućnih ljubimaca, grinje, prašina, polen i mnogo toga drugog. Rezultat? Vazduh u vašoj
+                    kući, vozilu, plovilu ili kancelariji postaje neuporedivo čistiji, čime stvaramo prostor u kojem je
+                    boravak
+                    ne samo udoban, već i izuzetno zdrav i prijatan. Investirajte u kvalitet vašeg okruženja – doživite
+                    udobnost koja ide korak dalje od običnog čišćenja!
+                </p>
+            </div>
+
+            <!-- border 1 row -->
+            <img src="img/border/border-1-row.png" class="img pt-15 pb-15" alt="Border for page">
+
+            <!-- 2 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point2">
+                    <strong><em>Dubinsko čišćenje obuhvata</em></strong> - sve tapacirane i porozne površine,
+                    pružajući vašem starom i izbledelom nameštaju novi život. Neka vaš nameštaj ponovno zablista starim
+                    sjajem i povrati svoj prvobitni izgled, kao kad je stigao u vaš dom. Osim estetskog
+                    poboljšanja, dubinsko čišćenje produžava vek trajanja vašeg nameštaja, čineći ga dugotrajnijim i
+                    očuvanim. Oživite svoj prostor uz našu stručnost u vraćanju sjaja i dugovječnosti vašeg voljenog
+                    nameštaja!
+                </p>
+            </div>
+
+            <!-- border 1 row -->
+            <img src="img/border/border-1-row.png"" class=" img pt-15 pb-15" alt="Border for page">
+
+            <!-- 3 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point3">
+                    <strong><em>Kožni namještaj</em></strong> - ima svoju jedinstvenu priču, a mi donosimo
+                    vrhunske rezultate koji će vas oduševiti. Iako koža nema duboke slojeve kao drugi materijali, naš
+                    proces brzo i efikasno vraća stari sjaj vašem namještaju. Uz nas, vaš kožni namještaj će izgledati
+                    potpuno novo – brzo, jednostavno i uz vrhunski rezultat
+                </p>
+            </div>
+
+            <!-- border 1 row -->
+            <img src="img/border/border-1-row.png"" class=" img pt-15 pb-15" alt="Border for page">
+
+            <!-- 4 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point4">
+                    <strong><em>Obično pranje</em></strong> - ima svoje ograničenje, često je brzo i
+                    usredsređeno na površinsko uklanjanje mrlja i nečistoća. Međutim, često se dešava da prljavština
+                    ostaje zakopana na teško dostupnim mestima. Za potpuno čistoću i obnavljanje vašeg vozila,
+                    namještaja i drugih predmeta, potrebno je dubinsko čišćenje. Nudimo vam efikasan i sveobuhvatan
+                    pristup, osiguravajući da nijedna nečistoća ne ostane neprepoznata. Dajte svojim stvarima pažnju
+                    koju zaslužuju uz našu uslugu dubinskog čišćenja!
+                </p>
+            </div>
+
+            <!-- border 1 row -->
+            <img src="img/border/border-1-row.png"" class=" img pt-15 pb-15" alt="Border for page">
+
+            <!-- 5 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point5">
+                    <strong><em>Polimerizacija farova</em></strong> - predstavlja izuzetno efikasan tretman
+                    koji donosi niz prednosti u poređenju sa klasičnim poliranjem. Osim poboljšanog izgleda farova,
+                    pruža dugotrajnu zaštitu od UV zračenja i fizičkih oštećenja, produžavajući vreme trajanja. Nakon
+                    tretmana, vaši farovi će blistati poput novih, a vi ćete uživati u dugotrajnom estetskom i
+                    funkcionalnom poboljšanju!
+                </p>
+            </div>
+
+            <!-- border 1 row -->
+            <img src="img/border/border-1-row.png"" class=" img pt-15 pb-15" alt="Border for page">
+
+            <!-- 6 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point6">
+                    <strong><em>Vaše plovilo ili vozilo</em></strong> - zračiće istim sjajem kao u prvom danu
+                    kada je izašlo iz fabrike! Naša neizmerna posvećenost detaljima ogleda se u besprekornom izgledu
+                    eksterijera, unutrašnjosti kabine i svih prostorija. Trudimo se da očuvamo autentičnost, udobnost i
+                    eleganciju, pružajući vam iskustvo kao da je tek napustilo proizvodnu liniju!
+                </p>
+            </div>
+
+            <!-- border 1 row -->
+            <img src="img/border/border-1-row.png"" class=" img pt-15 pb-15" alt="Border for page">
+
+            <!-- 7 -->
+            <div class="flex info-service">
+                <img class="service-icon" width="30" height="30" alt="Template-2 logo" src="img/services/info-icon.svg">
+                <p class="p" data-i18n-html="services.info.points.point7">
+                    <strong><em>Zelene površine</em></strong> - oblikujte ih prema svojim željama i potrebama,
+                    a naš stručni tim će se posvetiti besprekornoj i profesionalnoj realizaciji. Naš cilj je pretvoriti
+                    vaše vizije u stvarnost, stvarajući za vas "mali zeleni raj" koji odražava vašu jedinstvenu estetiku
+                    i udovoljava svim vašim očekivanjima.
+                </p>
+            </div>
+
         </div> <!-- end info-services -->
 
-        <!-- border 2 row -->
-        <div id="featuree" class="border-2-row-p-90-0 container">
+    </section> <!-- END SEVICES -->
+
+
+    <!-- FEATURE ================================== -->
+    <section id="featuree" class="mb-90">
+        <!-- border dots 2 row -->
+        <div class="mt-90 mb-90 container">
             <img class="img" src="img/border/border-sm.png" alt="Border for page">
         </div>
 
-        <!-- services-feature -->
-        <div class="container grid col-4 features" id="services-feature">
-        </div> <!-- end services-feature -->
+        <!-- uređaji i spektar posla -->
+        <div class="container grid col-4 features" id="feature">
 
-    </section> <!-- END SEVICES -->
+            <!-- 1 -->
+            <div class="feature">
+
+                <a href="#about">
+                    <img src="img/services/berner.webp" width="550" height="367" class="img brand-photo"
+                        alt="Japanese Gyozas" />
+                </a>
+
+                <a href="#about">
+                    <h3 class="feature-title h3" data-i18n="features.feature1.title">Airbox Cleaner IV</h3>
+                </a>
+
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature1.points.point1">Čisti klima uređaje</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature1.points.point2">Čisti kabinu vozila</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature1.points.point3">Bez neprijatnih mirisa</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature1.points.point4">Osvježava prostor</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature1.points.point5">Bez mokrih površina</span>
+                </p>
+
+            </div>
+
+            <!-- 2 -->
+            <div class="feature">
+
+                <a href="#about">
+                    <img src="img/services/karcher.webp" width="500" height="367" class="img brand-photo"
+                        alt="Japanese Gyozas" />
+                </a>
+
+                <a href="#about">
+                    <h3 class="feature-title h3" data-i18n="features.feature2.title">Puzzi 8/1 C</h3>
+                </a>
+
+                <p class="feature-text flex p" data-i18n="features.feature2.description">
+                    Dubinsko pranje:
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature2.points.point1">Unutrašnjost vozila</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature2.points.point2">Namještaja</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature2.points.point3">Osvježava prostor</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature2.points.point4">Mala količina vlage</span>
+                </p>
+            </div>
+
+            <!-- 3 -->
+            <div class="feature">
+
+                <a href="#about">
+                    <img src="img/services/karcher-5-15.webp" width="500" height="367" class="img brand-photo"
+                        alt="Japanese Gyozas" />
+                </a>
+
+                <a href="#about">
+                    <h3 class="feature-title h3" data-i18n="features.feature3.title">HD 5/15 C</h3>
+                </a>
+
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature3.points.point1">Pranje pod pritiskom</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature3.points.point2">Izvanredna mobilnost</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature3.points.point3">Sofisticirana oprema</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature3.points.point4">Visoka efikasnost</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.feature3.points.point5">Izuzetna brzina</span>
+                </p>
+            </div>
+
+            <!-- 4 -->
+            <div class="service-list flex-column">
+
+                <a href="#services">
+                    <h3 class="feature-title h3" data-i18n="features.serviceList.title">Spektar usluga:</h3>
+                </a>
+
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service1">Održavanje jahti</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service2">Održavanje hotela</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service3">Održavanje apartmana</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service4">Održavanje namještaja</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service5">Održavanje vozila</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service6">Dezinfekcija</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service7">Dezinsekcija</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service8">Deratizacija</span>
+                </p>
+                <p class="feature-text flex p">
+                    <ion-icon class="list-icon" name="checkmark-outline"></ion-icon>
+                    <span data-i18n="features.serviceList.services.service9">Polimerizacija</span>
+                </p>
+            </div>
+
+        </div> <!-- end grid col-4-->
+    </section> <!-- END FEATURE -->
 
 
     <!-- BORDER - dots 3 row -->
@@ -303,106 +792,195 @@
 
 
     <!-- PRICING ================================== -->
-    <section class="section-pricing pt-90" id="pricing">
+    <section class="section-pricing mt-90" id="pricing">
 
-        <div id="pricing-title" class="container center-text">
-            <!-- Naslov i nadnaslov će biti dinamički dodati ovde -->
+        <div id="pricing-title" class="container text-c">
+            <span class="subheading" data-i18n="pricing.subheading">Cjenovnik</span>
+            <h2 class="h2" data-i18n="pricing.title">Cijene naših usluga</h2>
         </div>
 
+        <!-- grid col-3 -->
         <div class="container grid col-3 pricings">
-            <!-- Planovi cene će biti dinamički dodani ovde -->
-        </div>
+            <!-- col-1 - Dubinsko pranje -->
+            <div class="pricing-plan price-list">
+                <div class="price-list-border-top"></div>
+                <header class="price-list-header">
+                    <h3 class="price-list-title h3-sm" data-i18n="pricing.plans.deepCleaning.title">dubinsko pranje</h3>
+                    <output id="total-1" class="price-list-sum"><span class="euro">€</span><span>40.00</span></output>
+                    <p class="price-list-text" data-i18n="pricing.selectService">Izaberite servis</p>
+                </header>
+                <ul id="checkboxes-1" class="checkboxes p">
+                    <li>
+                        <label for="furniture" class="label-pricing flex align-center">
+                            <input type="radio" id="furniture" name="furnitureType" value="40.00" checked>
+                            <span class="chtext"
+                                data-i18n="pricing.plans.deepCleaning.items.furniture.label">Garniture</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="mattresses" class="label-pricing flex align-center">
+                            <input type="radio" id="mattresses" name="furnitureType" value="15.00">
+                            <span class="chtext"
+                                data-i18n="pricing.plans.deepCleaning.items.mattresses.label">Dušeci</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="cushions" class="label-pricing flex align-center">
+                            <input type="radio" id="cushions" name="furnitureType" value="2.50">
+                            <span class="chtext"
+                                data-i18n="pricing.plans.deepCleaning.items.cushions.label">Etisoni</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                </ul>
+                <div class="price-list-footer">
+                    <p data-i18n="pricing.calculatorNote">Kalkulator prikazuje početnu cijenu!</p>
+                    <button id="showFullPrice-1" data-i18n="pricing.plans.deepCleaning.fullPriceButton">Cjenovnik za
+                        dubinsko pranje</button>
+                </div>
+            </div>
+
+            <!-- col-2 - Vozila i plovila -->
+            <div class="pricing-plan price-list">
+                <div class="price-list-border-top"></div>
+                <header class="price-list-header">
+                    <h3 class="price-list-title h3-sm" data-i18n="pricing.plans.vehicles.title">vozila i plovila</h3>
+                    <output id="total-2" class="price-list-sum"><span class="euro">€</span><span>100.00</span> </output>
+                    <p class="price-list-text" data-i18n="pricing.selectService">Izaberite servis</p>
+                    <p class="level"><span data-i18n="pricing.dryingText"></span> ~
+                        24<sup>h</sup></p>
+                </header>
+                <ul id="checkboxes-2" class="checkboxes p">
+                    <li>
+                        <label for="regularWash" class="label-pricing flex align-center">
+                            <input type="radio" id="regularWash" name="washingType" value="15.00">
+                            <span class="chtext" data-i18n="pricing.plans.vehicles.items.regularWash.label">Obično
+                                pranje</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="deepWashing" class="label-pricing flex align-center">
+                            <input type="radio" id="deepWashing" name="washingType" value="100.00" checked>
+                            <span class="chtext" data-i18n="pricing.plans.vehicles.items.deepWashing.label">Dubinsko
+                                pranje</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="headlights" class="label-pricing flex align-center">
+                            <input type="radio" id="headlights" name="washingType" value="50.00">
+                            <span class="chtext"
+                                data-i18n="pricing.plans.vehicles.items.headlights.label">Polimerizacija farova</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                </ul>
+                <div class="price-list-footer">
+                    <p data-i18n="pricing.calculatorNote">Kalkulator prikazuje početnu cijenu!</p>
+                    <button id="showFullPrice-2" data-i18n="pricing.plans.vehicles.fullPriceButton">Cjenovnik za vozila
+                        i plovila</button>
+                </div>
+            </div>
+
+            <!-- col-3 - Hoteli & Jahte -->
+            <div class="pricing-plan price-list">
+                <div class="price-list-border-top"></div>
+                <header class="price-list-header">
+                    <h3 class="price-list-title h3-sm" data-i18n="pricing.plans.hotels.title">Hoteli &amp; Jahte</h3>
+                    <output id="total-3" class="price-list-sum"><span class="euro">€</span><span>0.00</span></output>
+                    <p class="price-list-text" data-i18n="pricing.selectService">Izaberite servis</p>
+                </header>
+                <ul id="checkboxes-3" class="checkboxes p">
+                    <li>
+                        <label for="exterior" class="label-pricing flex align-center">
+                            <input type="radio" id="exterior" name="service" value="0.00">
+                            <span class="chtext" data-i18n="pricing.plans.hotels.items.exterior.label">Spoljašnost
+                                Hotela i Jahti</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="yachtInterior" class="label-pricing flex align-center">
+                            <input type="radio" id="yachtInterior" name="service" value="1.00">
+                            <span class="chtext" data-i18n="pricing.plans.hotels.items.yachtInterior.label">Unutrašnjost
+                                Jahti</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="rooms" class="label-pricing flex align-center">
+                            <input type="radio" id="rooms" name="service" value="2.00">
+                            <span class="chtext" data-i18n="pricing.plans.hotels.items.rooms.label">Sobe / Saloni /
+                                Terase</span>
+                            <span class="checkmark"></span>
+                        </label>
+                    </li>
+                </ul>
+                <div class="price-list-footer">
+                    <p data-i18n="pricing.calculatorNote">Kalkulator prikazuje početnu cijenu!</p>
+                    <button id="showFullPrice-3" data-i18n="pricing.plans.hotels.fullPriceButton">Cjenovnik za hotele i
+                        jahte</button>
+                </div>
+            </div>
+        </div> <!-- end grid col-3 -->
+
 
         <!-- pop-up za cijene -->
         <div id="priceModal" class="modal noneDisplay">
-            <div class="modal-content">
-                <div class="modal-title-box flex-space-between-center">
+            <div class="modal-pricing-content">
+
+                <div class="modal-title-box flex justify-between">
                     <h4 id="modal-title"></h4>
                     <span class="close">&times;</span>
                 </div>
-                <div id="modal-price-items" class="full-price-items"></div>
+
+                <div id="modal-price-items" class="full-price-items">
+                    <div class="modal-price-list">
+
+                        <div id="modal-price-list-items">
+                            <!-- Ovo će biti dinamički popunjeno -->
+                        </div>
+
+                        <!-- <div class="contact-info">
+                            <p data-i18n="pricing.modal.contactPrompt">Kontaktirajte nas za preciznu procjenu i dogovor.
+                            </p>
+
+                            <p><span data-i18n="pricing.modal.phoneText">Pozovite nas:</span>
+                                <a href="tel:+38268069211">+382 68 069 211</a>
+                            </p>
+                        </div> -->
+                    </div>
+                </div>
             </div>
         </div>
 
     </section> <!-- END PRICING -->
 
-    <!-- Call Us Section -->
-    <!-- <div class="callUs noneDisplay">
-        <ion-icon class="callUs-close" name="close-outline"></ion-icon>
-        <img class="img" src="" width="280" height="350" alt="Call Us Image">
-        <a class="phone-number" href="#"><span>+382 68 069 211</span></a>
-        <img class="open-callUs none" src="" alt="Open Call Us" srcset="">
-    </div> -->
-
-    <!-- dialog box CALL US -->
-    <div>
-        <div class="callUs">
-            <p>POZOVITE NAS</p>
-            <ion-icon class="callUs-close" name="close-outline"></ion-icon>
-            <img class="img" src="img/call/callUs.png" width="280" height="350"
-                alt="call us dubinsko pranje i čišćenje tivat" usemap="#image_map">
-            <!-- <map name="image_map">
-                <area alt="" title="Call Us" href="tel:+38268069211" coords="2,13 37,32 34,70 1,52 " shape="polygon">
-                <area alt="" title="Instagram" href="https://www.instagram.com/_dubinsko_pranje_tivat"
-                    coords="3,63 36,80 36,118 0,100 " target="_blank" shape="polygon">
-                <area alt="" title="Send Mail"
-                    href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=bogoljub067@gmail.com" target="_blank"
-                    coords="2,111 36,128 36,168 1,150 " shape="polygon">
-            </map> -->
-            <!-- <a class="phone-number" href="tel:+38268069211"><span>+382 68 069 211</span></a> -->
-
-            <div class="call-options1 flex" id="callOptions">
-
-                <a href="tel:+38268069211" class="call-option1 flex g-10 y_center">
-                    <img src="img/call/viber_152851.png" alt="Phone" width="128" height="128">
-                    Phone
-                </a>
-
-                <a href="viber://add?number=%2B38268069211" class="call-option1 flex g-10 y_center">
-                    <img src="img/call/viber_2504948.png" alt="Viber" width="128" height="128">
-                    Viber
-                </a>
-
-                <a href="https://wa.me/38268069211" class="call-option1 flex g-10 y_center">
-                    <img src="img/call/whatsapp_3536445.png" alt="WhatsApp" width="128" height="128">
-                    WhatsApp
-                </a>
-
-            </div>
-
-            <div class="flex callUs_Social">
-                <a href="https://www.facebook.com/profile.php?id=100064044033023" target="_blank">
-                    <img src="img/call/icons8-facebook.svg" alt="" srcset="">
-                </a>
-                <a href="https://www.instagram.com/_dubinsko_pranje_tivat" target="_blank">
-                    <img src="img/call/icons8-instagram.svg" alt="" srcset="">
-                </a>
-                <a href="https://vm.tiktok.com/ZMYUrGDGo/" target="_blank">
-                    <img src="img/call/icons8-tiktok.svg" alt="" srcset="">
-                </a>
-            </div>
-
-        </div>
-        <!-- <ion-icon class="open-callUs" name="expand-outline"></ion-icon> -->
-        <img class="open-callUs" src="img/call/operater+.png" alt="" srcset="">
-    </div> <!-- end dialog box CALL US -->
-
 
     <!-- OUR PARTNERS ================================== -->
-    <section class="section-featured">
-
-        <div class="container center-text">
-            <!-- <span class="subheading">Pricing</span> -->
-            <h2 class="h2">Naši partneri</h2>
+    <section class="section-partners" id="partners">
+        <div class="container text-c">
+            <h2 class="h2" data-i18n="partners.title">Naši partneri</h2>
         </div>
 
-        <div class="">
-            <div id="logos" class="logos flex">
-                <img src="img/partners/una.png" alt="Techcrunch logo">
-                <img src="img/partners/opstina_kotor.png" alt="USA Today logo">
-                <img src="img/partners/forza.png" alt="The New York Times logo">
-                <img src="img/partners/luka_kotor.png" alt="Forbes logo">
-                <img src="img/partners/casa.jpg" alt="Business Insider logo">
+        <div class="partners-container">
+            <div class="marquee">
+                <div class="marquee-inner">
+                    <img src="img/partners/una.png" alt="Una Montenegro D.O.O">
+                    <img src="img/partners/opstina_kotor.png" alt="Opština Kotor">
+                    <img src="img/partners/forza.png" alt="Forza Hotels Kotor">
+                    <img src="img/partners/luka_kotor.png" alt="Luka Kotor A.D">
+                    <img src="img/partners/casa.jpg" alt="Casa Montenego Collection">
+
+                    <img src="img/partners/una.png" alt="Una Montenegro D.O.O">
+                    <img src="img/partners/opstina_kotor.png" alt="Opština Kotor">
+                    <img src="img/partners/forza.png" alt="Forza Hotels Kotor">
+                    <img src="img/partners/luka_kotor.png" alt="Luka Kotor A.D">
+                    <img src="img/partners/casa.jpg" alt="Casa Montenego Collection">
+                </div>
             </div>
         </div>
     </section> <!-- END OUR PARTNERS -->
@@ -412,27 +990,28 @@
     <section class="section-contact" id="contact">
 
         <header class="header-maps">
-            <h2 class="h2">Contact us</h2>
+            <h2 class="h2" data-i18n="contact.title">Contact us</h2>
         </header>
 
         <div class="section-contact grid">
+
             <iframe class="maps" title="Google map location for Dubinsko pranje - Tivat"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1859.6177590872082!2d18.75418231981303!3d42.36909810086647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134c2d99488ac2b9%3A0xcfa174ce09d8e36e!2sGara%C5%BEa%20za%20parkiranje!5e1!3m2!1ssr!2s!4v1676812527941!5m2!1ssr!2s"
-                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3550.348769895219!2d18.753562499999997!3d42.369187499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134c2dbcb3e3e07f%3A0x40de6adfaf8d0d77!2sPERFECT%20SHINE%20DOO!5e1!3m2!1sen!2s!4v1744321106200!5m2!1sen!2s"
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
 
             <div class="contact-maps">
 
                 <div class="info">
-                    <h3 class="h3">Send an email</h3>
-                    <form class="info" action="send_email.php" method="POST">
-                        <input placeholder="Subject" type="text" name="subject" class="info" required>
-                        <input placeholder="Phone" type="tel" name="phone" pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
-                            class="info" required>
-                        <textarea placeholder="Message" name="message" rows="4" class="info" required></textarea>
-                        <input placeholder="Send" type="submit" class="info">
+                    <h3 class="h3" data-i18n="contact.sendEmail">Pošalji imejl</h3>
+                    <form class="info" method="POST" autocomplete="off">
+                        <input placeholder="Subject" type="text" name="subject" class="info">
+                        <input placeholder="Phone" type="tel" name="phone" class="info">
+                        <textarea placeholder="Message" name="message" rows="4" class="info"></textarea>
+                        <button type="submit" class="sendMsg" data-i18n="contact.sendButton">Send</button>
                     </form>
 
-                    <h3 class="h3">Other way</h3>
+                    <h3 class="h3" data-i18n="contact.address">Adresa</h3>
                     <p class="p">Radanovići bb, Ruska garaža</p>
                     <p class="p">85 300 Kotor, Crna Gora</p>
                     <p class="p entypo-phone"><ion-icon name="call-outline"></ion-icon> <a href="tel:+38268069211">+382
@@ -458,17 +1037,17 @@
         <!-- first column -->
         <ul class="social-links flex">
             <li>
-                <a class="footer-link" href="#services">
+                <a class="footer-link" href="#services" data-i18n="nav.services">
                     Usluge
                 </a>
             </li>
             <li>
-                <a class="footer-link" href="#gallery">
+                <a class="footer-link" href="#gallerySection" data-i18n="nav.gallery">
                     Galerija
                 </a>
             </li>
             <li>
-                <a class="footer-link" href="#pricing">
+                <a class="footer-link" href="#pricing" data-i18n="nav.pricing">
                     Cijene
                 </a>
             </li>
@@ -485,8 +1064,8 @@
                 </div>
             </div>
 
-            <div class="flex-justify-center">
-                <a href="#">
+            <div class="flex justify-center">
+                <a href="#hero">
                     <img class="img logo-sm-light" width="100" height="7" alt="Template-2 logo"
                         src="img/footer/logo-sm-light.svg" />
                 </a>
@@ -499,7 +1078,7 @@
         </div>
 
         <!-- third column -->
-        <ul class="social-links flex-justify-end">
+        <ul class="social-links flex justify-end">
             <li>
                 <a class="footer-link" href="https://www.instagram.com/_dubinsko_pranje_tivat" target="_blank">
                     <ion-icon class="social-icon" name="logo-instagram"></ion-icon>
@@ -525,12 +1104,52 @@
     </footer> <!-- END FOOTER -->
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-        referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/nanogallery2/3.0.5/jquery.nanogallery2.min.js"
-        integrity="sha512-tvpLVnZrWnnNzV2921XEMx4xkFTUF8xg3s+Mi6cvC/R7A6X1FkpBUXPJFa3Xh5uD9BvOZ2tHeYq/5ZqrweW86Q=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="js/gallery.js"></script>
+    <!-- PROZOR CALL US  ================================== -->
+    <div>
+        <div class="callUs">
+            <p data-i18n="callUsDialog.title">POZOVITE NAS</p>
+            <ion-icon class="callUs-close" name="close-outline"></ion-icon>
+            <img class="call-option" src="img/call/callUs.png" width="280" height="350"
+                alt="call us dubinsko pranje i čišćenje tivat" usemap="#image_map">
+
+            <div class="call-options1 flex" id="callOptions">
+
+                <a href="tel:+38268069211" class="call-option flex gap-10 align-center">
+                    <img src="img/call/viber_152851.png" alt="Phone" width="128" height="128">
+                    Phone
+                </a>
+
+                <a href="viber://add?number=%2B38268069211" class="call-option flex gap-10 align-center">
+                    <img src="img/call/viber_2504948.png" alt="Viber" width="128" height="128">
+                    Viber
+                </a>
+
+                <a href="https://wa.me/38268069211" class="call-option flex gap-10 align-center">
+                    <img src="img/call/whatsapp_3536445.png" alt="WhatsApp" width="128" height="128">
+                    WhatsApp
+                </a>
+
+            </div>
+
+            <div class="flex callUs_Social">
+                <a href="https://www.facebook.com/profile.php?id=100064044033023" target="_blank">
+                    <img src="img/call/icons8-facebook.svg" alt="" srcset="">
+                </a>
+                <a href="https://www.instagram.com/_dubinsko_pranje_tivat" target="_blank">
+                    <img src="img/call/icons8-instagram.svg" alt="" srcset="">
+                </a>
+                <a href="https://vm.tiktok.com/ZMYUrGDGo/" target="_blank">
+                    <img src="img/call/icons8-tiktok.svg" alt="" srcset="">
+                </a>
+            </div>
+
+        </div>
+        <!-- <ion-icon class="open-callUs" name="expand-outline"></ion-icon> -->
+        <img class="open-callUs" src="img/call/operater+.png" alt="" srcset="">
+    </div> <!-- END PROZOR CALL US -->
+
+
+    <script type="module" src="js/main.js"></script>
 
 </body>
 
