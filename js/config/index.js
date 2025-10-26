@@ -146,6 +146,28 @@ export const GALLERY_CONFIG = {
 };
 
 // =============================================================================
+// CONTACT KONFIGURACIJA
+// =============================================================================
+
+export const CONTACT_CONFIG = {
+    apiEndpoint: '/send_email.php',
+    validateForms: true,
+    showSuccessMessage: true,
+    successMessageDuration: 3000,
+    phonePatterns: [
+        /^\d{3} \d{3} \d{3}$/,
+        /^\d{3} \d{3} \d{4}$/,
+        /^\+\d{3} \d{2} \d{3} \d{3}$/,
+        /^\+\d{3} \d{2} \d{3} \d{4}$/,
+        /^\+\d{3} \d{1} \d{3} \d{6}$/,
+        /^\d{9}$/,
+        /^\d{10}$/,
+        /^\+\d{11,14}$/
+    ],
+    languageModuleTimeout: 3000
+};
+
+// =============================================================================
 // MODULE KONFIGURACIJA
 // =============================================================================
 
@@ -166,9 +188,9 @@ export const MODULES_CONFIG = {
     loader: {
         enabled: true,
         options: {
-            minDisplayTime: 2000,
+            minDisplayTime: 1500,
             autoHide: true,
-            forceHideTimeout: 8000
+            forceHideTimeout: 5000
         }
     },
 
@@ -234,22 +256,7 @@ export const MODULES_CONFIG = {
     // Contact module
     contact: {
         enabled: true,
-        options: {
-            apiEndpoint: API_CONFIG.endpoints.contact,
-            validateForms: true,
-            showSuccessMessage: true,
-            successMessageDuration: 3000,
-            phonePatterns: [
-                /^\d{3} \d{3} \d{3}$/,
-                /^\d{3} \d{3} \d{4}$/,
-                /^\+\d{3} \d{2} \d{3} \d{3}$/,
-                /^\+\d{3} \d{2} \d{3} \d{4}$/,
-                /^\+\d{3} \d{1} \d{3} \d{6}$/,
-                /^\d{9}$/,
-                /^\d{10}$/,
-                /^\+\d{11,14}$/
-            ]
-        }
+        options: CONTACT_CONFIG
     }
 };
 
@@ -299,5 +306,6 @@ export default {
     FEATURES,
     MODULES_CONFIG,
     PERFORMANCE_CONFIG,
-    GALLERY_CONFIG
+    GALLERY_CONFIG,
+    CONTACT_CONFIG
 };

@@ -20,7 +20,7 @@ export class App {
             // Inicijalizuj core sisteme
             await this.initCore();
 
-            // Inicijalizuj module paralelno gdje je moguće
+            // Inicijalizuj module sa poboljšanom sinhronizacijom
             await this.initModules();
 
             this.isInitialized = true;
@@ -39,25 +39,41 @@ export class App {
     }
 
     async initModules() {
-        const criticalModules = [];
-        const regularModules = [];
+        // Definiši redoslijed inicijalizacije
+        const moduleOrder = [
+            'language',    // Prvi - kritičan za ostale module
+            'navigation',  // Drugi - navigacija
+            'loader',      // Treći - loader
+            'gallery',     // Četvrti
+            'callus',      // Peti  
+            'partners',    // Šesti
+            'contact',     // Sedmi - zavisi od language modula
+            'pricing'      // Osmi - zavisi od language modula
+        ];
 
-        // Razvrstaj module po prioritetu
-        for (const [moduleName, config] of Object.entries(MODULES_CONFIG)) {
-            if (config.enabled) {
-                if (moduleName === 'language' || moduleName === 'navigation') {
-                    criticalModules.push(this.loadModule(moduleName, config));
-                } else {
-                    regularModules.push(this.loadModule(moduleName, config));
+        // Učitaj module po definisanom redoslijedu
+        for (const moduleName of moduleOrder) {
+            const config = MODULES_CONFIG[moduleName];
+            if (config && config.enabled) {
+                try {
+                    await this.loadModule(moduleName, config);
+
+                    // Sačekaj da se modul potpuno inicijalizuje
+                    const moduleInstance = this.modules.get(moduleName);
+                    if (moduleInstance && typeof moduleInstance.waitForReady === 'function') {
+                        await moduleInstance.waitForReady();
+                    }
+
+                } catch (error) {
+                    console.error(`❌ Failed to load module ${moduleName}:`, error);
+
+                    // Ako je kritičan modul, baci grešku
+                    if (moduleName === 'language' || moduleName === 'navigation') {
+                        throw error;
+                    }
                 }
             }
         }
-
-        // Prvo učitaj kritične module
-        await Promise.all(criticalModules);
-
-        // Zatim ostale module
-        await Promise.all(regularModules);
 
         this.emit('app:modulesReady');
     }
@@ -94,15 +110,7 @@ export class App {
         } catch (error) {
             console.error(`❌ Failed to load module ${moduleName}:`, error);
             this.emit('module:error', { moduleName, error });
-
-            // Ako je kritičan modul, baci grešku
-            if (moduleName === 'language' || moduleName === 'navigation') {
-                throw error;
-            }
-
-            // Za ostale module, samo upozori i nastavi
-            console.warn(`⚠️ Continuing without module: ${moduleName}`);
-            return null;
+            throw error;
         }
     }
 

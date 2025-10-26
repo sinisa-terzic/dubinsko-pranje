@@ -14,12 +14,18 @@ class Application {
             document.documentElement.classList.add('app-loading');
 
             const perfStart = performance.now();
+
+            // Pokreni aplikaciju
             await this.app.init();
+
             const perfEnd = performance.now();
 
             console.log(`⚡ App initialized in ${(perfEnd - perfStart).toFixed(2)}ms`);
+
+            // Pokreni aplikaciju
             this.app.start();
 
+            // Ažuriraj UI stanje
             document.documentElement.classList.remove('app-loading');
             document.documentElement.classList.add('app-ready');
 
@@ -28,6 +34,7 @@ class Application {
             this.setupLoaderFallback();
             this.setupGlobalNavigation();
 
+            // Emituj globalni event
             window.dispatchEvent(new CustomEvent('perfectshine:ready', {
                 detail: {
                     app: this.app,
@@ -54,6 +61,56 @@ class Application {
         }
     }
 
+    setupLoaderFallback() {
+        // Agresivniji fallback sistem
+        const fallbackTimeouts = [
+            setTimeout(() => {
+                if (!this.isLoaderHidden()) {
+                    console.log('🔄 Fallback 1: Force hide loader');
+                    this.hideLoaderEmergency();
+                }
+            }, 3000),
+
+            setTimeout(() => {
+                if (!this.isLoaderHidden()) {
+                    console.log('🔄 Fallback 2: Direct DOM manipulation');
+                    this.removeLoaderFromDOM();
+                }
+            }, 4000)
+        ];
+
+        // Očisti timeoutove kada se loader sakrije
+        this.app.eventBus.on('loader:hidden', () => {
+            fallbackTimeouts.forEach(timeout => clearTimeout(timeout));
+        });
+
+        // Dodatni check na app:ready
+        this.app.eventBus.on('app:ready', () => {
+            setTimeout(() => {
+                if (!this.isLoaderHidden()) {
+                    console.log('🔄 App ready fallback: Hiding loader');
+                    this.hideLoaderEmergency();
+                }
+            }, 1000);
+        });
+    }
+
+    isLoaderHidden() {
+        const loaderWrapper = document.getElementById('loaderWrapper');
+        return !loaderWrapper ||
+            loaderWrapper.style.display === 'none' ||
+            loaderWrapper.style.visibility === 'hidden' ||
+            loaderWrapper.classList.contains('loaded');
+    }
+
+    removeLoaderFromDOM() {
+        const loaderWrapper = document.getElementById('loaderWrapper');
+        if (loaderWrapper?.parentNode) {
+            loaderWrapper.parentNode.removeChild(loaderWrapper);
+            console.log('🗑️ Loader removed from DOM');
+        }
+    }
+
     setupGlobalNavigation() {
         // Globalna navigacijska pomoc
         window.addEventListener('hashchange', (e) => {
@@ -76,35 +133,6 @@ class Application {
                 }
             }
         }, 1000);
-    }
-
-    setupLoaderFallback() {
-        const fallbackTimeouts = [
-            setTimeout(() => {
-                const loaderModule = this.app.getModule('loader');
-                if (loaderModule && !loaderModule.isHidden) {
-                    console.log('🔄 Fallback 1: Module force hide');
-                    loaderModule.forceHide();
-                }
-            }, 3000),
-
-            setTimeout(() => {
-                const loaderWrapper = document.getElementById('loaderWrapper');
-                if (loaderWrapper && loaderWrapper.style.display !== 'none') {
-                    console.log('🔄 Fallback 2: Direct DOM hide');
-                    loaderWrapper.style.display = 'none';
-                }
-            }, 4000),
-
-            setTimeout(() => {
-                this.hideLoaderEmergency();
-                console.log('🔄 Fallback 3: Emergency cleanup');
-            }, 5000)
-        ];
-
-        this.app.eventBus.on('loader:hidden', () => {
-            fallbackTimeouts.forEach(timeout => clearTimeout(timeout));
-        });
     }
 
     hideLoaderEmergency() {
@@ -186,57 +214,62 @@ const initApp = () => {
     initializeYear();
 };
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
-} else {
-    initApp();
-}
-
-////////////////////////////////////////
-// Globalni error handler za unhandled promises
-window.addEventListener('unhandledrejection', (event) => {
-    // Filtriranje ove specifične greške
-    if (event.reason && event.reason.message &&
-        event.reason.message.includes('asynchronous response') &&
-        event.reason.message.includes('message channel closed')) {
-
-        console.log('🔕 Suppressed async response warning');
-        event.preventDefault(); // Sprečava default error handling
-        return;
-    }
-
-    // Za sve ostale greške, nastavite sa normalnim handlingom
-    console.error('Unhandled promise rejection:', event.reason);
-});
-
-// Ili jednostavnije - ignoriši specifičnu grešku
-window.addEventListener('unhandledrejection', (event) => {
-    const message = event.reason?.message || '';
-    if (message.includes('asynchronous response') && message.includes('message channel closed')) {
-        event.preventDefault();
-        return;
-    }
-});
-
+// Globalni error handleri
 window.addEventListener('error', (event) => {
     console.error('Global error:', event.error);
     window.perfectShineApp?.hideLoaderEmergency();
 });
 
 window.addEventListener('unhandledrejection', (event) => {
+    // Filtriranje nebitnih grešaka
+    const message = event.reason?.message || '';
+
+    if (message.includes('asynchronous response') &&
+        message.includes('message channel closed')) {
+        event.preventDefault();
+        return;
+    }
+
     console.error('Unhandled promise rejection:', event.reason);
     window.perfectShineApp?.hideLoaderEmergency();
-    event.preventDefault();
 });
 
-setTimeout(() => {
-    const loaderWrapper = document.getElementById('loaderWrapper');
-    if (loaderWrapper && loaderWrapper.style.display !== 'none') {
-        console.log('🔄 Emergency timeout loader hide');
-        loaderWrapper.style.display = 'none';
-        loaderWrapper.style.visibility = 'hidden';
-    }
-}, 5000);
+// Kontinuirani monitoring loadera
+const startLoaderMonitor = () => {
+    let checkCount = 0;
+    const maxChecks = 20; // 10 sekundi
+
+    const checkInterval = setInterval(() => {
+        const loaderWrapper = document.getElementById('loaderWrapper');
+        const isAppReady = document.documentElement.classList.contains('app-ready');
+
+        if (isAppReady && loaderWrapper &&
+            loaderWrapper.style.display !== 'none' &&
+            !loaderWrapper.classList.contains('loaded')) {
+
+            console.log('🔍 Loader monitor: Hiding stuck loader');
+            loaderWrapper.style.display = 'none';
+        }
+
+        checkCount++;
+        if (checkCount >= maxChecks) {
+            clearInterval(checkInterval);
+        }
+    }, 500);
+};
+
+// Pokreni monitor nakon što se DOM učita
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startLoaderMonitor);
+} else {
+    startLoaderMonitor();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
 
 window.PerfectShine = {
     getApp: () => window.perfectShineApp?.getApp(),
@@ -365,17 +398,5 @@ window.PerfectShine = {
         }
     }
 };
-
-let checkCount = 0;
-const loaderCheckInterval = setInterval(() => {
-    const loaderWrapper = document.getElementById('loaderWrapper');
-    if (document.documentElement.classList.contains('app-ready') && loaderWrapper && loaderWrapper.style.display !== 'none') {
-        loaderWrapper.style.display = 'none';
-    }
-    checkCount++;
-    if (checkCount >= 10) {
-        clearInterval(loaderCheckInterval);
-    }
-}, 1000);
 
 export default Application;

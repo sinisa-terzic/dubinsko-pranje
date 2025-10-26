@@ -6,6 +6,8 @@ export class LanguageModule {
         this.translations = {};
         this.isInitialized = false;
         this.scrollManager = null;
+        this.readyPromise = null;
+        this.readyPromiseResolver = null;
 
         this.flagMap = {
             'sr': {
@@ -42,6 +44,23 @@ export class LanguageModule {
 
         this.isInitialized = true;
         this.emit('language:ready');
+
+        // Signaliziraj da je modul spreman
+        this.readyPromiseResolver?.(true);
+    }
+
+    // Nova metoda za čekanje spremnosti
+    waitForReady() {
+        if (this.isInitialized && this.translations) {
+            return Promise.resolve(true);
+        }
+
+        if (!this.readyPromise) {
+            this.readyPromise = new Promise((resolve) => {
+                this.readyPromiseResolver = resolve;
+            });
+        }
+        return this.readyPromise;
     }
 
     setupScrollHandler() {
@@ -58,7 +77,6 @@ export class LanguageModule {
         }
     }
 
-    // OSTALE METODE OSTAJU ISTE...
     async loadLanguagePreference() {
         try {
             const savedLang = localStorage.getItem(this.config.storageKey || 'perfect_shine_lang');

@@ -8,6 +8,12 @@ export class ContactModule {
         this.isSubmitting = false;
         this.hasUserStartedTyping = false;
         this.hasFieldErrors = false;
+
+        this.languageModuleReady = false;
+        this.waitForLanguagePromise = null;
+        this.languageModule = null;
+        this.translations = null;
+
         this.validationState = {
             subject: { isValid: false, isTouched: false },
             phone: { isValid: false, isTouched: false },
@@ -28,7 +34,8 @@ export class ContactModule {
                 /^\d{9}$/,                        // xxxxxxxxx (spojeno)
                 /^\d{10}$/,                       // xxxxxxxxxx (spojeno)
                 /^\+\d{11,14}$/                   // +xxxxxxxxxxxx (spojeno)
-            ]
+            ],
+            languageModuleTimeout: 3000
         };
 
         this.handleLanguageChange = this.handleLanguageChange.bind(this);
@@ -40,11 +47,16 @@ export class ContactModule {
         this.eventBus = dependencies.eventBus || EventBus;
         this.config = { ...this.config, ...dependencies.config };
 
+        // Pokreni čekanje language modula paralelno
+        this.waitForLanguagePromise = this.waitForLanguageModule();
+
         this.cacheDOMElements();
         this.setupEventListeners();
         this.initializeFormState();
 
-        await this.waitForLanguageModule();
+        // Sačekaj language modul prije nego što ažuriramo placeholdere
+        await this.waitForLanguagePromise;
+
         this.updatePlaceholders();
 
         this.isInitialized = true;
@@ -52,19 +64,29 @@ export class ContactModule {
     }
 
     async waitForLanguageModule() {
-        const maxWaitTime = 5000;
+        const maxWaitTime = this.config.languageModuleTimeout || 3000;
         const startTime = Date.now();
 
         while (Date.now() - startTime < maxWaitTime) {
             const languageModule = window.app?.getModule('language');
-            if (languageModule && languageModule.isInitialized) {
+            if (languageModule && languageModule.isInitialized && languageModule.translations) {
+                this.languageModule = languageModule;
+                this.translations = languageModule.translations;
+                this.languageModuleReady = true;
+                console.log('✅ Contact: Language module ready');
                 return true;
             }
-            await new Promise(resolve => setTimeout(resolve, 100));
+            await new Promise(resolve => setTimeout(resolve, 50));
         }
 
-        console.warn('⚠️ Language module not loaded within timeout');
+        console.log('ℹ️ Contact: Continuing without language module');
+        this.languageModuleReady = false;
         return false;
+    }
+
+    // Nova metoda za čekanje spremnosti
+    waitForReady() {
+        return this.waitForLanguagePromise || Promise.resolve();
     }
 
     cacheDOMElements() {
@@ -317,23 +339,20 @@ export class ContactModule {
     }
 
     updatePlaceholders() {
-        const languageModule = window.app?.getModule('language');
-        if (!languageModule) return;
-
         if (this.subjectInput) {
-            const translated = languageModule.translate('contact.subjectPlaceholder');
+            const translated = this.translate('contact.subjectPlaceholder');
             if (translated !== 'contact.subjectPlaceholder') {
                 this.subjectInput.placeholder = translated;
             }
         }
         if (this.phoneInput) {
-            const translated = languageModule.translate('contact.phonePlaceholder');
+            const translated = this.translate('contact.phonePlaceholder');
             if (translated !== 'contact.phonePlaceholder') {
                 this.phoneInput.placeholder = translated;
             }
         }
         if (this.messageTextarea) {
-            const translated = languageModule.translate('contact.messagePlaceholder');
+            const translated = this.translate('contact.messagePlaceholder');
             if (translated !== 'contact.messagePlaceholder') {
                 this.messageTextarea.placeholder = translated;
             }
@@ -691,8 +710,31 @@ export class ContactModule {
     }
 
     translate(key) {
-        const languageModule = window.app?.getModule('language');
-        return languageModule ? languageModule.translate(key) : key;
+        if (this.languageModuleReady && this.languageModule) {
+            return this.languageModule.translate(key);
+        }
+
+        // Fallback prijevodi
+        const fallbackTranslations = {
+            'contact.subjectPlaceholder': 'Subject',
+            'contact.phonePlaceholder': 'Phone Number',
+            'contact.messagePlaceholder': 'Your Message',
+            'contact.sendButton': 'Send Message',
+            'contact.enterData': 'Please enter all data',
+            'contact.resetForm': 'Reset Form',
+            'contact.successMessage': 'Message sent successfully!',
+            'contact.errorMessage': 'Error sending message. Please try again.',
+            'contact.sending': 'Sending...',
+            'contact.subjectRequired': 'Subject is required',
+            'contact.phoneRequired': 'Phone number is required',
+            'contact.phoneInvalid': 'Please enter a valid phone number',
+            'contact.messageRequired': 'Message is required',
+            'contact.messageTooShort': 'Message must be at least 10 characters',
+            'contact.validationError': 'Please fix validation errors',
+            'contact.submissionError': 'Error sending message'
+        };
+
+        return fallbackTranslations[key] || key;
     }
 
     emit(event, data) {

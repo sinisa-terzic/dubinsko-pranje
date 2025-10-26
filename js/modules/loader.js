@@ -9,10 +9,11 @@ export class LoaderModule {
         this.loaderImage = null;
         this.isInitialized = false;
         this.isHidden = false;
-        this.minDisplayTime = 2000;
+        this.minDisplayTime = 1500;
         this.startTime = null;
         this.forceHideTimeout = null;
         this.cleanupTimeouts = new Set();
+        this.hideTimeout = null;
     }
 
     async initialize(dependencies = {}) {
@@ -21,8 +22,8 @@ export class LoaderModule {
         this.eventBus = dependencies.eventBus || EventBus;
         this.config = dependencies.config || {};
 
-        this.minDisplayTime = this.config.minDisplayTime || 2000;
-        this.forceHideTimeoutMs = this.config.forceHideTimeout || 8000;
+        this.minDisplayTime = this.config.minDisplayTime || 1500;
+        this.forceHideTimeoutMs = this.config.forceHideTimeout || 5000;
         this.startTime = Date.now();
 
         this.cacheDOMElements();
@@ -46,19 +47,23 @@ export class LoaderModule {
     }
 
     setupEventListeners() {
-        // Glavni event za sakrivanje loadera
-        this.eventBus.on('app:ready', () => {
+        // Glavni event za sakrivanje loadera - sa boljim timingom
+        this.eventBus.on('app:modulesReady', () => {
+            console.log('🎯 Loader: app:modulesReady received - scheduling hide');
             this.hideWithDelay();
         });
 
-        // Fallback eventi
-        this.eventBus.on('app:modulesReady', () => {
-            // Log samo za debug
-            if (this.config.debug) {
-                console.log('🎯 Loader: app:modulesReady received');
-            }
+        // Fallback ako modulesReady ne stigne
+        this.eventBus.on('app:ready', () => {
+            console.log('🎯 Loader: app:ready received - backup hide');
+            setTimeout(() => {
+                if (!this.isHidden) {
+                    this.hideWithDelay();
+                }
+            }, 1000);
         });
 
+        // Fallback eventi
         this.eventBus.on('app:error', (data) => {
             console.error('🎯 Loader: app:error received', data);
             this.hide();
@@ -88,19 +93,27 @@ export class LoaderModule {
                 console.warn('⚠️ Loader: Force hide timeout triggered');
                 this.forceHide();
             }
-        }, 8000); // Povećano na 8 sekundi
+        }, this.forceHideTimeoutMs);
     }
 
     hideWithDelay() {
+        if (this.isHidden) return;
+
         const elapsed = Date.now() - this.startTime;
         const remainingTime = Math.max(0, this.minDisplayTime - elapsed);
 
-        console.log(`⏰ Loader: hiding in ${remainingTime}ms`);
+        console.log(`⏰ Loader: hiding in ${remainingTime}ms (elapsed: ${elapsed}ms)`);
 
-        const hideTimeout = setTimeout(() => {
+        // Očisti prethodni timeout ako postoji
+        if (this.hideTimeout) {
+            clearTimeout(this.hideTimeout);
+        }
+
+        this.hideTimeout = setTimeout(() => {
             this.hide();
         }, remainingTime);
-        this.cleanupTimeouts.add(hideTimeout);
+
+        this.cleanupTimeouts.add(this.hideTimeout);
     }
 
     hide() {
@@ -114,6 +127,11 @@ export class LoaderModule {
         // Očisti sve timeoute
         this.cleanupTimeouts.forEach(timeout => clearTimeout(timeout));
         this.cleanupTimeouts.clear();
+
+        if (this.hideTimeout) {
+            clearTimeout(this.hideTimeout);
+            this.hideTimeout = null;
+        }
 
         // Sakrij kompletno nakon animacije
         const finalHideTimeout = setTimeout(() => {
@@ -173,6 +191,11 @@ export class LoaderModule {
         this.cleanupTimeouts.forEach(timeout => clearTimeout(timeout));
         this.cleanupTimeouts.clear();
 
+        if (this.hideTimeout) {
+            clearTimeout(this.hideTimeout);
+            this.hideTimeout = null;
+        }
+
         this.emit('loader:forceHidden');
     }
 
@@ -193,6 +216,15 @@ export class LoaderModule {
         // Očisti sve timeoute
         this.cleanupTimeouts.forEach(timeout => clearTimeout(timeout));
         this.cleanupTimeouts.clear();
+
+        if (this.hideTimeout) {
+            clearTimeout(this.hideTimeout);
+            this.hideTimeout = null;
+        }
+
+        if (this.forceHideTimeout) {
+            clearTimeout(this.forceHideTimeout);
+        }
 
         // Ukloni sve event listenere
         this.eventBus.off('app:ready');
