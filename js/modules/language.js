@@ -8,6 +8,7 @@ export class LanguageModule {
         this.scrollManager = null;
         this.readyPromise = null;
         this.readyPromiseResolver = null;
+        this.translationsLoaded = false;
 
         this.flagMap = {
             'sr': {
@@ -37,6 +38,7 @@ export class LanguageModule {
 
         await this.loadLanguagePreference();
         await this.loadTranslations(this.currentLanguage);
+        this.translationsLoaded = true;
         this.setupDOM();
         this.bindEvents();
         this.setupScrollHandler();
@@ -51,7 +53,7 @@ export class LanguageModule {
 
     // Nova metoda za čekanje spremnosti
     waitForReady() {
-        if (this.isInitialized && this.translations) {
+        if (this.isInitialized && this.translationsLoaded) {
             return Promise.resolve(true);
         }
 

@@ -22,7 +22,10 @@ class Application {
 
             console.log(`⚡ App initialized in ${(perfEnd - perfStart).toFixed(2)}ms`);
 
-            // Pokreni aplikaciju
+            // Sačekaj dodatno da se sve potpuno učita
+            await this.waitForCompleteLoad();
+
+            // Sada pokreni aplikaciju
             this.app.start();
 
             // Ažuriraj UI stanje
@@ -31,7 +34,6 @@ class Application {
 
             console.log(`🚀 ${APP_CONFIG.name} v${APP_CONFIG.version} started successfully!`);
 
-            this.setupLoaderFallback();
             this.setupGlobalNavigation();
 
             // Emituj globalni event
@@ -61,53 +63,35 @@ class Application {
         }
     }
 
-    setupLoaderFallback() {
-        // Agresivniji fallback sistem
-        const fallbackTimeouts = [
-            setTimeout(() => {
-                if (!this.isLoaderHidden()) {
-                    console.log('🔄 Fallback 1: Force hide loader');
-                    this.hideLoaderEmergency();
-                }
-            }, 3000),
+    async waitForCompleteLoad() {
+        // Sačekaj da se svi kritični moduli potpuno inicijalizuju
+        const criticalModules = ['language', 'navigation', 'loader'];
 
-            setTimeout(() => {
-                if (!this.isLoaderHidden()) {
-                    console.log('🔄 Fallback 2: Direct DOM manipulation');
-                    this.removeLoaderFromDOM();
-                }
-            }, 4000)
-        ];
+        for (const moduleName of criticalModules) {
+            const module = this.app.getModule(moduleName);
+            if (module && typeof module.waitForReady === 'function') {
+                await module.waitForReady();
+                console.log(`✅ ${moduleName} module fully ready`);
+            }
+        }
 
-        // Očisti timeoutove kada se loader sakrije
-        this.app.eventBus.on('loader:hidden', () => {
-            fallbackTimeouts.forEach(timeout => clearTimeout(timeout));
-        });
+        // Dodatno čekanje za stabilnost
+        await new Promise(resolve => setTimeout(resolve, 500));
 
-        // Dodatni check na app:ready
-        this.app.eventBus.on('app:ready', () => {
-            setTimeout(() => {
-                if (!this.isLoaderHidden()) {
-                    console.log('🔄 App ready fallback: Hiding loader');
-                    this.hideLoaderEmergency();
-                }
-            }, 1000);
-        });
-    }
-
-    isLoaderHidden() {
-        const loaderWrapper = document.getElementById('loaderWrapper');
-        return !loaderWrapper ||
-            loaderWrapper.style.display === 'none' ||
-            loaderWrapper.style.visibility === 'hidden' ||
-            loaderWrapper.classList.contains('loaded');
-    }
-
-    removeLoaderFromDOM() {
-        const loaderWrapper = document.getElementById('loaderWrapper');
-        if (loaderWrapper?.parentNode) {
-            loaderWrapper.parentNode.removeChild(loaderWrapper);
-            console.log('🗑️ Loader removed from DOM');
+        // Provjeri je li loader spreman
+        const loaderModule = this.app.getModule('loader');
+        if (loaderModule && !loaderModule.isHidden) {
+            console.log('⏳ Waiting for loader to be ready...');
+            await new Promise(resolve => {
+                const checkLoader = () => {
+                    if (loaderModule.isHidden !== undefined) {
+                        resolve();
+                    } else {
+                        setTimeout(checkLoader, 100);
+                    }
+                };
+                checkLoader();
+            });
         }
     }
 
@@ -142,12 +126,6 @@ class Application {
             loaderWrapper.style.visibility = 'hidden';
             loaderWrapper.style.opacity = '0';
             loaderWrapper.classList.add('loaded', 'loader-force-hide');
-
-            setTimeout(() => {
-                if (loaderWrapper.parentNode) {
-                    loaderWrapper.parentNode.removeChild(loaderWrapper);
-                }
-            }, 1000);
         }
 
         try {
@@ -166,10 +144,6 @@ class Application {
 
     isReady() {
         return this.app.isInitialized;
-    }
-
-    hideLoader() {
-        this.hideLoaderEmergency();
     }
 
     async destroy() {

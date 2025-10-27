@@ -14,6 +14,10 @@ export class LoaderModule {
         this.forceHideTimeout = null;
         this.cleanupTimeouts = new Set();
         this.hideTimeout = null;
+
+        // Nove varijable za waitForReady
+        this.readyPromise = null;
+        this.readyPromiseResolver = null;
     }
 
     async initialize(dependencies = {}) {
@@ -22,8 +26,8 @@ export class LoaderModule {
         this.eventBus = dependencies.eventBus || EventBus;
         this.config = dependencies.config || {};
 
-        this.minDisplayTime = this.config.minDisplayTime || 1500;
-        this.forceHideTimeoutMs = this.config.forceHideTimeout || 5000;
+        this.minDisplayTime = this.config.minDisplayTime || 2000; // POVEĆANO NA 2 SEKUNDE
+        this.forceHideTimeoutMs = this.config.forceHideTimeout || 8000; // POVEĆANO NA 8 SEKUNDI
         this.startTime = Date.now();
 
         this.cacheDOMElements();
@@ -32,7 +36,24 @@ export class LoaderModule {
         this.show();
 
         this.isInitialized = true;
+
+        // Signaliziraj da je loader spreman
+        this.readyPromiseResolver?.(true);
         this.emit('loader:ready');
+    }
+
+    // Nova metoda za čekanje spremnosti
+    waitForReady() {
+        if (this.isInitialized) {
+            return Promise.resolve(true);
+        }
+
+        if (!this.readyPromise) {
+            this.readyPromise = new Promise((resolve) => {
+                this.readyPromiseResolver = resolve;
+            });
+        }
+        return this.readyPromise;
     }
 
     cacheDOMElements() {

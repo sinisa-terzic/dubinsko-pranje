@@ -39,11 +39,11 @@ export class App {
     }
 
     async initModules() {
-        // Definiši redoslijed inicijalizacije
+        // POBOLJŠAN REDOSLJED - LOADER PRVI
         const moduleOrder = [
-            'language',    // Prvi - kritičan za ostale module
-            'navigation',  // Drugi - navigacija
-            'loader',      // Treći - loader
+            'loader',      // PRVI - loader mora biti prvi
+            'language',    // Drugi - kritičan za ostale module
+            'navigation',  // Treći - navigacija
             'gallery',     // Četvrti
             'callus',      // Peti  
             'partners',    // Šesti
@@ -64,11 +64,13 @@ export class App {
                         await moduleInstance.waitForReady();
                     }
 
+                    console.log(`✅ Module ${moduleName} fully ready`);
+
                 } catch (error) {
                     console.error(`❌ Failed to load module ${moduleName}:`, error);
 
                     // Ako je kritičan modul, baci grešku
-                    if (moduleName === 'language' || moduleName === 'navigation') {
+                    if (moduleName === 'loader' || moduleName === 'language') {
                         throw error;
                     }
                 }
