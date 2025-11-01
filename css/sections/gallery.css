@@ -376,14 +376,6 @@
    RESPOZIVNOST
    ============================================================================= */
 @media (max-width: 768px) {
-    body {
-        padding: 20px 10px;
-    }
-
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
 
     .gallery {
         gap: 15px;
