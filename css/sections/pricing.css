@@ -2,6 +2,9 @@
 ******************************************* */
 .pricings {
     gap: 5rem;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .price-list {
@@ -127,12 +130,6 @@ input:checked+.chtext {
     font-weight: 500;
 }
 
-.chtext {
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
 /* footer */
 .price-list-footer {
     text-align: center;
@@ -159,190 +156,143 @@ input:checked+.chtext {
     font-size: 1.4rem;
 }
 
-/* info pricing service */
-.info-pricings {
-    padding: 5rem 0 5rem;
-    background: #f3f4f5;
-    margin: 5rem 0 5rem;
-    position: relative;
-}
 
-.info-pricings::before {
-    background: linear-gradient(-45deg, #505050 10px, transparent 0), linear-gradient(45deg, #505050 10px, transparent 0);
-    background-position: top right;
-    background-repeat: repeat-x;
-    background-size: 12px 32px;
-    content: " ";
-    display: block;
-    position: absolute;
-    top: -15px;
-    left: 0px;
-    width: 100%;
-    height: 25px;
-}
-
-.info-pricings::after {
-    background: linear-gradient(-45deg, #ffffff 10px, transparent 0), linear-gradient(45deg, #ffffff 10px, transparent 0);
-    background-position: left bottom;
-    background-repeat: repeat-x;
-    background-size: 12px 32px;
-    content: " ";
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    height: 25px;
-}
-
-.info-pricing {
-    gap: 2rem;
-    /* font-size: 1.8rem; */
-    align-items: center;
-    line-height: 1.4;
-    position: relative;
-}
-
-.info-pricing-level {
-    padding-right: 0.5rem;
-    font-size: 3.3rem;
-    font-weight: 500;
-    color: #981b1e;
-}
-
-
-
-
-/* Modal Styles */
-.modal {
+/* Pricing Modal Styles */
+.pricing-modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 10000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
 }
 
-.modal-pricing-content {
-    font-size: 1.8rem;
+.pricing-modal-content {
     background-color: #fefefe;
-    margin: 1% auto;
-    /* padding: 20px; */
-    border: 1px solid #888;
-    width: 60%;
-    /* max-width: 600px; */
+    margin: 2% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     position: relative;
+    border: 2px solid #2c5aa0;
 }
 
-.modal-title-box {
-    background-color: #3e8de3;
-    padding: 2rem;
-    color: #fff;
-    background-image: url(../../img/footer/diag_pattern.png);
-}
-
-.modal-pricing-content h4 {
-    font-size: 2vw;
-}
-
-.full-price-items {
-    padding: 2rem 4rem;
-}
-
-.price-category {
-    margin-bottom: 3rem;
-}
-
-.priceDetalisTitle {
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-    border-bottom: 0.1rem solid #000;
-    padding-bottom: 0.7rem;
-    cursor: pointer;
-}
-
-.subitem-list img {
-    width: 0.2rem;
-    height: auto;
-}
-
-.close {
-    color: #fff;
-    /* float: right; */
-    font-size: 28px;
+.pricing-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 32px;
     font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    /* color: #aaa; */
-    font-size: 30px;
-    color: #c0d7fb;
-    text-decoration: none;
     cursor: pointer;
+    line-height: 1;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    z-index: 10001;
 }
 
-
-/* o detaljima za izabranu listu u cjenovniku */
-.details-icon {
-    /* margin-left: 10px; */
-    width: 0.9rem;
-    margin: 0 0.8rem 0 0;
-    /* transition: all 1ms ease; */
+.pricing-modal-close:hover {
+    color: #ff0000;
 }
 
-.rotate {
-    transform: rotate(90deg);
-    /* transition: all 1ms ease; */
-    margin-right: 1rem;
+#pricing-modal-title {
+    color: #2c5aa0;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+    font-size: 1.8rem;
 }
 
-.price-details {
-    color: #666;
-    border: 1px solid #ccc;
-    padding: 0.8rem;
-    background-color: #f9f9f9;
-    position: relative;
+.pricing-modal-body {
+    margin-top: 20px;
 }
 
-.item-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 1rem 0 1.2rem 0;
-    font-size: 1.9rem;
+.pricing-category {
+    margin-bottom: 2.5rem;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #2c5aa0;
 }
 
-.item-name,
-.item-value {
-    margin: 0;
+.pricing-category-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 1.2rem;
+    color: #2c5aa0;
+}
+
+.pricing-subitems {
+    list-style: none;
     padding: 0;
+    margin: 0;
+}
+
+.pricing-subitem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e8e8e8;
+    transition: background-color 0.2s;
+}
+
+.pricing-subitem:hover {
+    background-color: #f0f4f8;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 0 -10px;
+    border-radius: 4px;
+}
+
+.pricing-subitem:last-child {
+    border-bottom: none;
+}
+
+.pricing-subitem-name {
+    flex: 1;
+    font-size: 1rem;
+}
+
+.pricing-subitem-price {
+    font-weight: bold;
+    color: #2c5aa0;
+    font-size: 1.1rem;
     white-space: nowrap;
-    /* Sprečava prelamanje teksta */
 }
 
-.item-value {
-    color: #981b1e;
+.pricing-no-prices {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 40px 0;
 }
 
-.dots {
-    flex-grow: 1;
-    height: 3px;
-    margin: 0 10px;
-    background-image: url('../../img/border/dots.svg');
-    background-repeat: repeat-x;
-    background-size: 10px 2px;
-    align-self: end;
-}
+/* Responsive */
+@media (max-width: 768px) {
+    .pricing-modal-content {
+        margin: 5% auto;
+        padding: 20px;
+        width: 95%;
+    }
 
+    .pricing-subitem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
 
+    .pricing-subitem-price {
+        align-self: flex-end;
+    }
 
-.close-details-icon {
-    cursor: pointer;
-    font-size: 2rem;
-    color: #333;
-    font-weight: 600;
+    #pricing-modal-title {
+        font-size: 1.5rem;
+    }
 }

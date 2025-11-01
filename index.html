@@ -57,7 +57,6 @@
         <div class="loader-section section-right"></div>
         <div class="loader"></div>
         <div class="loader-image">
-            <!-- Ovdje možeš dodati svoju sliku -->
             <img src="img/logo/logo.svg" alt="Logo">
         </div>
     </div> <!-- end Loader -->
@@ -88,19 +87,20 @@
 
                     <!-- PADAJUĆI MENI -->
                     <div class="language flex gap-5 hidden">
-                        <a class="flagLink" href="#" data-lang-code="sr">
+                        <button class="flagLink" data-lang-code="sr">
                             <img class="flag" src="img/flag/mne.svg" alt="Srpski" width="20" height="20">
                             Crnogorski
-                        </a>
-                        <a class="flagLink" href="#" data-lang-code="en">
+                        </button>
+                        <button class="flagLink" data-lang-code="en">
                             <img class="flag" src="img/flag/eng.svg" alt="English" width="20" height="20">
                             English
-                        </a>
-                        <a class="flagLink" href="#" data-lang-code="ru">
+                        </button>
+                        <button class="flagLink" data-lang-code="ru">
                             <img class="flag" src="img/flag/rus.svg" alt="Русский" width="20" height="20">
                             Русский
-                        </a>
+                        </button>
                     </div>
+
                 </div>
             </nav>
 
@@ -200,7 +200,7 @@
 
 
     <!-- ABOUT ================================== -->
-    <section class="section-about mt-90 mb-90 grid col-40-60" id="about">
+    <section class="section-about pt-90 mb-90 grid col-40-60" id="about">
         <div class="clear-effect">
             <img class="img about-photo" width="770" height="650" src="img/about/puzi-hero+.webp"
                 alt="about alt tag description"
@@ -263,7 +263,7 @@
     </div>
 
     <!-- GALLERY ================================== -->
-    <section class="gallery-container mt-90 mb-90" id="gallerySection">
+    <section class="gallery-container pt-90 pb-90" id="gallerySection">
 
         <span class="subheading text-c" data-i18n="gallery.subheading">Galerija</span>
 
@@ -271,39 +271,22 @@
         <div id="gallery" class="gallery"></div>
 
         <!-- Modal -->
-        <div id="imageModal" class="gallery-modal">
-            <div class="modal-content">
-                <!-- Kontrole - Fiksni redosled -->
-                <div class="gallery-modal-controls">
-                    <button id="autoplayBtn" class="control-btn play" title="Pokreni autoplay"></button>
-                    <button id="zoomInBtn" class="control-btn" title="Povećaj (Ctrl +)"></button>
-                    <button id="zoomOutBtn" class="control-btn" title="Smanji (Ctrl -)"></button>
-                    <button id="zoomResetBtn" class="control-btn" title="Resetiraj zoom (Ctrl 0)"></button>
-                </div>
-
+        <div id="gallery-modal" class="gallery-modal">
+            <div class="gallery-modal-content">
                 <!-- Navigacijske strelice -->
-                <button id="prevBtn" class="nav-btn" title="Prethodna slika"></button>
-
-                <!-- Slika -->
-                <div id="modalImageContainer">
-                    <img id="modalImage" src="" alt="">
-                </div>
-
-                <button id="nextBtn" class="nav-btn" title="Sljedeća slika"></button>
+                <button id="gallery-prev-btn" class="gallery-nav-btn" title="Prethodna slika">‹</button>
+                <button id="gallery-next-btn" class="gallery-nav-btn" title="Sljedeća slika">›</button>
 
                 <!-- Zatvaranje -->
-                <span id="closeBtn" class="gallery-close" title="Zatvori"></span>
+                <span id="gallery-close-btn" class="gallery-close" title="Zatvori">×</span>
 
-                <!-- Zoom level -->
-                <div id="zoomLevel" class="zoom-level">100%</div>
+                <!-- Slika kontejner -->
+                <div id="gallery-modal-image-container" class="gallery-modal-image-container">
+                    <img id="gallery-modal-image" src="" alt="" class="gallery-modal-image">
+                </div>
 
                 <!-- Indikatori -->
-                <div id="imageIndicators" class="image-indicators"></div>
-
-                <!-- Progress bar -->
-                <div class="autoplay-progress">
-                    <div id="autoplayProgressBar" class="autoplay-progress-bar"></div>
-                </div>
+                <div id="gallery-image-indicators" class="gallery-image-indicators"></div>
             </div>
         </div>
 
@@ -344,7 +327,7 @@
     </div>
 
     <!-- SEVICES ================================== -->
-    <section class="mt-90 mb-90 section-services" id="services">
+    <section class="pt-90 mb-90 section-services" id="services">
 
         <div class="container">
             <span class="subheading" data-i18n="services.subheading">usluge dubinskog pranja</span>
@@ -792,7 +775,7 @@
 
 
     <!-- PRICING ================================== -->
-    <section class="section-pricing mt-90" id="pricing">
+    <section class="section-pricing pt-90" id="pricing">
 
         <div id="pricing-title" class="container text-c">
             <span class="subheading" data-i18n="pricing.subheading">Cjenovnik</span>
@@ -849,8 +832,7 @@
                     <h3 class="price-list-title h3-sm" data-i18n="pricing.plans.vehicles.title">vozila i plovila</h3>
                     <output id="total-2" class="price-list-sum"><span class="euro">€</span><span>100.00</span> </output>
                     <p class="price-list-text" data-i18n="pricing.selectService">Izaberite servis</p>
-                    <p class="level"><span data-i18n="pricing.dryingText"></span> ~
-                        24<sup>h</sup></p>
+                    <!-- <p class="level"><span data-i18n="pricing.dryingText">sušenje</span> ~ 24<sup>h</sup></p> -->
                 </header>
                 <ul id="checkboxes-2" class="checkboxes p">
                     <li>
@@ -896,7 +878,7 @@
                 <ul id="checkboxes-3" class="checkboxes p">
                     <li>
                         <label for="exterior" class="label-pricing flex align-center">
-                            <input type="radio" id="exterior" name="service" value="0.00">
+                            <input type="radio" id="exterior" name="service" value="0.00" disabled>
                             <span class="chtext" data-i18n="pricing.plans.hotels.items.exterior.label">Spoljašnost
                                 Hotela i Jahti</span>
                             <span class="checkmark"></span>
@@ -904,7 +886,7 @@
                     </li>
                     <li>
                         <label for="yachtInterior" class="label-pricing flex align-center">
-                            <input type="radio" id="yachtInterior" name="service" value="1.00">
+                            <input type="radio" id="yachtInterior" name="service" value="1.00" disabled>
                             <span class="chtext" data-i18n="pricing.plans.hotels.items.yachtInterior.label">Unutrašnjost
                                 Jahti</span>
                             <span class="checkmark"></span>
@@ -912,7 +894,7 @@
                     </li>
                     <li>
                         <label for="rooms" class="label-pricing flex align-center">
-                            <input type="radio" id="rooms" name="service" value="2.00">
+                            <input type="radio" id="rooms" name="service" value="2.00" disabled>
                             <span class="chtext" data-i18n="pricing.plans.hotels.items.rooms.label">Sobe / Saloni /
                                 Terase</span>
                             <span class="checkmark"></span>
@@ -927,33 +909,12 @@
             </div>
         </div> <!-- end grid col-3 -->
 
-
-        <!-- pop-up za cijene -->
-        <div id="priceModal" class="modal noneDisplay">
-            <div class="modal-pricing-content">
-
-                <div class="modal-title-box flex justify-between">
-                    <h4 id="modal-title"></h4>
-                    <span class="close">&times;</span>
-                </div>
-
-                <div id="modal-price-items" class="full-price-items">
-                    <div class="modal-price-list">
-
-                        <div id="modal-price-list-items">
-                            <!-- Ovo će biti dinamički popunjeno -->
-                        </div>
-
-                        <!-- <div class="contact-info">
-                            <p data-i18n="pricing.modal.contactPrompt">Kontaktirajte nas za preciznu procjenu i dogovor.
-                            </p>
-
-                            <p><span data-i18n="pricing.modal.phoneText">Pozovite nas:</span>
-                                <a href="tel:+38268069211">+382 68 069 211</a>
-                            </p>
-                        </div> -->
-                    </div>
-                </div>
+        <!-- Modalni prozor za cjenovnik -->
+        <div id="pricing-modal" class="pricing-modal">
+            <div class="pricing-modal-content">
+                <span class="pricing-modal-close">&times;</span>
+                <h3 id="pricing-modal-title" data-i18n="pricing.plans.deepCleaning.modalTitle">Cjenovnik</h3>
+                <div id="pricing-modal-content" class="pricing-modal-body"></div>
             </div>
         </div>
 
@@ -962,32 +923,60 @@
 
     <!-- OUR PARTNERS ================================== -->
     <section class="section-partners" id="partners">
+
+        <div class="info-pricings"></div>
+
         <div class="container text-c">
-            <h2 class="h2" data-i18n="partners.title">Naši partneri</h2>
+            <h2 class="h2-partners" data-i18n="partners.title">Our Business Partners</h2>
+            <p class="partners-description">Ponosni smo što sarađujemo sa organizacijama koje doprinose zajedničkom
+                uspehu.
+            </p>
         </div>
 
-        <div class="partners-container">
-            <div class="marquee">
-                <div class="marquee-inner">
-                    <img src="img/partners/una.png" alt="Una Montenegro D.O.O">
-                    <img src="img/partners/opstina_kotor.png" alt="Opština Kotor">
-                    <img src="img/partners/forza.png" alt="Forza Hotels Kotor">
-                    <img src="img/partners/luka_kotor.png" alt="Luka Kotor A.D">
-                    <img src="img/partners/casa.jpg" alt="Casa Montenego Collection">
+        <div class="marquee-wrapper">
 
-                    <img src="img/partners/una.png" alt="Una Montenegro D.O.O">
-                    <img src="img/partners/opstina_kotor.png" alt="Opština Kotor">
-                    <img src="img/partners/forza.png" alt="Forza Hotels Kotor">
-                    <img src="img/partners/luka_kotor.png" alt="Luka Kotor A.D">
-                    <img src="img/partners/casa.jpg" alt="Casa Montenego Collection">
-                </div>
+            <div class="marquee-inner">
+                <!-- Partner logos with descriptive alt text -->
+                <img class="ratio" src="img/partners/una.png" alt="UNA Company Logo" loading="lazy" width="120"
+                    height="80">
+
+                <img class="ratio" src="img/partners/forza.png" alt="Forza Corporation Logo" loading="lazy" width="120"
+                    height="80">
+
+                <img class="ratio" src="img/partners/luka_kotor.png" alt="Luka Kotor Port Authority Logo" loading="lazy"
+                    width="120" height="80">
+
+                <img class="ratio" src="img/partners/casa.jpg" alt="CASA Enterprises Logo" loading="lazy" width="120"
+                    height="80">
+
+                <img class="ratio" src="img/partners/opstina_kotor.png" alt="Opština Kotor Municipality Logo"
+                    loading="lazy" width="120" height="80">
+
+                <!-- Duplicated for seamless loop -->
+                <img class="ratio" src="img/partners/una.png" alt="UNA Company Logo" loading="lazy" width="120"
+                    height="80">
+
+                <img class="ratio" src="img/partners/forza.png" alt="Forza Corporation Logo" loading="lazy" width="120"
+                    height="80">
+
+                <img class="ratio" src="img/partners/luka_kotor.png" alt="Luka Kotor Port Authority Logo" loading="lazy"
+                    width="120" height="80">
+
+                <img class="ratio" src="img/partners/casa.jpg" alt="CASA Enterprises Logo" loading="lazy" width="120"
+                    height="80">
+
+                <img class="ratio" src="img/partners/opstina_kotor.png" alt="Opština Kotor Municipality Logo"
+                    loading="lazy" width="120" height="80">
             </div>
         </div>
+
+        <p class="cta p text-c">Postanite i vi dio naše zajednice!</p>
+
     </section> <!-- END OUR PARTNERS -->
 
 
     <!-- CONTACT ================================== -->
-    <section class="section-contact" id="contact">
+    <section class=" section-contact pt-90" id="contact">
 
         <header class="header-maps">
             <h2 class="h2" data-i18n="contact.title">Contact us</h2>
@@ -1149,7 +1138,12 @@
     </div> <!-- END PROZOR CALL US -->
 
 
-    <script type="module" src="js/main.js"></script>
+    <!-- <script src="js/script.js"></script>
+    <script src="js/pricing.js"></script>
+    <script src="js/partners.js"></script> -->
+
+    <script src="js/main.js"></script>
+    <script src="js/gallery.js"></script>
 
 </body>
 

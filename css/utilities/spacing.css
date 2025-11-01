@@ -170,6 +170,10 @@
     margin-bottom: var(--space-10);
 }
 
+.mb-40 {
+    margin-bottom: var(--space-40);
+}
+
 .mb-90 {
     margin-bottom: var(--space-90);
 }

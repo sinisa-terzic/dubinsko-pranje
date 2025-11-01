@@ -1,376 +1,460 @@
-import { App } from './core/app.js';
-import { APP_CONFIG, PERFORMANCE_CONFIG } from './config/index.js';
+document.addEventListener('DOMContentLoaded', function () {
+    // ==================== GLOBAL VARIABLES ====================
+    const body = document.body;
+    const headerEl = document.querySelector(".header");
+    const btnNavEl = document.querySelector(".btn-mobile-nav");
+    const languageImg = document.querySelector("#languageImg");
+    const language = document.querySelector(".language");
+    const phoneNumber = document.querySelector(".phone-number");
+    const callOptions = document.querySelector(".call-options");
+    const callUsImg = document.querySelector('.callUs');
+    const callUsClose = document.querySelector('.callUs-close');
+    const callUsIcon = document.querySelector('.open-callUs');
+    const logo1 = document.querySelector(".logo");
+    const logo2 = document.querySelector(".logo-sm");
 
-console.log(`🎯 ${APP_CONFIG.name} v${APP_CONFIG.version} starting...`);
+    const languageData = {
+        'sr': { flag: 'img/flag/mne+.svg', name: 'Crnogorski' },
+        'en': { flag: 'img/flag/eng+.svg', name: 'English' },
+        'ru': { flag: 'img/flag/rus+.svg', name: 'Русский' }
+    };
 
-class Application {
-    constructor() {
-        this.app = new App();
-        this.init();
+    let currentLanguage = 'sr';
+    let scrollTimeout;
+
+    // ==================== UTILITY FUNCTIONS ====================
+    function getNestedValue(obj, path) {
+        return path.split('.').reduce((current, key) => current?.[key], obj);
     }
 
-    async init() {
-        try {
-            document.documentElement.classList.add('app-loading');
+    function getTranslation(key) {
+        if (window.currentTranslations) {
+            return getNestedValue(window.currentTranslations, key);
+        }
+        const element = document.querySelector(`[data-i18n="${key}"]`);
+        return element ? element.textContent : null;
+    }
 
-            const perfStart = performance.now();
+    // ==================== UI MANAGEMENT ====================
+    function closeAllOpenElements() {
+        language.classList.add('hidden');
+        callOptions.classList.add('hidden');
+        callUsImg.classList.remove("callUs-is-open");
+        callUsIcon.classList.remove("open-callUs-remove");
+    }
 
-            // Pokreni aplikaciju
-            await this.app.init();
+    function resetAllElements() {
+        language.classList.add('hidden');
+        callOptions.classList.add('hidden');
+        callUsImg.classList.remove("callUs-is-open");
+        callUsIcon.classList.remove("open-callUs-remove");
+    }
 
-            const perfEnd = performance.now();
+    function checkStickyNavigation() {
+        const heroRect = document.querySelector(".hero-text-box").getBoundingClientRect();
 
-            console.log(`⚡ App initialized in ${(perfEnd - perfStart).toFixed(2)}ms`);
-
-            // Sačekaj dodatno da se sve potpuno učita
-            await this.waitForCompleteLoad();
-
-            // Sada pokreni aplikaciju
-            this.app.start();
-
-            // Ažuriraj UI stanje
-            document.documentElement.classList.remove('app-loading');
-            document.documentElement.classList.add('app-ready');
-
-            console.log(`🚀 ${APP_CONFIG.name} v${APP_CONFIG.version} started successfully!`);
-
-            this.setupGlobalNavigation();
-
-            // Emituj globalni event
-            window.dispatchEvent(new CustomEvent('perfectshine:ready', {
-                detail: {
-                    app: this.app,
-                    config: APP_CONFIG,
-                    performance: {
-                        initTime: perfEnd - perfStart,
-                        timestamp: Date.now()
-                    }
-                }
-            }));
-
-        } catch (error) {
-            console.error('Failed to start application:', error);
-            document.documentElement.classList.remove('app-loading');
-            document.documentElement.classList.add('app-error');
-            this.hideLoaderEmergency();
-
-            window.dispatchEvent(new CustomEvent('perfectshine:error', {
-                detail: {
-                    error: error,
-                    timestamp: Date.now()
-                }
-            }));
+        if (heroRect.bottom < 200) {
+            body.classList.add("sticky");
+            logo1.classList.add("hidden");
+            logo2.classList.remove("hidden");
+        } else {
+            body.classList.remove("sticky");
+            logo1.classList.remove("hidden");
+            logo2.classList.add("hidden");
         }
     }
 
-    async waitForCompleteLoad() {
-        // Sačekaj da se svi kritični moduli potpuno inicijalizuju
-        const criticalModules = ['language', 'navigation', 'loader'];
-
-        for (const moduleName of criticalModules) {
-            const module = this.app.getModule(moduleName);
-            if (module && typeof module.waitForReady === 'function') {
-                await module.waitForReady();
-                console.log(`✅ ${moduleName} module fully ready`);
+    // ==================== EVENT HANDLERS ====================
+    function setupEventListeners() {
+        // Scroll handling
+        window.addEventListener('scroll', function () {
+            closeAllOpenElements();
+            if (!scrollTimeout) {
+                scrollTimeout = setTimeout(function () {
+                    scrollTimeout = null;
+                    checkStickyNavigation();
+                }, 10);
             }
+        });
+
+        // Mobile navigation
+        btnNavEl?.addEventListener("click", function () {
+            headerEl.classList.toggle("nav-open");
+        });
+
+        // Close mobile navigation on link click
+        const allLinks = document.querySelectorAll("a:link");
+        allLinks.forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                if (link.classList.contains("main-nav-link")) {
+                    headerEl.classList.toggle("nav-open");
+                }
+            });
+        });
+
+        // Language toggle
+        languageImg?.addEventListener("click", function (e) {
+            e.stopPropagation();
+            language.classList.toggle("hidden");
+            callOptions.classList.add('hidden');
+            callUsImg.classList.remove("callUs-is-open");
+            callUsIcon.classList.remove("open-callUs-remove");
+        });
+
+        // Call options toggle  
+        phoneNumber?.addEventListener("click", function (e) {
+            e.stopPropagation();
+            callOptions.classList.toggle("hidden");
+            language.classList.add('hidden');
+            callUsImg.classList.remove("callUs-is-open");
+            callUsIcon.classList.remove("open-callUs-remove");
+        });
+
+        // Call Us dialog
+        callUsIcon?.addEventListener('click', function (e) {
+            e.stopPropagation();
+            callUsImg.classList.add("callUs-is-open");
+            this.classList.add("open-callUs-remove");
+            language.classList.add('hidden');
+            callOptions.classList.add('hidden');
+        });
+
+        callUsClose?.addEventListener('click', resetAllElements);
+        document.addEventListener('click', resetAllElements);
+
+        // Prevent closing when clicking inside elements
+        [language, callOptions, callUsImg].forEach(element => {
+            element?.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        });
+    }
+
+    // ==================== INTERNATIONALIZATION ====================
+    async function loadTranslations(lang) {
+        try {
+            const response = await fetch(`lang/${lang}.json`);
+            if (!response.ok) throw new Error('Network response was not ok');
+            return await response.json();
+        } catch (error) {
+            console.error('Error loading translations:', error);
+            if (lang !== 'sr') {
+                return loadTranslations('sr');
+            }
+            return {};
+        }
+    }
+
+    function applyTranslations(translations) {
+        // Text translations
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+            const key = element.getAttribute('data-i18n');
+            const value = getNestedValue(translations, key);
+            if (value) element.textContent = value;
+        });
+
+        // HTML translations
+        document.querySelectorAll('[data-i18n-html]').forEach(element => {
+            const key = element.getAttribute('data-i18n-html');
+            const value = getNestedValue(translations, key);
+            if (value) element.innerHTML = value;
+        });
+
+        // Update meta tags
+        document.documentElement.lang = currentLanguage;
+
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription && translations.pageDescription) {
+            metaDescription.content = translations.pageDescription;
         }
 
-        // Dodatno čekanje za stabilnost
-        await new Promise(resolve => setTimeout(resolve, 500));
+        const pageTitle = document.querySelector('title');
+        if (pageTitle && translations.pageTitle) {
+            pageTitle.textContent = translations.pageTitle;
+        }
 
-        // Provjeri je li loader spreman
-        const loaderModule = this.app.getModule('loader');
-        if (loaderModule && !loaderModule.isHidden) {
-            console.log('⏳ Waiting for loader to be ready...');
-            await new Promise(resolve => {
-                const checkLoader = () => {
-                    if (loaderModule.isHidden !== undefined) {
-                        resolve();
-                    } else {
-                        setTimeout(checkLoader, 100);
+        const metaKeywords = document.querySelector('meta[name="keywords"]');
+        if (metaKeywords && translations.pageKeywords) {
+            metaKeywords.content = translations.pageKeywords;
+        }
+    }
+
+    function updateLanguageDisplay(lang) {
+        const languageImg = document.querySelector('#languageImg img');
+        const languageDropdown = document.querySelector('.language');
+
+        // Update main button
+        if (languageImg) {
+            languageImg.src = languageData[lang].flag;
+            languageImg.alt = languageData[lang].name;
+        }
+
+        // Update dropdown menu
+        const availableLanguages = Object.keys(languageData).filter(l => l !== lang);
+        const flagLinks = languageDropdown.querySelectorAll('.flagLink');
+
+        flagLinks.forEach(link => link.style.display = 'none');
+
+        availableLanguages.forEach((langCode, index) => {
+            if (flagLinks[index]) {
+                flagLinks[index].style.display = 'flex';
+                flagLinks[index].setAttribute('data-lang-code', langCode);
+                flagLinks[index].querySelector('.flag').src = languageData[langCode].flag.replace('+', '');
+                flagLinks[index].querySelector('.flag').alt = languageData[langCode].name;
+
+                const textNode = flagLinks[index].childNodes[2];
+                if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+                    textNode.textContent = ' ' + languageData[langCode].name;
+                } else {
+                    flagLinks[index].appendChild(document.createTextNode(' ' + languageData[langCode].name));
+                }
+            }
+        });
+    }
+
+    async function changeLanguage(lang) {
+        if (lang === currentLanguage) return;
+
+        await loadAndApplyLanguage(lang);
+        document.querySelector('.language').classList.add('hidden');
+        headerEl.classList.remove("nav-open");
+    }
+
+    // ==================== PRICING SYSTEM ====================
+    function setupPricing() {
+        const priceSections = [
+            { id: 1 },
+            { id: 2 },
+            { id: 3 }
+        ];
+
+        priceSections.forEach(section => {
+            const radios = document.querySelectorAll(`#checkboxes-${section.id} input[type="radio"]`);
+            const output = document.getElementById(`total-${section.id}`);
+
+            radios.forEach(radio => {
+                radio.addEventListener('change', function () {
+                    if (this.checked) {
+                        updatePriceDisplay(output, this.value, section.id);
                     }
-                };
-                checkLoader();
+                });
+            });
+
+            const checked = document.querySelector(`#checkboxes-${section.id} input[type="radio"]:checked`);
+            if (checked) {
+                updatePriceDisplay(output, checked.value, section.id);
+            }
+        });
+    }
+
+    function updatePriceDisplay(output, value, sectionId) {
+        let html = `<span class="euro">€</span><span>${value}</span>`;
+
+        if (sectionId === 2 && value === '100.00') {
+            const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
+            html += ` <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>`;
+        }
+
+        output.innerHTML = html;
+    }
+
+    function setupPricingModals() {
+        const modal = document.getElementById('pricing-modal');
+        const closeBtn = modal?.querySelector('.pricing-modal-close');
+
+        document.querySelectorAll('[id^="showFullPrice-"]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const planId = this.id.split('-')[1];
+                showPricingModal(planId);
+            });
+        });
+
+        closeBtn?.addEventListener('click', function () {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+
+        modal?.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && modal.style.display === 'block') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+
+    function showPricingModal(planId) {
+        const modal = document.getElementById('pricing-modal');
+        const modalTitle = document.getElementById('pricing-modal-title');
+        const modalContent = document.getElementById('pricing-modal-content');
+        document.body.style.overflow = 'hidden';
+
+        const planData = {
+            '1': { titleKey: 'pricing.plans.deepCleaning.modalTitle', pricesKey: 'deep_cleaning' },
+            '2': { titleKey: 'pricing.plans.vehicles.modalTitle', pricesKey: 'vehicles_and_vessels' },
+            '3': { titleKey: 'pricing.plans.hotels.modalTitle', pricesKey: 'hotels_and_yachts' }
+        };
+
+        const currentPlan = planData[planId];
+        if (!currentPlan) return;
+
+        const title = getTranslation(currentPlan.titleKey);
+        modalTitle.textContent = title || 'Cjenovnik';
+        modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
+        modal.style.display = 'block';
+    }
+
+    function generatePricingContent(pricesKey) {
+        const prices = getTranslation(`pricing.modal.prices.${pricesKey}`);
+
+        if (!prices || !Array.isArray(prices) || prices.length === 0) {
+            return '<p class="pricing-no-prices">Nema dostupnih cijena</p>';
+        }
+
+        let html = '';
+
+        prices.forEach(category => {
+            html += `
+            <div class="pricing-category">
+                <h4 class="pricing-category-title">${category.name}</h4>
+                <ul class="pricing-subitems">
+        `;
+
+            if (category.subitems && Array.isArray(category.subitems)) {
+                category.subitems.forEach(item => {
+                    html += `
+                    <li class="pricing-subitem">
+                        <span class="pricing-subitem-name">${item.name}</span>
+                        <span class="pricing-subitem-price">${item.value}</span>
+                    </li>
+                `;
+                });
+            }
+
+            html += `
+                </ul>
+            </div>
+        `;
+        });
+
+        return html;
+    }
+
+    // ==================== PARTNERS MARQUEE ====================
+    function setupPartnersMarquee() {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const container = document.querySelector(".marquee-inner");
+
+        if (!container) return;
+
+        if (prefersReducedMotion) {
+            container.style.transform = "none";
+            container.style.flexWrap = "wrap";
+            container.style.justifyContent = "center";
+            container.style.gap = "2rem";
+            container.style.padding = "2rem";
+
+            const images = container.querySelectorAll('.ratio');
+            const totalImages = images.length;
+            for (let i = totalImages / 2; i < totalImages; i++) {
+                images[i]?.remove();
+            }
+            return;
+        }
+
+        const clones = container.cloneNode(true);
+        container.appendChild(clones);
+
+        let scrollAmount = 0;
+        let isPaused = false;
+        let animationFrameId;
+
+        function marqueeScroll() {
+            if (!isPaused) {
+                scrollAmount += 1;
+                container.style.transform = `translateX(-${scrollAmount}px)`;
+
+                if (scrollAmount >= container.scrollWidth / 2) {
+                    scrollAmount = 0;
+                }
+            }
+            animationFrameId = requestAnimationFrame(marqueeScroll);
+        }
+
+        marqueeScroll();
+
+        const wrapper = document.querySelector(".marquee-wrapper");
+        if (wrapper) {
+            wrapper.addEventListener("mouseenter", () => isPaused = true);
+            wrapper.addEventListener("mouseleave", () => isPaused = false);
+
+            const logos = wrapper.querySelectorAll('.ratio');
+            logos.forEach(logo => {
+                logo.addEventListener('focus', () => isPaused = true);
+                logo.addEventListener('blur', () => isPaused = false);
             });
         }
-    }
 
-    setupGlobalNavigation() {
-        // Globalna navigacijska pomoc
-        window.addEventListener('hashchange', (e) => {
-            const newHash = window.location.hash.substring(1);
-            const navigationModule = this.app.getModule('navigation');
-
-            if (navigationModule && newHash && newHash !== navigationModule.getCurrentSection()) {
-                console.log(`🌐 Global hash change handled: ${newHash}`);
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                animationFrameId = requestAnimationFrame(marqueeScroll);
             }
         });
-
-        // Fallback za direktne hash linkove
-        setTimeout(() => {
-            const initialHash = window.location.hash.substring(1);
-            if (initialHash) {
-                const navigationModule = this.app.getModule('navigation');
-                if (navigationModule && navigationModule.getCurrentSection() !== initialHash) {
-                    console.log(`🎯 Applying initial hash: ${initialHash}`);
-                    navigationModule.goToSection(initialHash);
-                }
-            }
-        }, 1000);
     }
 
-    hideLoaderEmergency() {
-        const loaderWrapper = document.getElementById('loaderWrapper');
-        if (loaderWrapper) {
-            loaderWrapper.style.display = 'none';
-            loaderWrapper.style.visibility = 'hidden';
-            loaderWrapper.style.opacity = '0';
-            loaderWrapper.classList.add('loaded', 'loader-force-hide');
+    // ==================== MAIN INITIALIZATION ====================
+    async function loadAndApplyLanguage(lang) {
+        currentLanguage = lang;
+        const translations = await loadTranslations(lang);
+
+        window.currentTranslations = translations;
+        applyTranslations(translations);
+        updateLanguageDisplay(lang);
+
+        // Initialize modules after translations
+        setupPricing();
+        setupPricingModals();
+        setupPartnersMarquee();
+
+        localStorage.setItem('preferredLanguage', lang);
+    }
+
+    async function initializeApp() {
+        const savedLanguage = localStorage.getItem('preferredLanguage') || 'sr';
+
+        updateLanguageDisplay(savedLanguage);
+        await loadAndApplyLanguage(savedLanguage);
+        checkStickyNavigation();
+    }
+
+    // ==================== START APPLICATION ====================
+    setupEventListeners();
+
+    // Set current year
+    document.querySelector(".year").textContent = new Date().getFullYear();
+
+    // Language dropdown event
+    document.querySelector('.language').addEventListener('click', function (e) {
+        e.stopPropagation();
+        const flagLink = e.target.closest('.flagLink');
+        if (flagLink) {
+            const langCode = flagLink.getAttribute('data-lang-code');
+            changeLanguage(langCode);
         }
+    });
 
-        try {
-            const loaderModule = this.app.getModule('loader');
-            if (loaderModule && typeof loaderModule.forceHide === 'function') {
-                loaderModule.forceHide();
-            }
-        } catch (e) {
-            // Ignore module errors
-        }
-    }
+    // Initialize when page loads
+    window.addEventListener('load', function () {
+        body.classList.add("loaded");
+    });
 
-    getApp() {
-        return this.app;
-    }
-
-    isReady() {
-        return this.app.isInitialized;
-    }
-
-    async destroy() {
-        await this.app.destroy();
-        document.documentElement.classList.remove('app-ready', 'app-error');
-    }
-}
-
-const initializeYear = () => {
-    try {
-        const yearElements = document.querySelectorAll('.year');
-        const currentYear = new Date().getFullYear();
-
-        yearElements.forEach(element => {
-            if (element.textContent !== String(currentYear)) {
-                element.textContent = currentYear;
-                element.setAttribute('title', `Current year: ${currentYear}`);
-                element.setAttribute('aria-live', 'polite');
-            }
-        });
-
-        return currentYear;
-
-    } catch (error) {
-        console.warn('⚠️ Could not initialize year:', error);
-        return null;
-    }
-};
-
-const initApp = () => {
-    window.perfectShineApp = new Application();
-
-    const isDevelopment = window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1' ||
-        window.location.protocol === 'file:' ||
-        window.location.search.includes('debug=true');
-
-    if (isDevelopment) {
-        window.app = window.perfectShineApp.getApp();
-    }
-
-    initializeYear();
-};
-
-// Globalni error handleri
-window.addEventListener('error', (event) => {
-    console.error('Global error:', event.error);
-    window.perfectShineApp?.hideLoaderEmergency();
+    initializeApp();
 });
-
-window.addEventListener('unhandledrejection', (event) => {
-    // Filtriranje nebitnih grešaka
-    const message = event.reason?.message || '';
-
-    if (message.includes('asynchronous response') &&
-        message.includes('message channel closed')) {
-        event.preventDefault();
-        return;
-    }
-
-    console.error('Unhandled promise rejection:', event.reason);
-    window.perfectShineApp?.hideLoaderEmergency();
-});
-
-// Kontinuirani monitoring loadera
-const startLoaderMonitor = () => {
-    let checkCount = 0;
-    const maxChecks = 20; // 10 sekundi
-
-    const checkInterval = setInterval(() => {
-        const loaderWrapper = document.getElementById('loaderWrapper');
-        const isAppReady = document.documentElement.classList.contains('app-ready');
-
-        if (isAppReady && loaderWrapper &&
-            loaderWrapper.style.display !== 'none' &&
-            !loaderWrapper.classList.contains('loaded')) {
-
-            console.log('🔍 Loader monitor: Hiding stuck loader');
-            loaderWrapper.style.display = 'none';
-        }
-
-        checkCount++;
-        if (checkCount >= maxChecks) {
-            clearInterval(checkInterval);
-        }
-    }, 500);
-};
-
-// Pokreni monitor nakon što se DOM učita
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startLoaderMonitor);
-} else {
-    startLoaderMonitor();
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
-} else {
-    initApp();
-}
-
-window.PerfectShine = {
-    getApp: () => window.perfectShineApp?.getApp(),
-    isReady: () => window.perfectShineApp?.isReady(),
-    reload: () => window.location.reload(),
-
-    hideLoader: () => {
-        const app = window.perfectShineApp?.getApp();
-        if (app?.getModule('loader')) {
-            app.getModule('loader').hide();
-        } else {
-            window.perfectShineApp?.hideLoaderEmergency();
-        }
-    },
-
-    showLoader: () => {
-        const app = window.perfectShineApp?.getApp();
-        const loaderModule = app?.getModule('loader');
-        if (loaderModule) {
-            loaderModule.show();
-        }
-    },
-
-    navigateTo: (sectionId) => {
-        const app = window.perfectShineApp?.getApp();
-        const navigationModule = app?.getModule('navigation');
-        if (navigationModule) {
-            navigationModule.goToSection(sectionId);
-        } else {
-            const element = document.getElementById(sectionId);
-            element?.scrollIntoView({ behavior: 'smooth' });
-        }
-    },
-
-    openGallery: (imageIndex = 0) => {
-        const app = window.perfectShineApp?.getApp();
-        app?.getModule('gallery')?.open(imageIndex);
-    },
-
-    openPricing: (planType = 'deepCleaning') => {
-        const app = window.perfectShineApp?.getApp();
-        app?.getModule('pricing')?.showFullPrice(planType);
-    },
-
-    openCallUs: () => {
-        const app = window.perfectShineApp?.getApp();
-        app?.getModule('callus')?.openCallUs();
-    },
-
-    changeLanguage: (langCode) => {
-        const app = window.perfectShineApp?.getApp();
-        app?.getModule('language')?.changeLanguage(langCode);
-    },
-
-    getCurrentLanguage: () => {
-        const app = window.perfectShineApp?.getApp();
-        return app?.getModule('language')?.getCurrentLanguage() || 'sr';
-    },
-
-    getCurrentYear: () => {
-        const yearElement = document.querySelector('.year');
-        return yearElement ? yearElement.textContent : new Date().getFullYear();
-    },
-
-    refreshYear: () => initializeYear(),
-
-    getModuleState: (moduleName) => {
-        const app = window.perfectShineApp?.getApp();
-        const module = app?.getModule(moduleName);
-        return module ? {
-            initialized: module.isInitialized,
-            exists: true,
-            state: typeof module.getState === 'function' ? module.getState() : 'no_state_method'
-        } : { initialized: false, exists: false };
-    },
-
-    debug: () => {
-        const app = window.perfectShineApp?.getApp();
-        if (!app) return { status: 'not_initialized' };
-
-        const modules = {};
-        if (app.modules) {
-            for (const [name, module] of app.modules) {
-                modules[name] = {
-                    initialized: module.isInitialized,
-                    state: typeof module.getState === 'function' ? module.getState() : 'no_state_method'
-                };
-            }
-        }
-
-        return {
-            status: app.isInitialized ? 'ready' : 'initializing',
-            version: APP_CONFIG.version,
-            environment: APP_CONFIG.environment,
-            modules: modules,
-            performance: app.getPerformanceMetrics?.(),
-            currentYear: window.PerfectShine.getCurrentYear(),
-            timestamp: Date.now()
-        };
-    },
-
-    emergency: {
-        removeLoader: () => {
-            const loaderWrapper = document.getElementById('loaderWrapper');
-            if (loaderWrapper?.parentNode) {
-                loaderWrapper.parentNode.removeChild(loaderWrapper);
-            }
-        },
-
-        showApp: () => {
-            document.documentElement.classList.add('app-ready');
-            document.documentElement.classList.remove('app-loading', 'app-error');
-
-            const loaderWrapper = document.getElementById('loaderWrapper');
-            if (loaderWrapper) {
-                loaderWrapper.style.display = 'none';
-            }
-        },
-
-        reset: () => {
-            document.documentElement.className = '';
-            const loaderWrapper = document.getElementById('loaderWrapper');
-            if (loaderWrapper) {
-                loaderWrapper.style.display = 'none';
-            }
-        }
-    }
-};
-
-export default Application;

@@ -1,18 +1,7 @@
-/* =============================================================================
-   MODERN GALLERY - KOMPLETAN CSS
-   
-   Ova stylesheet implementira:
-   - Responzivni grid sistem galerije
-   - Rotirajuće slike za prikaz viška slika
-   - Modal pregled s naprednim kontrolama
-   - Glass morphism efekte za dugmiće
-   - SVG ikonice za sve akcije
-   - Touch-friendly dizajn za mobilne uređaje
-   ============================================================================= */
-
-/*.gallery-container {
-    margin: 0 auto; 
-}*/
+.gallery-container {
+    margin: 0 auto;
+    /* max-width: 1200px; */
+}
 
 /* =============================================================================
    GALERIJA - GRID SISTEM
@@ -25,7 +14,7 @@
 .gallery-item {
     overflow: hidden;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
     background: white;
     aspect-ratio: 4/3;
@@ -42,7 +31,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* =============================================================================
@@ -99,7 +88,7 @@
         bottom: 0;
         background: rgba(0, 0, 0, 0.4);
         opacity: 0;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         z-index: 1;
         pointer-events: none;
         border-radius: 8px;
@@ -124,7 +113,7 @@
         background-position: center;
         background-size: contain;
         opacity: 0;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         z-index: 2;
         pointer-events: none;
         filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
@@ -156,7 +145,7 @@
 }
 
 /* =============================================================================
-   MODALNI PROZOR
+   MODALNI PROZOR - TRANSITION ZA OTVARANJE I ZATVARANJE
    ============================================================================= */
 .gallery-modal {
     display: none;
@@ -166,120 +155,136 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    animation: fadeIn 0.4s ease-out;
+    background-color: rgba(0, 0, 0, 0.95);
+    opacity: 0;
+    transition: opacity 0.10s ease-out;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+.gallery-modal.active {
+    opacity: 1;
 }
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-.modal-content {
+.gallery-modal-content {
     position: relative;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: scale(0.95);
+    transition: transform 0.15s ease-out;
 }
 
-#modalImageContainer {
+.gallery-modal.active .gallery-modal-content {
+    transform: scale(1);
+}
+
+/* Kontejner za sliku */
+.gallery-modal-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
-    padding: 20px;
-    overflow: hidden;
-    position: relative;
+    padding: 40px;
+    transition: all 0.3s ease;
 }
 
-#modalImage {
+/* Glavna slika */
+.gallery-modal-image {
     max-width: 90%;
-    max-height: 80vh;
+    max-height: 90vh;
+    object-fit: contain;
     border-radius: 12px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    animation: slideIn 0.4s ease-out;
+    transition: transform 0.4s ease, opacity 0.4s ease;
     cursor: grab;
-    user-select: none;
-    object-fit: contain;
-    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        opacity 0.15s ease-in-out;
-    transform-origin: center center;
-    will-change: transform;
 }
 
-@keyframes slideIn {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-#modalImage.transitioning {
-    opacity: 0;
-}
-
-/* Zoom stanje - POBOLJŠANO */
-#modalImageContainer.zoomed {
-    cursor: grab;
-    overflow: visible;
-}
-
-#modalImageContainer.zoomed #modalImage {
-    cursor: grab;
-    object-fit: contain;
-    transition: transform 0.1s ease-out;
-    will-change: transform;
-}
-
-#modalImage:active {
+.gallery-modal-image:active {
     cursor: grabbing;
-}
-
-#modalImageContainer.zoomed #modalImage:active {
-    cursor: grabbing;
-}
-
-/* Poboljšanja za panning */
-#modalImage.panning {
-    transition: none !important;
 }
 
 /* =============================================================================
-   MODAL KONTROLE - SVG IKONICE
+   ANIMACIJE ZA PROMJENU SLIKA - UBRZANE
+   ============================================================================= */
+.gallery-modal-image.slide-out-left {
+    animation: slideOutLeft 0.25s ease forwards;
+}
+
+.gallery-modal-image.slide-out-right {
+    animation: slideOutRight 0.25s ease forwards;
+}
+
+.gallery-modal-image.slide-in-left {
+    animation: slideInLeft 0.25s ease forwards;
+}
+
+.gallery-modal-image.slide-in-right {
+    animation: slideInRight 0.25s ease forwards;
+}
+
+@keyframes slideOutLeft {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideOutRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* =============================================================================
+   MODAL KONTROLE
    ============================================================================= */
 
-/* Zatvaranje - SVG ikonica */
-#closeBtn {
+/* Zatvaranje */
+#gallery-close-btn {
     position: absolute;
-    top: 25px;
-    right: 45px;
+    top: 20px;
+    right: 30px;
     color: #fff;
-    font-size: 0;
-    font-weight: bold;
+    font-size: 40px;
+    font-weight: 300;
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1001;
@@ -294,31 +299,20 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
-#closeBtn::before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-#closeBtn:hover {
+#gallery-close-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
-    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
 }
 
-/* Navigacijske strelice - SVG ikonice */
-.nav-btn {
+/* Navigacijske strelice */
+.gallery-nav-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.15);
     color: white;
     border: none;
-    font-size: 0;
+    font-size: 40px;
     cursor: pointer;
     border-radius: 50%;
     transition: all 0.3s ease;
@@ -332,184 +326,33 @@
     backdrop-filter: blur(10px);
 }
 
-#prevBtn::before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-#nextBtn::before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-.nav-btn:hover {
+.gallery-nav-btn:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(-50%) scale(1.1);
-    border-color: rgba(255, 255, 255, 0.4);
 }
 
-#prevBtn {
+#gallery-prev-btn {
     left: 30px;
 }
 
-#nextBtn {
+#gallery-next-btn {
     right: 30px;
 }
 
-/* Kontrole modala - SVG ikonice */
-.gallery-modal-controls {
+/* =============================================================================
+   INDIKATORI
+   ============================================================================= */
+.gallery-image-indicators {
     position: absolute;
-    top: 25px;
-    left: 45px;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     gap: 10px;
     z-index: 1001;
 }
 
-.control-btn {
-    color: #fff;
-    font-size: 0;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-}
-
-.control-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
-    border-color: rgba(255, 255, 255, 0.4);
-}
-
-/* Autoplay ikonice */
-#autoplayBtn.play::before {
-    content: '';
-    width: 20px;
-    height: 20px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    margin-left: 2px;
-}
-
-#autoplayBtn.pause::before {
-    content: '';
-    width: 18px;
-    height: 18px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M6 19h4V5H6v14zm8-14v14h4V5h-4z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-/* Zoom ikonice */
-#zoomInBtn::before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-#zoomOutBtn::before {
-    content: '';
-    width: 24px;
-    height: 24px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M19 13H5v-2h14v2z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-#zoomResetBtn::before {
-    content: '';
-    width: 20px;
-    height: 20px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-}
-
-/* =============================================================================
-   INDIKATORI I PROGRESS
-   ============================================================================= */
-
-/* Zoom level indicator */
-.zoom-level {
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 14px;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 5px 12px;
-    border-radius: 20px;
-    z-index: 1001;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-}
-
-.zoom-level.show {
-    opacity: 1;
-}
-
-/* Progress bar za autoplay */
-.autoplay-progress {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
-    overflow: hidden;
-    z-index: 1001;
-}
-
-.autoplay-progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #ff6b6b, #667eea);
-    width: 0%;
-    border-radius: 2px;
-}
-
-/* Indikatori slika */
-.image-indicators {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 12px;
-    z-index: 1001;
-}
-
-.indicator {
+.gallery-indicator {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -519,162 +362,97 @@
     border: 2px solid transparent;
 }
 
-.indicator.active {
+.gallery-indicator.active {
     background: #fff;
-    transform: scale(1.3);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transform: scale(1.2);
 }
 
-.indicator:hover {
+.gallery-indicator:hover {
     background: rgba(255, 255, 255, 0.6);
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 /* =============================================================================
    RESPOZIVNOST
    ============================================================================= */
-
 @media (max-width: 768px) {
+    body {
+        padding: 20px 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
 
     .gallery {
         gap: 15px;
     }
 
     /* Modal kontrole za mobilne */
-    #closeBtn {
+    #gallery-close-btn {
         top: 15px;
-        right: 25px;
+        right: 20px;
         width: 40px;
         height: 40px;
+        font-size: 30px;
     }
 
-    #closeBtn::before {
-        width: 20px;
-        height: 20px;
-    }
-
-    .gallery-modal-controls {
-        top: 15px;
-        left: 20px;
-        gap: 8px;
-    }
-
-    .control-btn {
-        width: 40px;
-        height: 40px;
-    }
-
-    /* Prilagodbe SVG ikonica za mobilne */
-    #autoplayBtn.play::before {
-        width: 16px;
-        height: 16px;
-    }
-
-    #autoplayBtn.pause::before {
-        width: 14px;
-        height: 14px;
-    }
-
-    #zoomInBtn::before,
-    #zoomOutBtn::before {
-        width: 20px;
-        height: 20px;
-    }
-
-    #zoomResetBtn::before {
-        width: 16px;
-        height: 16px;
-    }
-
-    .nav-btn {
+    .gallery-nav-btn {
         width: 50px;
         height: 50px;
+        font-size: 30px;
     }
 
-    #prevBtn::before,
-    #nextBtn::before {
-        width: 20px;
-        height: 20px;
-    }
-
-    #prevBtn {
+    #gallery-prev-btn {
         left: 15px;
     }
 
-    #nextBtn {
+    #gallery-next-btn {
         right: 15px;
     }
 
-    .zoom-level {
-        top: 65px;
-        font-size: 12px;
-        padding: 4px 10px;
+    .gallery-modal-image-container {
+        padding: 20px;
     }
 
-    .image-indicators {
-        bottom: 55px;
+    .gallery-modal-image {
+        max-width: 95%;
+        max-height: 85vh;
+    }
+
+    .gallery-image-indicators {
+        bottom: 20px;
     }
 }
 
 @media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
 
     .gallery {
         gap: 10px;
     }
 
-    .gallery-modal-controls {
-        gap: 6px;
-    }
-
-    .control-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    /* Još manje ikonice za vrlo male ekrane */
-    #autoplayBtn.play::before {
-        width: 14px;
-        height: 14px;
-    }
-
-    #autoplayBtn.pause::before {
-        width: 12px;
-        height: 12px;
-    }
-
-    #zoomInBtn::before,
-    #zoomOutBtn::before {
-        width: 18px;
-        height: 18px;
-    }
-
-    #zoomResetBtn::before {
-        width: 14px;
-        height: 14px;
-    }
-
-    .nav-btn {
+    .gallery-nav-btn {
         width: 45px;
         height: 45px;
+        font-size: 25px;
     }
 
-    #prevBtn::before,
-    #nextBtn::before {
-        width: 18px;
-        height: 18px;
+    #gallery-close-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 25px;
     }
 
-    #closeBtn::before {
-        width: 18px;
-        height: 18px;
-    }
-
-    .image-indicators {
+    .gallery-image-indicators {
         gap: 8px;
-        bottom: 50px;
+        bottom: 15px;
     }
 
-    .indicator {
+    .gallery-indicator {
         width: 10px;
         height: 10px;
     }
@@ -694,16 +472,14 @@
     }
 
     .gallery-item:not(.rotating-item):hover::before,
-    .gallery-item:not(.rotating-item):hover::after,
     .gallery-item.rotating-item.no-rotation:hover::before,
     .gallery-item.rotating-item.no-rotation:hover::after {
         opacity: 0;
     }
 
     /* Bolje tap targets za mobilne */
-    .control-btn,
-    .nav-btn,
-    #closeBtn {
+    .gallery-nav-btn,
+    #gallery-close-btn {
         min-width: 44px;
         min-height: 44px;
     }
@@ -721,28 +497,8 @@
 }
 
 /* Fokus stilovi za pristupačnost */
-.control-btn:focus,
-.nav-btn:focus,
-#closeBtn:focus {
+.gallery-nav-btn:focus,
+#gallery-close-btn:focus {
     outline: 2px solid #667eea;
     outline-offset: 2px;
-}
-
-/* =============================================================================
-   DODATNI SELEKTORI ZA JAVASCRIPT
-   ============================================================================= */
-#autoplayBtn,
-#zoomInBtn,
-#zoomOutBtn,
-#zoomResetBtn,
-#prevBtn,
-#nextBtn,
-#closeBtn,
-#modalImageContainer,
-#modalImage,
-#zoomLevel,
-#imageIndicators,
-#autoplayProgressBar {
-    /* Osnovni reset za sve elemente */
-    box-sizing: border-box;
 }

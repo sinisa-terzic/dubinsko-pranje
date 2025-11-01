@@ -154,16 +154,13 @@
                 "title": "dubinsko pranje",
                 "items": {
                     "furniture": {
-                        "label": "Garniture",
-                        "price": "40.00 €"
+                        "label": "Garniture"
                     },
                     "mattresses": {
-                        "label": "Dušeci",
-                        "price": "15.00 €"
+                        "label": "Dušeci"
                     },
                     "cushions": {
-                        "label": "Etisoni",
-                        "price": "2.50"
+                        "label": "Etisoni"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za dubinsko pranje",
@@ -173,16 +170,13 @@
                 "title": "vozila i plovila",
                 "items": {
                     "regularWash": {
-                        "label": "Obično pranje",
-                        "price": "15.00 €"
+                        "label": "Obično pranje"
                     },
                     "deepWashing": {
-                        "label": "Dubinsko pranje",
-                        "price": "100.00 €"
+                        "label": "Dubinsko pranje"
                     },
                     "headlights": {
-                        "label": "Polimerizacija farova",
-                        "price": "50.00 €"
+                        "label": "Polimerizacija farova"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za vozila i plovila",
@@ -192,16 +186,13 @@
                 "title": "Hoteli & Jahte",
                 "items": {
                     "exterior": {
-                        "label": "Spoljašnost Hotela i Jahti",
-                        "price": "0.00 €"
+                        "label": "Spoljašnost Hotela i Jahti"
                     },
                     "yachtInterior": {
-                        "label": "Unutrašnjost Jahti",
-                        "price": "1.00 €"
+                        "label": "Unutrašnjost Jahti"
                     },
                     "rooms": {
-                        "label": "Sobe / Saloni / Terase",
-                        "price": "2.00 €"
+                        "label": "Sobe / Saloni / Terase"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za hotele i jahte",
@@ -209,15 +200,6 @@
             }
         },
         "modal": {
-            "close": "Zatvori",
-            "contactPrompt": "Kontaktirajte nas za preciznu procjenu i dogovor.",
-            "phoneText": "Pozovite nas:",
-            "emailText": "📧 Pošaljite email:",
-            "services": {
-                "consultation": "Besplatna procjena i konsultacija",
-                "emergency": "Hitne intervencije",
-                "warranty": "Garancija na radove"
-            },
             "prices": {
                 "deep_cleaning": [
                     {
@@ -394,7 +376,7 @@
         }
     },
     "partners": {
-        "title": "Naši partneri"
+        "title": "Naši poslovni partneri"
     },
     "contact": {
         "title": "Lokacija",

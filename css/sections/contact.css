@@ -1,7 +1,9 @@
 /*  ===  CONTACT  ===
 ******************************************* */
 .section-contact {
+    position: relative;
     grid-template-columns: 2fr 1fr;
+    z-index: 5;
 }
 
 .header-maps {

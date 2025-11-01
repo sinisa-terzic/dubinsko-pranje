@@ -1,94 +1,214 @@
 .section-partners {
-    margin: 4.5rem 0;
-    padding: 4.5rem 0 9rem;
-    background-color: #fafafa;
-}
-
-.partners-container {
-    margin: auto;
     position: relative;
-    overflow: hidden;
 }
 
-.partners-container::before,
-.partners-container::after {
+/* .section-partners::before {
+    background: linear-gradient(-45deg, #505050 10px, transparent 0), linear-gradient(45deg, #505050 10px, transparent 0);
+    background-position: top right;
+    background-repeat: repeat-x;
+    background-size: 12px 32px;
+    content: " ";
+    display: block;
+    position: absolute;
+    top: -15px;
+    left: 0px;
+    width: 100%;
+    height: 25px;
+}
+
+.section-partners:after {
+    background: linear-gradient(-45deg, #ffffff 10px, transparent 0), linear-gradient(45deg, #ffffff 10px, transparent 0);
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-size: 12px 32px;
+    content: " ";
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 25px;
+} */
+
+/* info pricing service - PREBACITI U PARTNER SEKCIJU */
+.info-pricings {
+    padding: 5rem 0 5rem;
+    background: #f3f4f5;
+    margin: 5rem 0 5rem;
+    position: relative;
+}
+
+.info-pricings::before {
+    background: linear-gradient(-45deg, #505050 10px, transparent 0), linear-gradient(45deg, #505050 10px, transparent 0);
+    background-position: top right;
+    background-repeat: repeat-x;
+    background-size: 12px 32px;
+    content: " ";
+    display: block;
+    position: absolute;
+    top: -15px;
+    left: 0px;
+    width: 100%;
+    height: 25px;
+}
+
+/* .info-pricings::after {
+    background: linear-gradient(-45deg, #ffffff 10px, transparent 0), linear-gradient(45deg, #ffffff 10px, transparent 0);
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-size: 12px 32px;
+    content: " ";
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 25px;
+}
+
+.info-pricing {
+    gap: 2rem;
+    align-items: center;
+    line-height: 1.4;
+    position: relative;
+}
+
+.info-pricing-level {
+    padding-right: 0.5rem;
+    font-size: 3.3rem;
+    font-weight: 500;
+    color: #981b1e;
+} */
+
+/* Screen reader only text for accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Marquee container */
+.marquee-wrapper {
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 3rem 0;
+}
+
+/* Gradient overlays for better visual flow */
+.marquee-wrapper::before,
+.marquee-wrapper::after {
     content: '';
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 100px;
+    width: 150px;
     z-index: 2;
     pointer-events: none;
 }
 
-.partners-container::before {
+.marquee-wrapper::before {
     left: 0;
-    background: linear-gradient(90deg, white, transparent);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.partners-container::after {
+.marquee-wrapper::after {
     right: 0;
-    background: linear-gradient(90deg, transparent, white);
+    background: linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.marquee {
-    overflow-x: hidden;
-    white-space: nowrap;
-    position: relative;
-    width: 100%;
-    /* Optimizacija za performanse */
-    contain: layout style paint;
-}
-
+/* Marquee content */
 .marquee-inner {
     display: flex;
-    align-items: center;
-    gap: 8rem;
     will-change: transform;
-    padding: 1rem 0;
-    /* Optimizacija za performanse */
-    backface-visibility: hidden;
-    perspective: 1000;
+    align-items: center;
 }
 
-.marquee-inner img {
+/* Partner logo styles */
+.marquee-inner .ratio {
+    flex-shrink: 0;
+    margin-right: 80px;
+    object-fit: contain;
     height: 80px;
     width: auto;
-    object-fit: contain;
     filter: grayscale(100%);
     opacity: 0.7;
     transition: all 0.3s ease;
-    flex-shrink: 0;
-    /* Optimizacija za performanse */
-    transform: translateZ(0);
+    border-radius: 4px;
 }
 
-.marquee-inner img:hover {
+/* Hover effects */
+.marquee-inner .ratio:hover {
+    transform: scale(1.1);
     filter: grayscale(0%);
     opacity: 1;
-    transform: scale(1.05);
+    z-index: 1;
 }
 
-/* Responsive styles */
+/* Focus styles for accessibility */
+.marquee-inner .ratio:focus {
+    outline: 3px solid #0066cc;
+    outline-offset: 4px;
+    transform: scale(1.1);
+    filter: grayscale(0%);
+    opacity: 1;
+    z-index: 1;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
-    .marquee-inner {
-        gap: 4rem;
+    .marquee-inner .ratio {
+        height: 60px;
+        margin-right: 40px;
     }
 
-    .marquee-inner img {
-        height: 50px;
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+        width: 80px;
     }
 
-    .partners-container::before,
-    .partners-container::after {
-        width: 50px;
+    .marquee-wrapper {
+        padding: 2rem 0;
     }
 }
 
-/* Pause animation when user prefers reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .marquee-inner {
-        animation: none;
-        transform: none !important;
+@media (max-width: 480px) {
+    .marquee-inner .ratio {
+        height: 50px;
+        margin-right: 30px;
     }
+
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+        width: 60px;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .marquee-inner .ratio {
+        transition: none;
+    }
+
+    .marquee-inner {
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* Section heading for better structure */
+.partners-heading {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+    font-size: 2rem;
+    font-weight: 600;
 }

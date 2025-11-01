@@ -10,6 +10,7 @@
     border-top: 5px solid var(--color-grey-dark);
     border-bottom: 10px solid var(--color-accent-yellow);
     position: relative;
+    z-index: 3;
 }
 
 .hero-text-box {

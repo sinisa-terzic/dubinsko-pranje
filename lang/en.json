@@ -154,16 +154,13 @@
                 "title": "deep cleaning",
                 "items": {
                     "furniture": {
-                        "label": "Furniture Sets",
-                        "price": "40.00 €"
+                        "label": "Furniture Sets"
                     },
                     "mattresses": {
-                        "label": "Mattresses",
-                        "price": "15.00 €"
+                        "label": "Mattresses"
                     },
                     "cushions": {
-                        "label": "Carpets/Runners",
-                        "price": "2.50"
+                        "label": "Carpets/Runners"
                     }
                 },
                 "fullPriceButton": "Deep Cleaning Price List",
@@ -173,16 +170,13 @@
                 "title": "vehicles and vessels",
                 "items": {
                     "regularWash": {
-                        "label": "Regular Wash",
-                        "price": "15.00 €"
+                        "label": "Regular Wash"
                     },
                     "deepWashing": {
-                        "label": "Deep Washing",
-                        "price": "100.00 €"
+                        "label": "Deep Washing"
                     },
                     "headlights": {
-                        "label": "Headlight Polymerization",
-                        "price": "50.00 €"
+                        "label": "Headlight Polymerization"
                     }
                 },
                 "fullPriceButton": "Vehicle and Vessel Price List",
@@ -192,16 +186,13 @@
                 "title": "Hotels & Yachts",
                 "items": {
                     "exterior": {
-                        "label": "Hotel and Yacht Exterior",
-                        "price": "0.00 €"
+                        "label": "Hotel and Yacht Exterior"
                     },
                     "yachtInterior": {
-                        "label": "Yacht Interior",
-                        "price": "1.00 €"
+                        "label": "Yacht Interior"
                     },
                     "rooms": {
-                        "label": "Rooms / Lounges / Terraces",
-                        "price": "2.00 €"
+                        "label": "Rooms / Lounges / Terraces"
                     }
                 },
                 "fullPriceButton": "Hotels and Yachts Price List",
@@ -209,15 +200,6 @@
             }
         },
         "modal": {
-            "close": "Close",
-            "contactPrompt": "Contact us for an accurate quote and agreement.",
-            "phoneText": "Call us:",
-            "emailText": "📧 Send email:",
-            "services": {
-                "consultation": "Free estimate and consultation",
-                "emergency": "Emergency interventions",
-                "warranty": "Warranty on works"
-            },
             "prices": {
                 "deep_cleaning": [
                     {
@@ -394,7 +376,7 @@
         }
     },
     "partners": {
-        "title": "Our partners"
+        "title": "Our Business Partners"
     },
     "contact": {
         "title": "Location",
