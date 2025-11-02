@@ -186,14 +186,13 @@ input:checked+.chtext {
 
 .pricing-modal-close {
     color: #aaa;
-    float: right;
     font-size: 32px;
     font-weight: bold;
     cursor: pointer;
     line-height: 1;
     position: absolute;
-    right: 20px;
-    top: 15px;
+    right: 10px;
+    top: 0;
     z-index: 10001;
 }
 
@@ -206,7 +205,7 @@ input:checked+.chtext {
     margin-bottom: 25px;
     padding-bottom: 15px;
     border-bottom: 2px solid #e0e0e0;
-    font-size: 1.8rem;
+    font-size: 2.5rem;
 }
 
 .pricing-modal-body {
@@ -216,14 +215,14 @@ input:checked+.chtext {
 .pricing-category {
     margin-bottom: 2.5rem;
     background: #f8f9fa;
-    padding: 20px;
+    padding: 20px 0 0 20px;
     border-radius: 8px;
     border-left: 4px solid #2c5aa0;
 }
 
 .pricing-category-title {
-    font-size: 1.3rem;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 600;
     margin-bottom: 1.2rem;
     color: #2c5aa0;
 }
@@ -257,13 +256,13 @@ input:checked+.chtext {
 
 .pricing-subitem-name {
     flex: 1;
-    font-size: 1rem;
+    font-size: 1.6rem;
 }
 
 .pricing-subitem-price {
-    font-weight: bold;
-    color: #2c5aa0;
-    font-size: 1.1rem;
+    font-weight: 500;
+    color: #981b1e;
+    font-size: 1.5rem;
     white-space: nowrap;
 }
 
@@ -278,21 +277,34 @@ input:checked+.chtext {
 @media (max-width: 768px) {
     .pricing-modal-content {
         margin: 5% auto;
-        padding: 20px;
-        width: 95%;
+        padding: 2rem;
+        width: 90%;
     }
 
-    .pricing-subitem {
+    /*     .pricing-subitem {
         flex-direction: column;
         align-items: flex-start;
         gap: 5px;
+    } */
+
+    /* .pricing-subitem-price {
+        align-self: flex-end;
+    } */
+
+    #pricing-modal-title {
+        font-size: 2.2rem;
+        font-weight: 600;
+    }
+
+    .pricing-category-title {
+        font-weight: 500;
+    }
+
+    .pricing-subitem-name {
+        font-size: 1.7rem;
     }
 
     .pricing-subitem-price {
-        align-self: flex-end;
-    }
-
-    #pricing-modal-title {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 }

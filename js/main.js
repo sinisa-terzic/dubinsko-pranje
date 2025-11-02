@@ -35,6 +35,46 @@ document.addEventListener('DOMContentLoaded', function () {
         return element ? element.textContent : null;
     }
 
+    // ==================== MODAL HISTORY MANAGEMENT ====================
+    function setupGlobalHistoryHandler() {
+        window.addEventListener('popstate', function (event) {
+            const state = event.state;
+
+            if (!state) {
+                // Zatvori sve modale kada se vratimo na osnovno stanje
+                closeAllModals();
+                return;
+            }
+
+            if (state.modal === 'gallery') {
+                // Ako smo se vratili na gallery state, ponovo otvori galeriju
+                if (window.galleryManager) {
+                    window.galleryManager.open(state.index);
+                }
+            } else if (state.modal === 'pricing') {
+                // Ponovo otvori pricing modal
+                showPricingModal(state.planId);
+            }
+        });
+    }
+
+    function closeAllModals() {
+        // Zatvori galeriju
+        const galleryModal = document.getElementById('gallery-modal');
+        if (galleryModal && galleryModal.style.display === 'block') {
+            if (window.galleryManager) {
+                window.galleryManager.closeModalWithoutHistory();
+            }
+        }
+
+        // Zatvori pricing modal
+        const pricingModal = document.getElementById('pricing-modal');
+        if (pricingModal && pricingModal.style.display === 'block') {
+            pricingModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    }
+
     // ==================== UI MANAGEMENT ====================
     function closeAllOpenElements() {
         language.classList.add('hidden');
@@ -272,12 +312,21 @@ document.addEventListener('DOMContentLoaded', function () {
         closeBtn?.addEventListener('click', function () {
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
+
+            // Vrati history za pricing modal
+            if (history.state?.modal === 'pricing') {
+                window.history.back();
+            }
         });
 
         modal?.addEventListener('click', function (e) {
             if (e.target === modal) {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+
+                if (history.state?.modal === 'pricing') {
+                    window.history.back();
+                }
             }
         });
 
@@ -285,6 +334,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.key === 'Escape' && modal.style.display === 'block') {
                 modal.style.display = 'none';
                 document.body.style.overflow = 'auto';
+
+                if (history.state?.modal === 'pricing') {
+                    window.history.back();
+                }
             }
         });
     }
@@ -308,6 +361,9 @@ document.addEventListener('DOMContentLoaded', function () {
         modalTitle.textContent = title || 'Cjenovnik';
         modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
         modal.style.display = 'block';
+
+        // Dodaj u history
+        window.history.pushState({ modal: 'pricing', planId: planId }, '', `#pricing-${planId}`);
     }
 
     function generatePricingContent(pricesKey) {
@@ -433,6 +489,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
         checkStickyNavigation();
+        setupGlobalHistoryHandler(); // Dodaj history handler
     }
 
     // ==================== START APPLICATION ====================

@@ -1,6 +1,6 @@
 /**
  * MODERN GALLERY - OPTIMIZOVANA RESPONZIVNA GALERIJA
- * Osnovne funkcionalnosti: grid prikaz, modal sa navigacijom, touch/mouse swipe, responsive slike
+ * Sa back button funkcionalnošću
  */
 
 class GalleryManager {
@@ -185,6 +185,25 @@ class GalleryManager {
      */
     close() {
         this.closeModal();
+    }
+
+    /**
+     * Zatvara modal bez manipulacije history-ja
+     */
+    closeModalWithoutHistory() {
+        this.elements.modal.classList.remove('active');
+
+        setTimeout(() => {
+            this.elements.modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            this.cleanupModalEventListeners();
+            this.cleanupSwipeEvents();
+
+            // Ponovo pokreni rotaciju ako postoji
+            if (this.state.rotatingImages.length > 1) {
+                this.startRotation();
+            }
+        }, 150);
     }
 
     /**
@@ -584,6 +603,9 @@ class GalleryManager {
         this.elements.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
 
+        // Dodaj u history
+        window.history.pushState({ modal: 'gallery', index: this.state.currentIndex }, '', `#gallery-${this.state.currentIndex}`);
+
         // Mali delay za CSS transition
         setTimeout(() => {
             this.elements.modal.classList.add('active');
@@ -606,6 +628,11 @@ class GalleryManager {
             document.body.style.overflow = 'auto';
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
+
+            // Vrati history samo ako je modal aktivan u history
+            if (history.state?.modal === 'gallery') {
+                window.history.back();
+            }
 
             // Ponovo pokreni rotaciju ako postoji
             if (this.state.rotatingImages.length > 1) {
@@ -797,9 +824,15 @@ class GalleryManager {
      */
     handleKeyDown(e) {
         switch (e.key) {
-            case 'Escape': this.closeModal(); break;
-            case 'ArrowLeft': this.prev(); break;
-            case 'ArrowRight': this.next(); break;
+            case 'Escape':
+                this.closeModal();
+                break;
+            case 'ArrowLeft':
+                this.prev();
+                break;
+            case 'ArrowRight':
+                this.next();
+                break;
         }
     }
 
