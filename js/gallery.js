@@ -13,9 +13,9 @@ class GalleryManager {
                 mobile: { rows: 2, gap: 4, minWidth: 150 }    // Grid za mobile
             },
             swipe: { threshold: 50 },                          // Minimalni swipe distance
-            imageCache: {
-                enabled: true,                                 // PredUzimanje susednih slika
-                adjacentImages: 1                              // Broj susednih slika za predUzimanje
+            preload: {
+                enabled: true,                                 // Preload susednih slika
+                adjacentImages: 1                              // Broj susednih slika za preload
             }
         };
 
@@ -235,33 +235,33 @@ class GalleryManager {
     }
 
     // =========================================================================
-    // IMAGE CACHE SYSTEM - PREDUZIMANJE SLIKA ZA BRŽU NAVIGACIJU
+    // PRELOAD SYSTEM - PREDUZIMANJE SLIKA ZA BRŽU NAVIGACIJU
     // =========================================================================
 
     /**
-     * PredUzima susedne slike trenutno aktivne slike
+     * Preload susednih slika trenutno aktivne slike
      * @param {number} currentIndex - Index trenutne slike
      */
-    predUzmiSusedneSlike(currentIndex) {
-        if (!this.config.imageCache.enabled) return;
+    preloadAdjacentImages(currentIndex) {
+        if (!this.config.preload.enabled) return;
 
-        const { adjacentImages } = this.config.imageCache;
+        const { adjacentImages } = this.config.preload;
 
-        // PredUzmi slike sa obe strane trenutne slike
+        // Preload slika sa obe strane trenutne slike
         for (let i = 1; i <= adjacentImages; i++) {
             const prevIndex = (currentIndex - i + this.images.length) % this.images.length;
             const nextIndex = (currentIndex + i) % this.images.length;
 
-            this.predUzmiPojedinacnuSliku(this.images[prevIndex]);
-            this.predUzmiPojedinacnuSliku(this.images[nextIndex]);
+            this.preloadSingleImage(this.images[prevIndex]);
+            this.preloadSingleImage(this.images[nextIndex]);
         }
     }
 
     /**
-     * PredUzima pojedinačnu sliku
-     * @param {Object} image - Slika za predUzimanje
+     * Preload pojedinačne slike
+     * @param {Object} image - Slika za preload
      */
-    predUzmiPojedinacnuSliku(image) {
+    preloadSingleImage(image) {
         const src = this.getResponsiveSource(image);
         const img = new Image();
         img.src = src;
@@ -633,8 +633,8 @@ class GalleryManager {
         const currentImage = this.images[this.state.currentIndex];
         const responsiveSrc = this.getResponsiveSource(currentImage);
 
-        // PredUzmi susedne slike za bržu navigaciju
-        this.predUzmiSusedneSlike(this.state.currentIndex);
+        // Preload susedne slike za bržu navigaciju
+        this.preloadAdjacentImages(this.state.currentIndex);
 
         if (skipAnimation) {
             // Direktno postavi sliku bez animacije (prvo otvaranje)
