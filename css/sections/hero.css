@@ -2,7 +2,7 @@
 .hero {
     height: 100vh;
     background-color: #112e51;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)), url(../../img/hero/hero-.webp);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)), url(../../img/hero/hero-1920.webp);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

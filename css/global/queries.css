@@ -218,7 +218,7 @@
   /*  ===  HERO  ===
 ******************************* */
   .hero {
-    background-image: url(../../img/hero/hero-1000.webp);
+    background-image: url(../../img/hero/hero-1280.webp);
   }
 
   /*  ===  ABOUT  ===
@@ -476,7 +476,7 @@
   /*  ===  HERO  ===
 ******************************* */
   .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(../../img/hero/hero-414.webp);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)), url(../../img/hero/hero-768.webp);
     justify-content: center;
   }
 
@@ -652,7 +652,7 @@
   /*  ===  HERO  ===
   ******************************* */
   .hero {
-    background: url(../../img/hero/hero-1920.webp);
+    background: url(../../img/hero/hero-1280.webp);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
