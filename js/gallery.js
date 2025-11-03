@@ -1,6 +1,6 @@
 /**
  * MODERN GALLERY - OPTIMIZOVANA RESPONZIVNA GALERIJA
- * Sa back button funkcionalnošću
+ * Sa back button funkcionalnošću i marquee integracijom
  */
 
 class GalleryManager {
@@ -146,6 +146,7 @@ class GalleryManager {
         this.handleMouseDown = this.handleMouseDown.bind(this);
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
+        this.handlePopState = this.handlePopState.bind(this);
     }
 
     // =========================================================================
@@ -162,6 +163,7 @@ class GalleryManager {
             this.cacheElements();
             this.createGallery();
             this.setupEventListeners();
+            this.setupGlobalHistoryHandler();
             this.isInitialized = true;
         } catch (error) {
             console.error('Gallery init failed:', error);
@@ -174,6 +176,9 @@ class GalleryManager {
      */
     open(imageIndex = 0) {
         if (imageIndex < 0 || imageIndex >= this.images.length) return;
+
+        // Spriječi duplo otvaranje
+        if (this.elements.modal.style.display === 'block') return;
 
         this.state.currentIndex = imageIndex;
         this.state.prevIndex = imageIndex;
@@ -191,6 +196,9 @@ class GalleryManager {
      * Zatvara modal bez manipulacije history-ja
      */
     closeModalWithoutHistory() {
+        // Spriječi duplo zatvaranje
+        if (this.elements.modal.style.display === 'none') return;
+
         this.elements.modal.classList.remove('active');
 
         setTimeout(() => {
@@ -198,6 +206,13 @@ class GalleryManager {
             document.body.style.overflow = 'auto';
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
+
+            // NASTAVI MARQUEE ANIMACIJU
+            if (window.manageMarqueeDuringModals) {
+                setTimeout(() => {
+                    window.manageMarqueeDuringModals();
+                }, 100);
+            }
 
             // Ponovo pokreni rotaciju ako postoji
             if (this.state.rotatingImages.length > 1) {
@@ -599,12 +614,26 @@ class GalleryManager {
      * Otvara modal sa trenutnom slikom
      */
     openModal() {
+        // Spriječi duplo otvaranje
+        if (this.elements.modal.style.display === 'block') return;
+
         this.stopRotation();
         this.elements.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
 
-        // Dodaj u history
-        window.history.pushState({ modal: 'gallery', index: this.state.currentIndex }, '', `#gallery-${this.state.currentIndex}`);
+        // PAUZIRAJ MARQUEE ANIMACIJU
+        if (window.manageMarqueeDuringModals) {
+            window.manageMarqueeDuringModals();
+        }
+
+        // DODAJ U HISTORY SAMO AKO VEĆ NIJE DODATO
+        const currentState = history.state;
+        if (!currentState || currentState.modal !== 'gallery' || currentState.index !== this.state.currentIndex) {
+            window.history.pushState({
+                modal: 'gallery',
+                index: this.state.currentIndex
+            }, '', `#gallery-${this.state.currentIndex}`);
+        }
 
         // Mali delay za CSS transition
         setTimeout(() => {
@@ -621,6 +650,9 @@ class GalleryManager {
      * Zatvara modal
      */
     closeModal() {
+        // Spriječi duplo zatvaranje
+        if (this.elements.modal.style.display === 'none') return;
+
         this.elements.modal.classList.remove('active');
 
         setTimeout(() => {
@@ -629,8 +661,17 @@ class GalleryManager {
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
 
-            // Vrati history samo ako je modal aktivan u history
-            if (history.state?.modal === 'gallery') {
+            // NASTAVI MARQUEE ANIMACIJU
+            if (window.manageMarqueeDuringModals) {
+                setTimeout(() => {
+                    window.manageMarqueeDuringModals();
+                }, 100);
+            }
+
+            // VRATI HISTORY SAMO AKO JE KORISNIK EKSPLICITNO ZATVORIO MODAL
+            const currentState = history.state;
+            if (currentState && currentState.modal === 'gallery') {
+                // Ovo znači da je korisnik zatvorio modal (ESC, klik van modala, X dugme)
                 window.history.back();
             }
 
@@ -649,6 +690,13 @@ class GalleryManager {
         if (this.state.isAnimating) return;
         this.state.prevIndex = this.state.currentIndex;
         this.state.currentIndex = (this.state.currentIndex + direction + this.images.length) % this.images.length;
+
+        // Ažuriraj history kada se navigira kroz slike
+        window.history.replaceState({
+            modal: 'gallery',
+            index: this.state.currentIndex
+        }, '', `#gallery-${this.state.currentIndex}`);
+
         this.updateModalImage();
     }
 
@@ -716,6 +764,13 @@ class GalleryManager {
                 if (this.state.isAnimating) return;
                 this.state.prevIndex = this.state.currentIndex;
                 this.state.currentIndex = index;
+
+                // Ažuriraj history kada se klikne na indikator
+                window.history.replaceState({
+                    modal: 'gallery',
+                    index: this.state.currentIndex
+                }, '', `#gallery-${this.state.currentIndex}`);
+
                 this.updateModalImage();
             });
             this.elements.imageIndicators.appendChild(indicator);
@@ -730,6 +785,45 @@ class GalleryManager {
         indicators.forEach((indicator, index) => {
             indicator.classList.toggle('active', index === this.state.currentIndex);
         });
+    }
+
+    // =========================================================================
+    // GLOBAL HISTORY MANAGEMENT - INTEGRACIJA SA BROWSER HISTORY
+    // =========================================================================
+
+    /**
+     * Postavlja globalni history handler za galeriju
+     */
+    setupGlobalHistoryHandler() {
+        window.addEventListener('popstate', this.handlePopState);
+    }
+
+    /**
+     * Rukuje popstate eventovima
+     */
+    handlePopState(event) {
+        const state = event.state;
+
+        if (!state) {
+            // Nema state - zatvori galeriju ako je otvorena
+            if (this.elements.modal.style.display === 'block') {
+                this.closeModalWithoutHistory();
+            }
+            return;
+        }
+
+        if (state.modal === 'gallery') {
+            // Browser back - zatvori galeriju
+            if (this.elements.modal.style.display === 'block') {
+                this.closeModalWithoutHistory();
+            }
+            // Browser forward - otvori galeriju sa istim indexom
+            else if (state.index !== undefined && this.elements.modal.style.display === 'none') {
+                this.state.currentIndex = state.index;
+                this.state.prevIndex = state.index;
+                this.openModal();
+            }
+        }
     }
 
     // =========================================================================
@@ -850,6 +944,7 @@ class GalleryManager {
         this.stopRotation();
         this.cleanupModalEventListeners();
         this.cleanupSwipeEvents();
+        window.removeEventListener('popstate', this.handlePopState);
 
         if (this.intervals.resize) {
             clearTimeout(this.intervals.resize);

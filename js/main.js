@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let currentLanguage = 'sr';
     let scrollTimeout;
+    let pricingModalInitialized = false;
 
     // ==================== UTILITY FUNCTIONS ====================
     function getNestedValue(obj, path) {
@@ -43,17 +44,27 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!state) {
                 // Zatvori sve modale kada se vratimo na osnovno stanje
                 closeAllModals();
+
+                // OSIGURAJ DA JE MARQUEE PONOVO POKRENUT
+                setTimeout(() => {
+                    if (window.manageMarqueeDuringModals) {
+                        window.manageMarqueeDuringModals();
+                    }
+                }, 200);
                 return;
             }
 
             if (state.modal === 'gallery') {
                 // Ako smo se vratili na gallery state, ponovo otvori galeriju
-                if (window.galleryManager) {
+                if (window.galleryManager && window.galleryManager.elements.modal.style.display === 'none') {
                     window.galleryManager.open(state.index);
                 }
             } else if (state.modal === 'pricing') {
-                // Ponovo otvori pricing modal
-                showPricingModal(state.planId);
+                // Ponovo otvori pricing modal samo ako nije već otvoren
+                const pricingModal = document.getElementById('pricing-modal');
+                if (pricingModal && pricingModal.style.display === 'none') {
+                    showPricingModal(state.planId);
+                }
             }
         });
     }
@@ -68,11 +79,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Zatvori pricing modal
-        const pricingModal = document.getElementById('pricing-modal');
-        if (pricingModal && pricingModal.style.display === 'block') {
-            pricingModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        closePricingModalWithoutHistory();
+
+        // OSIGURAJ DA JE MARQUEE PONOVO POKRENUT
+        setTimeout(() => {
+            if (window.manageMarqueeDuringModals) {
+                window.manageMarqueeDuringModals();
+            }
+        }, 200);
     }
 
     // ==================== UI MANAGEMENT ====================
@@ -298,46 +312,14 @@ document.addEventListener('DOMContentLoaded', function () {
         output.innerHTML = html;
     }
 
-    function setupPricingModals() {
-        const modal = document.getElementById('pricing-modal');
-        const closeBtn = modal?.querySelector('.pricing-modal-close');
-
-        document.querySelectorAll('[id^="showFullPrice-"]').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const planId = this.id.split('-')[1];
+    // ==================== PRICING MODAL MANAGEMENT ====================
+    function setupPricingHistory() {
+        // Proveri URL pri učitavanju stranice
+        window.addEventListener('load', function () {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#pricing-')) {
+                const planId = hash.split('-')[1];
                 showPricingModal(planId);
-            });
-        });
-
-        closeBtn?.addEventListener('click', function () {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-
-            // Vrati history za pricing modal
-            if (history.state?.modal === 'pricing') {
-                window.history.back();
-            }
-        });
-
-        modal?.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-
-                if (history.state?.modal === 'pricing') {
-                    window.history.back();
-                }
-            }
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && modal.style.display === 'block') {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-
-                if (history.state?.modal === 'pricing') {
-                    window.history.back();
-                }
             }
         });
     }
@@ -346,6 +328,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('pricing-modal');
         const modalTitle = document.getElementById('pricing-modal-title');
         const modalContent = document.getElementById('pricing-modal-content');
+
+        if (!modal) return;
+
+        // Spriječi duplo otvaranje
+        if (modal.style.display === 'block') return;
+
         document.body.style.overflow = 'hidden';
 
         const planData = {
@@ -362,8 +350,131 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
         modal.style.display = 'block';
 
-        // Dodaj u history
-        window.history.pushState({ modal: 'pricing', planId: planId }, '', `#pricing-${planId}`);
+        // PAUZIRAJ MARQUEE KADA SE OTvORI MODAL
+        if (window.manageMarqueeDuringModals) {
+            window.manageMarqueeDuringModals();
+        }
+
+        // DODAJ U HISTORY SAMO AKO VEĆ NIJE DODATO
+        const currentState = history.state;
+        if (!currentState || currentState.modal !== 'pricing' || currentState.planId !== planId) {
+            window.history.pushState({
+                modal: 'pricing',
+                planId: planId
+            }, '', `#pricing-${planId}`);
+        }
+
+        // PONOVO POSTAVI EVENT LISTENERE nakon promene jezika
+        setupPricingModalEventListeners();
+    }
+
+    function closePricingModal() {
+        const modal = document.getElementById('pricing-modal');
+        if (!modal) return;
+
+        // Spriječi duplo zatvaranje
+        if (modal.style.display === 'none') return;
+
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+
+        // NASTAVI MARQUEE KADA SE ZATVORI MODAL
+        setTimeout(() => {
+            if (window.manageMarqueeDuringModals) {
+                window.manageMarqueeDuringModals();
+            }
+        }, 100);
+
+        // UKLONI HASH IZ URL-A SAMO AKO JE KORISNIK EKSPLICITNO ZATVORIO MODAL
+        const currentState = history.state;
+        if (currentState && currentState.modal === 'pricing') {
+            // Ovo znači da je korisnik zatvorio modal (ESC, klik van modala, X dugme)
+            if (window.location.hash && window.location.hash.startsWith('#pricing-')) {
+                window.history.back();
+            }
+        }
+    }
+
+    function closePricingModalWithoutHistory() {
+        const modal = document.getElementById('pricing-modal');
+        if (!modal) return;
+
+        // Spriječi duplo zatvaranje
+        if (modal.style.display === 'none') return;
+
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+
+        // NASTAVI MARQUEE KADA SE ZATVORI MODAL
+        setTimeout(() => {
+            if (window.manageMarqueeDuringModals) {
+                window.manageMarqueeDuringModals();
+            }
+        }, 100);
+
+        // NE DIRAJ HISTORY - ovo je pozvano zbog browser back dugmeta
+    }
+
+    function setupPricingModalEventListeners() {
+        const modal = document.getElementById('pricing-modal');
+        const closeBtn = modal?.querySelector('.pricing-modal-close');
+
+        // Ukloni postojeće event listenere da ne bi bilo duplikata
+        if (closeBtn) {
+            closeBtn.replaceWith(closeBtn.cloneNode(true));
+        }
+
+        // Ponovo postavi event listenere
+        const newCloseBtn = modal?.querySelector('.pricing-modal-close');
+
+        if (newCloseBtn) {
+            newCloseBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                closePricingModal();
+            });
+        }
+
+        // Klik van modala
+        if (modal) {
+            // Ukloni postojeći event listener
+            modal.removeEventListener('click', handleModalClick);
+
+            // Dodaj novi event listener
+            modal.addEventListener('click', handleModalClick);
+        }
+
+        function handleModalClick(e) {
+            if (e.target === modal) {
+                closePricingModal();
+            }
+        }
+
+        // Escape key handler - globalni, ne mora da se resetuje
+        if (!pricingModalInitialized) {
+            document.addEventListener('keydown', function (e) {
+                const modal = document.getElementById('pricing-modal');
+                if (e.key === 'Escape' && modal && modal.style.display === 'block') {
+                    closePricingModal();
+                }
+            });
+            pricingModalInitialized = true;
+        }
+    }
+
+    function setupPricingModalButtons() {
+        // Postavi event listenere za dugmad koja otvaraju modal
+        document.querySelectorAll('[id^="showFullPrice-"]').forEach(btn => {
+            // Ukloni postojeće event listenere
+            btn.replaceWith(btn.cloneNode(true));
+        });
+
+        // Ponovo postavi event listenere na nova dugmad
+        document.querySelectorAll('[id^="showFullPrice-"]').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const planId = this.id.split('-')[1];
+                showPricingModal(planId);
+            });
+        });
     }
 
     function generatePricingContent(pricesKey) {
@@ -406,64 +517,163 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupPartnersMarquee() {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const container = document.querySelector(".marquee-inner");
+        const wrapper = document.querySelector(".marquee-wrapper");
 
-        if (!container) return;
+        if (!container || !wrapper) return;
+
+        // Reset stanja prije ponovne inicijalizacije
+        container.style.transform = "translateX(0px)";
+
+        // Oznaci wrapper za kasnije referenciranje
+        wrapper.dataset.marqueeInitialized = "false";
 
         if (prefersReducedMotion) {
-            container.style.transform = "none";
-            container.style.flexWrap = "wrap";
-            container.style.justifyContent = "center";
-            container.style.gap = "2rem";
-            container.style.padding = "2rem";
-
-            const images = container.querySelectorAll('.ratio');
-            const totalImages = images.length;
-            for (let i = totalImages / 2; i < totalImages; i++) {
-                images[i]?.remove();
-            }
+            setupStaticPartnersLayout(container);
             return;
         }
 
+        setupAnimatedMarquee(container, wrapper);
+    }
+
+    function setupStaticPartnersLayout(container) {
+        container.style.transform = "none";
+        container.style.flexWrap = "wrap";
+        container.style.justifyContent = "center";
+        container.style.gap = "2rem";
+        container.style.padding = "2rem";
+        container.style.animation = "none";
+
+        const images = container.querySelectorAll('.ratio');
+        const totalImages = images.length;
+
+        // Ukloni duplikate za reduced motion
+        for (let i = totalImages / 2; i < totalImages; i++) {
+            images[i]?.remove();
+        }
+    }
+
+    function setupAnimatedMarquee(container, wrapper) {
+        // Kloniraj sadržaj za seamless loop
         const clones = container.cloneNode(true);
         container.appendChild(clones);
 
         let scrollAmount = 0;
         let isPaused = false;
         let animationFrameId;
+        let isAnimating = true;
+
+        // Resetuj transformaciju prije početka
+        container.style.transform = "translateX(0px)";
 
         function marqueeScroll() {
-            if (!isPaused) {
+            if (!isAnimating || !isPaused) {
                 scrollAmount += 1;
                 container.style.transform = `translateX(-${scrollAmount}px)`;
 
+                // Reset kada pređe pola širine (originalni sadržaj)
                 if (scrollAmount >= container.scrollWidth / 2) {
                     scrollAmount = 0;
+                    container.style.transform = `translateX(0px)`;
                 }
             }
-            animationFrameId = requestAnimationFrame(marqueeScroll);
-        }
 
-        marqueeScroll();
-
-        const wrapper = document.querySelector(".marquee-wrapper");
-        if (wrapper) {
-            wrapper.addEventListener("mouseenter", () => isPaused = true);
-            wrapper.addEventListener("mouseleave", () => isPaused = false);
-
-            const logos = wrapper.querySelectorAll('.ratio');
-            logos.forEach(logo => {
-                logo.addEventListener('focus', () => isPaused = true);
-                logo.addEventListener('blur', () => isPaused = false);
-            });
-        }
-
-        document.addEventListener('visibilitychange', function () {
-            if (document.hidden) {
-                cancelAnimationFrame(animationFrameId);
-            } else {
+            if (isAnimating) {
                 animationFrameId = requestAnimationFrame(marqueeScroll);
             }
+        }
+
+        // Pokreni animaciju
+        marqueeScroll();
+
+        // Pause na hover/focus za bolje korisničko iskustvo
+        setupMarqueeInteractions(wrapper, () => isPaused = true, () => isPaused = false);
+
+        // Upravljanje vidljivošću stranice
+        setupVisibilityManagement(() => {
+            isAnimating = !document.hidden;
+            if (isAnimating && !animationFrameId) {
+                marqueeScroll();
+            }
         });
+
+        // Čuvanje reference za cleanup
+        wrapper.dataset.marqueeInitialized = "true";
+        wrapper._marqueeAnimation = {
+            stop: () => {
+                isAnimating = false;
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+            },
+            start: () => {
+                if (!isAnimating) {
+                    isAnimating = true;
+                    marqueeScroll();
+                }
+            },
+            reset: () => {
+                scrollAmount = 0;
+                container.style.transform = "translateX(0px)";
+            }
+        };
+    }
+
+    function setupMarqueeInteractions(wrapper, onPause, onResume) {
+        if (!wrapper) return;
+
+        wrapper.addEventListener("mouseenter", onPause);
+        wrapper.addEventListener("mouseleave", onResume);
+
+        const logos = wrapper.querySelectorAll('.ratio');
+        logos.forEach(logo => {
+            logo.addEventListener('focus', onPause);
+            logo.addEventListener('blur', onResume);
+        });
+    }
+
+    function setupVisibilityManagement(callback) {
+        document.addEventListener('visibilitychange', function () {
+            callback();
+        });
+    }
+
+    // NOVA FUNKCIJA: Pauziranje marquee efekta kada su modali otvoreni
+    function manageMarqueeDuringModals() {
+        const wrapper = document.querySelector(".marquee-wrapper");
+        if (!wrapper || !wrapper._marqueeAnimation) return;
+
+        const galleryModal = document.getElementById('gallery-modal');
+        const pricingModal = document.getElementById('pricing-modal');
+
+        const isAnyModalOpen =
+            (galleryModal && galleryModal.style.display === 'block') ||
+            (pricingModal && pricingModal.style.display === 'block');
+
+        if (isAnyModalOpen) {
+            // Pauziraj marquee kada su modali otvoreni
+            wrapper._marqueeAnimation.stop();
+            wrapper.style.opacity = '0.7'; // Vizuelni indikator pauze
+        } else {
+            // Nastavi marquee kada su modali zatvoreni
+            wrapper._marqueeAnimation.start();
+            wrapper.style.opacity = '1';
+
+            // Reset pozicije ako je došlo do rasipanja
+            setTimeout(() => {
+                wrapper._marqueeAnimation.reset();
+            }, 100);
+        }
+    }
+
+    // NOVA FUNKCIJA: Cleanup marquee animacije
+    function cleanupMarquee() {
+        const wrapper = document.querySelector(".marquee-wrapper");
+        if (!wrapper || !wrapper._marqueeAnimation) return;
+
+        wrapper._marqueeAnimation.stop();
+        delete wrapper._marqueeAnimation;
+        wrapper.dataset.marqueeInitialized = "false";
     }
 
     // ==================== MAIN INITIALIZATION ====================
@@ -475,9 +685,12 @@ document.addEventListener('DOMContentLoaded', function () {
         applyTranslations(translations);
         updateLanguageDisplay(lang);
 
-        // Initialize modules after translations
+        // ZATVORI SVE MODALE PRI PROMENI JEZIKA
+        closeAllModals();
+
+        // RE-INICIJALIZUJ PRICING MODAL EVENT LISTENERE
         setupPricing();
-        setupPricingModals();
+        setupPricingModalButtons();
         setupPartnersMarquee();
 
         localStorage.setItem('preferredLanguage', lang);
@@ -489,7 +702,16 @@ document.addEventListener('DOMContentLoaded', function () {
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
         checkStickyNavigation();
-        setupGlobalHistoryHandler(); // Dodaj history handler
+        setupGlobalHistoryHandler();
+        setupPricingHistory();
+
+        // INICIJALIZUJ PRICING MODAL EVENT LISTENERE
+        setupPricingModalEventListeners();
+        setupPricingModalButtons();
+
+        // POSTAVI GLOBALNE FUNKCIJE ZA MARQUEE MANAGEMENT
+        window.manageMarqueeDuringModals = manageMarqueeDuringModals;
+        window.cleanupMarquee = cleanupMarquee;
     }
 
     // ==================== START APPLICATION ====================
@@ -511,6 +733,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize when page loads
     window.addEventListener('load', function () {
         body.classList.add("loaded");
+    });
+
+    // Cleanup prije ponovnog učitavanja stranice
+    window.addEventListener('beforeunload', function () {
+        if (window.cleanupMarquee) {
+            window.cleanupMarquee();
+        }
     });
 
     initializeApp();
