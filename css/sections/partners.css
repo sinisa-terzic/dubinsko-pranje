@@ -2,34 +2,6 @@
     position: relative;
 }
 
-/* .section-partners::before {
-    background: linear-gradient(-45deg, #505050 10px, transparent 0), linear-gradient(45deg, #505050 10px, transparent 0);
-    background-position: top right;
-    background-repeat: repeat-x;
-    background-size: 12px 32px;
-    content: " ";
-    display: block;
-    position: absolute;
-    top: -15px;
-    left: 0px;
-    width: 100%;
-    height: 25px;
-}
-
-.section-partners:after {
-    background: linear-gradient(-45deg, #ffffff 10px, transparent 0), linear-gradient(45deg, #ffffff 10px, transparent 0);
-    background-position: left bottom;
-    background-repeat: repeat-x;
-    background-size: 12px 32px;
-    content: " ";
-    display: block;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    width: 100%;
-    height: 25px;
-} */
-
 /* info pricing service - PREBACITI U PARTNER SEKCIJU */
 .info-pricings {
     padding: 5rem 0 5rem;
@@ -211,4 +183,8 @@
     color: #333;
     font-size: 2rem;
     font-weight: 600;
+}
+
+.marquee-wrapper[data-marquee-initialized="true"] .marquee-inner {
+    animation: none !important;
 }

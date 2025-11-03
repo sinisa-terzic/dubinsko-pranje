@@ -515,17 +515,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ==================== PARTNERS MARQUEE ====================
     function setupPartnersMarquee() {
+        const wrapper = document.querySelector(".marquee-wrapper");
+        if (!wrapper) return;
+
+        // Ako je već inicijaliziran, samo restartuj animaciju
+        if (wrapper.dataset.marqueeInitialized === "true") {
+            restartMarqueeAnimation();
+            return;
+        }
+
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const container = document.querySelector(".marquee-inner");
-        const wrapper = document.querySelector(".marquee-wrapper");
 
-        if (!container || !wrapper) return;
+        if (!container) return;
 
         // Reset stanja prije ponovne inicijalizacije
         container.style.transform = "translateX(0px)";
 
-        // Oznaci wrapper za kasnije referenciranje
-        wrapper.dataset.marqueeInitialized = "false";
+        // Oznaci wrapper kao inicijaliziran
+        wrapper.dataset.marqueeInitialized = "true";
 
         if (prefersReducedMotion) {
             setupStaticPartnersLayout(container);
@@ -533,6 +541,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         setupAnimatedMarquee(container, wrapper);
+    }
+
+    // Nova funkcija za restart animacije
+    function restartMarqueeAnimation() {
+        const wrapper = document.querySelector(".marquee-wrapper");
+        const container = document.querySelector(".marquee-inner");
+
+        if (!wrapper || !container) return;
+
+        // Resetuj poziciju
+        container.style.transform = "translateX(0px)";
+
+        // Ponovo pokreni animaciju ako postoji
+        if (wrapper._marqueeAnimation) {
+            wrapper._marqueeAnimation.reset();
+            wrapper._marqueeAnimation.start();
+        }
     }
 
     function setupStaticPartnersLayout(container) {
@@ -691,7 +716,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // RE-INICIJALIZUJ PRICING MODAL EVENT LISTENERE
         setupPricing();
         setupPricingModalButtons();
-        setupPartnersMarquee();
+
+        // SAMO RESTARTUJ MARQUEE, NE PONOVNA INICIJALIZACIJA
+        restartMarqueeAnimation();
 
         localStorage.setItem('preferredLanguage', lang);
     }
@@ -708,6 +735,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // INICIJALIZUJ PRICING MODAL EVENT LISTENERE
         setupPricingModalEventListeners();
         setupPricingModalButtons();
+
+        // INICIJALIZUJ MARQUEE SAMO JEDNOM
+        setupPartnersMarquee();
 
         // POSTAVI GLOBALNE FUNKCIJE ZA MARQUEE MANAGEMENT
         window.manageMarqueeDuringModals = manageMarqueeDuringModals;
