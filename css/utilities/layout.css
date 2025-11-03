@@ -197,6 +197,7 @@
     border-bottom: 1px solid transparent;
     font-weight: 500;
     transition: all 0.3s;
+    font-size: 1.8rem;
 }
 
 .link:hover,
