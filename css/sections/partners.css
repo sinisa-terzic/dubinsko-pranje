@@ -4,9 +4,9 @@
 
 /* info pricing service - PREBACITI U PARTNER SEKCIJU */
 .info-pricings {
-    padding: 5rem 0 5rem;
+    padding: 5rem 0;
     background: #f3f4f5;
-    margin: 5rem 0 5rem;
+    margin: 5rem 0;
     position: relative;
 }
 
@@ -72,8 +72,9 @@
     overflow: hidden;
     position: relative;
     background: #f8f9fa;
-    border-radius: 12px;
     padding: 3rem 0;
+    border-top: 1px solid #f3f4f5;
+    border-bottom: 1px solid #f3f4f5;
 }
 
 /* Gradient overlays for better visual flow */
@@ -183,8 +184,4 @@
     color: #333;
     font-size: 2rem;
     font-weight: 600;
-}
-
-.marquee-wrapper[data-marquee-initialized="true"] .marquee-inner {
-    animation: none !important;
 }

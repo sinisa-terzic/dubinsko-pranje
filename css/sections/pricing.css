@@ -31,7 +31,6 @@
     color: #222;
     font-weight: 600;
     text-transform: uppercase;
-    /* letter-spacing: 0.75px; */
     margin-bottom: 2rem;
 }
 
@@ -47,6 +46,12 @@
     font-size: 3rem;
     font-weight: 500;
     margin-right: 0.8rem;
+}
+
+.price-plus {
+    color: #388E3C;
+    font-weight: 400;
+    margin-left: 1rem;
 }
 
 .price-list-text {
@@ -156,7 +161,6 @@ input:checked+.chtext {
     font-size: 1.4rem;
 }
 
-
 /* Pricing Modal Styles */
 .pricing-modal {
     display: none;
@@ -173,15 +177,17 @@ input:checked+.chtext {
 .pricing-modal-content {
     background-color: #fefefe;
     margin: 2% auto;
-    padding: 30px;
+    padding: 0;
     border-radius: 12px;
     width: 90%;
     max-width: 700px;
     max-height: 85vh;
-    overflow-y: auto;
+    overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     position: relative;
     border: 2px solid #2c5aa0;
+    display: flex;
+    flex-direction: column;
 }
 
 .pricing-modal-close {
@@ -191,25 +197,66 @@ input:checked+.chtext {
     cursor: pointer;
     line-height: 1;
     position: absolute;
-    right: 10px;
-    top: 0;
-    z-index: 10001;
+    right: 15px;
+    top: 15px;
+    z-index: 10003;
 }
 
 .pricing-modal-close:hover {
     color: #ff0000;
 }
 
+/* MODAL HEADER - Fiksni deo */
+.pricing-modal-header {
+    position: sticky;
+    top: 0;
+    background: #fefefe;
+    padding: 0;
+    border-bottom: 2px solid #e0e0e0;
+    z-index: 10001;
+    flex-shrink: 0;
+}
+
 #pricing-modal-title {
     color: #2c5aa0;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #e0e0e0;
+    margin: 0;
+    padding: 2.5rem;
+    border-bottom: none;
     font-size: 2.5rem;
 }
 
+/* MODAL BODY - Scrollable deo */
 .pricing-modal-body {
-    margin-top: 20px;
+    margin-top: 0;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: calc(85vh - 200px);
+}
+
+/* MODAL FOOTER - Fiksni deo */
+.pricing-modal-footer {
+    position: sticky;
+    bottom: 0;
+    background: #f8f9fa;
+    padding: 1.5rem 2.5rem;
+    border-top: 2px solid #e0e0e0;
+    z-index: 10001;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.pricing-modal-footer p {
+    margin: 0;
+    font-size: 1.4rem;
+    color: #666;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+.pricing-modal-footer strong {
+    color: #2c5aa0;
+    font-weight: 600;
 }
 
 .pricing-category {
@@ -277,23 +324,31 @@ input:checked+.chtext {
 @media (max-width: 768px) {
     .pricing-modal-content {
         margin: 5% auto;
-        padding: 2rem;
         width: 90%;
+        max-height: 90vh;
     }
 
-    /*     .pricing-subitem {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    } */
-
-    /* .pricing-subitem-price {
-        align-self: flex-end;
-    } */
+    .pricing-modal-header {
+        padding: 0;
+    }
 
     #pricing-modal-title {
         font-size: 2.2rem;
         font-weight: 600;
+        padding: 2rem;
+    }
+
+    .pricing-modal-body {
+        padding: 2rem;
+        max-height: calc(90vh - 180px);
+    }
+
+    .pricing-modal-footer {
+        padding: 1.2rem 1.5rem;
+    }
+
+    .pricing-modal-footer p {
+        font-size: 1.3rem;
     }
 
     .pricing-category-title {
@@ -307,4 +362,29 @@ input:checked+.chtext {
     .pricing-subitem-price {
         font-size: 1.6rem;
     }
+
+    .pricing-modal-close {
+        right: 10px;
+        top: 10px;
+        font-size: 28px;
+    }
+}
+
+/* Scrollbar styling */
+.pricing-modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pricing-modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.pricing-modal-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.pricing-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
 }

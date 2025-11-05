@@ -1,6 +1,6 @@
 /**
  * MODERN GALLERY - OPTIMIZOVANA RESPONZIVNA GALERIJA
- * Sa back button funkcionalnošću i marquee integracijom
+ * Sa back button funkcionalnošću
  */
 
 class GalleryManager {
@@ -206,13 +206,6 @@ class GalleryManager {
             document.body.style.overflow = 'auto';
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
-
-            // NASTAVI MARQUEE ANIMACIJU
-            if (window.manageMarqueeDuringModals) {
-                setTimeout(() => {
-                    window.manageMarqueeDuringModals();
-                }, 100);
-            }
 
             // Ponovo pokreni rotaciju ako postoji
             if (this.state.rotatingImages.length > 1) {
@@ -621,11 +614,6 @@ class GalleryManager {
         this.elements.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
 
-        // PAUZIRAJ MARQUEE ANIMACIJU
-        if (window.manageMarqueeDuringModals) {
-            window.manageMarqueeDuringModals();
-        }
-
         // DODAJ U HISTORY SAMO AKO VEĆ NIJE DODATO
         const currentState = history.state;
         if (!currentState || currentState.modal !== 'gallery' || currentState.index !== this.state.currentIndex) {
@@ -660,13 +648,6 @@ class GalleryManager {
             document.body.style.overflow = 'auto';
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
-
-            // NASTAVI MARQUEE ANIMACIJU
-            if (window.manageMarqueeDuringModals) {
-                setTimeout(() => {
-                    window.manageMarqueeDuringModals();
-                }, 100);
-            }
 
             // VRATI HISTORY SAMO AKO JE KORISNIK EKSPLICITNO ZATVORIO MODAL
             const currentState = history.state;

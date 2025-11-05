@@ -201,37 +201,36 @@
         },
         "modal": {
             "prices": {
-                "deep_cleaning": [
+                "dubinsko_pranje": [
                     {
                         "name": "Garniture",
                         "subitems": [
                             {
-                                "name": "&#x2022; Stolice",
-                                "value": "<small>od</small> &nbsp;5.00 €"
+                                "name": "&#x2022; Stolice"
                             },
                             {
-                                "name": "&#x2022; Tabure",
-                                "value": "<small>od</small> &nbsp;10.00 €"
+                                "name": "&#x2022; Tabure"
                             },
                             {
-                                "name": "&#x2022; Fotelja",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Fotelja"
                             },
                             {
-                                "name": "&#x2022; Dvosed",
-                                "value": "25.00 €"
+                                "name": "&#x2022; Dvosjed"
                             },
                             {
-                                "name": "&#x2022; Trosed",
-                                "value": "35.00 €"
+                                "name": "&#x2022; Trosjed"
                             },
                             {
-                                "name": "&#x2022; Ugaona garnitura",
-                                "value": "<small>od</small> &nbsp;10.00 €"
+                                "name": "&#x2022; Mala ugaona"
                             },
                             {
-                                "name": "&#x2022; Jastuk",
-                                "value": "<small>od</small> &nbsp;2.00 €"
+                                "name": "&#x2022; Velika ugaona"
+                            },
+                            {
+                                "name": "&#x2022; Bračni krevet - JUMBO"
+                            },
+                            {
+                                "name": "&#x2022; Jastuci"
                             }
                         ]
                     },
@@ -239,16 +238,13 @@
                         "name": "Dušeci",
                         "subitems": [
                             {
-                                "name": "&#x2022; Dječiji",
-                                "value": "10.00 €"
+                                "name": "&#x2022; Dječiji"
                             },
                             {
-                                "name": "&#x2022; Samac",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Samac"
                             },
                             {
-                                "name": "&#x2022; Bračni",
-                                "value": "35.00 €"
+                                "name": "&#x2022; Bračni"
                             }
                         ]
                     },
@@ -256,39 +252,32 @@
                         "name": "Podne obloge",
                         "subitems": [
                             {
-                                "name": "&#x2022; Tepisi",
-                                "value": "<small>od</small> &nbsp;2.50"
+                                "name": "&#x2022; Tepisi"
                             },
                             {
-                                "name": "&#x2022; Itisoni (po m²)",
-                                "value": "3.00 €"
+                                "name": "&#x2022; Itisoni (po m²)"
                             }
                         ]
                     }
                 ],
-                "vehicles_and_vessels": [
+                "vozila_i_plovila": [
                     {
                         "name": "Obično pranje",
                         "subitems": [
                             {
-                                "name": "&#x2022; Malo vozilo",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Malo vozilo"
                             },
                             {
-                                "name": "&#x2022; Karavan",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Karavan"
                             },
                             {
-                                "name": "&#x2022; Džip",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Džip"
                             },
                             {
-                                "name": "&#x2022; Motorni prostor",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Motorni prostor"
                             },
                             {
-                                "name": "&#x2022; Airbox tretman ~ 30 min.",
-                                "value": "40.00 €"
+                                "name": "&#x2022; Airbox tretman ~ 30 min."
                             }
                         ]
                     },
@@ -296,16 +285,16 @@
                         "name": "Dubinsko pranje",
                         "subitems": [
                             {
-                                "name": "&#x2022; Malo vozilo",
-                                "value": "<small>od</small> &nbsp;100.00 €"
+                                "name": "&#x2022; Malo vozilo"
                             },
                             {
-                                "name": "&#x2022; Karavan",
-                                "value": "<small>od</small> &nbsp;120.00 €"
+                                "name": "&#x2022; Limuzina"
                             },
                             {
-                                "name": "&#x2022; Džip",
-                                "value": "<small>od</small> &nbsp;150.00 €"
+                                "name": "&#x2022; Karavan"
+                            },
+                            {
+                                "name": "&#x2022; Džip"
                             }
                         ]
                     },
@@ -313,31 +302,26 @@
                         "name": "Sređivanje farova",
                         "subitems": [
                             {
-                                "name": "&#x2022; Poliranje",
-                                "value": "40.00 €"
+                                "name": "&#x2022; Poliranje"
                             },
                             {
-                                "name": "&#x2022; Polimerizacija",
-                                "value": "50.00 €"
+                                "name": "&#x2022; Polimerizacija"
                             }
                         ]
                     }
                 ],
-                "hotels_and_yachts": [
+                "hoteli_i_jahte": [
                     {
                         "name": "Održavanje jahte",
                         "subitems": [
                             {
-                                "name": "&#x2022; Spoljašnost",
-                                "value": "150.00 €"
+                                "name": "&#x2022; Spoljašnost"
                             },
                             {
-                                "name": "&#x2022; Kabina",
-                                "value": "30.00 €"
+                                "name": "&#x2022; Kabina"
                             },
                             {
-                                "name": "&#x2022; Kormilo",
-                                "value": "25.00 €"
+                                "name": "&#x2022; Kormilo"
                             }
                         ]
                     },
@@ -345,12 +329,10 @@
                         "name": "Održavanje hotela",
                         "subitems": [
                             {
-                                "name": "&#x2022; Spoljašnost",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Spoljašnost"
                             },
                             {
-                                "name": "&#x2022; Sobe",
-                                "value": "30.00 €"
+                                "name": "&#x2022; Sobe"
                             }
                         ]
                     },
@@ -358,20 +340,20 @@
                         "name": "Zelene površine",
                         "subitems": [
                             {
-                                "name": "&#x2022; Dvosed",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Dvosed"
                             },
                             {
-                                "name": "&#x2022; Kabina",
-                                "value": "30.00 €"
+                                "name": "&#x2022; Kabina"
                             },
                             {
-                                "name": "&#x2022; Bašte",
-                                "value": "25.00 €"
+                                "name": "&#x2022; Bašte"
                             }
                         ]
                     }
                 ]
+            },
+            "footer": {
+                "note": "<strong>Napomena:</strong> Cijene su okvirne i mogu varirati u zavisnosti od stanja i kompleksnosti posla. Konačna cijena se utvrđuje nakon uvidaja."
             }
         }
     },

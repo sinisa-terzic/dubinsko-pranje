@@ -795,7 +795,7 @@
                 <ul id="checkboxes-1" class="checkboxes p">
                     <li>
                         <label for="furniture" class="label-pricing flex align-center">
-                            <input type="radio" id="furniture" name="furnitureType" value="40.00" checked>
+                            <input type="radio" id="furniture" name="furnitureType" value="50.00+" checked>
                             <span class="chtext"
                                 data-i18n="pricing.plans.deepCleaning.items.furniture.label">Garniture</span>
                             <span class="checkmark"></span>
@@ -803,7 +803,7 @@
                     </li>
                     <li>
                         <label for="mattresses" class="label-pricing flex align-center">
-                            <input type="radio" id="mattresses" name="furnitureType" value="15.00">
+                            <input type="radio" id="mattresses" name="furnitureType" value="20.00+">
                             <span class="chtext"
                                 data-i18n="pricing.plans.deepCleaning.items.mattresses.label">Dušeci</span>
                             <span class="checkmark"></span>
@@ -811,7 +811,7 @@
                     </li>
                     <li>
                         <label for="cushions" class="label-pricing flex align-center">
-                            <input type="radio" id="cushions" name="furnitureType" value="2.50">
+                            <input type="radio" id="cushions" name="furnitureType" value="3.00+">
                             <span class="chtext"
                                 data-i18n="pricing.plans.deepCleaning.items.cushions.label">Etisoni</span>
                             <span class="checkmark"></span>
@@ -903,7 +903,8 @@
                 </ul>
                 <div class="price-list-footer">
                     <p data-i18n="pricing.calculatorNote">Kalkulator prikazuje početnu cijenu!</p>
-                    <button id="showFullPrice-3" data-i18n="pricing.plans.hotels.fullPriceButton">Cjenovnik za hotele i
+                    <button id="showFullPrice-3" data-i18n="pricing.plans.hotels.fullPriceButton" disabled>Cjenovnik za
+                        hotele i
                         jahte</button>
                 </div>
             </div>
@@ -913,8 +914,15 @@
         <div id="pricing-modal" class="pricing-modal">
             <div class="pricing-modal-content">
                 <span class="pricing-modal-close">&times;</span>
-                <h3 id="pricing-modal-title" data-i18n="pricing.plans.deepCleaning.modalTitle">Cjenovnik</h3>
+                <div class="pricing-modal-header">
+                    <h3 id="pricing-modal-title" data-i18n="pricing.plans.deepCleaning.modalTitle">Cjenovnik</h3>
+                </div>
                 <div id="pricing-modal-content" class="pricing-modal-body"></div>
+                <div class="pricing-modal-footer">
+                    <p data-i18n-html="pricing.modal.footer.note"><strong>Napomena:</strong> Cijene su okvirne i mogu
+                        varirati u zavisnosti od stanja i kompleksnosti posla. Konačna cijena se utvrđuje nakon uvidaja.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -928,8 +936,7 @@
 
         <div class="text-c">
             <h2 class="h2-partners" data-i18n="partners.title">Our Business Partners</h2>
-            <p class="partners-description">Ponosni smo što sarađujemo sa organizacijama koje doprinose zajedničkom
-                uspehu.
+            <p class="partners-description">Ponosni smo na partnere s kojima dijelimo put ka inovacijama i uspjehu.
             </p>
         </div>
 
@@ -970,7 +977,7 @@
             </div>
         </div>
 
-        <p class="cta p text-c">Postanite i vi dio naše zajednice!</p>
+        <p class="cta text-c">Pridružite nam se</p>
 
     </section> <!-- END OUR PARTNERS -->
 

@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentLanguage = 'sr';
     let scrollTimeout;
     let pricingModalInitialized = false;
+    let currentPrices = {};
 
     // ==================== UTILITY FUNCTIONS ====================
     function getNestedValue(obj, path) {
@@ -36,6 +37,112 @@ document.addEventListener('DOMContentLoaded', function () {
         return element ? element.textContent : null;
     }
 
+    // ==================== PRICE MANAGEMENT ====================
+    async function loadPrices() {
+        try {
+            const response = await fetch('data/prices.json');
+            if (!response.ok) throw new Error('Network response was not ok');
+            currentPrices = await response.json();
+            return currentPrices;
+        } catch (error) {
+            console.error('Error loading prices:', error);
+            return {};
+        }
+    }
+
+    function formatPrice(priceData) {
+        let prefix = '';
+        if (priceData.prefix) {
+            // Dinamički prevod prefixa na osnovu trenutnog jezika
+            const prefixTranslations = {
+                'sr': 'od',
+                'en': 'from',
+                'ru': 'от'
+            };
+            const translatedPrefix = prefixTranslations[currentLanguage] || 'od';
+            prefix = `<small>${translatedPrefix}</small> &nbsp;`;
+        }
+
+        let plus = '';
+        if (priceData.plus) {
+            plus = `<span class="price-plus">+</span>`;
+        }
+
+        return `${prefix}${priceData.price.toFixed(2)} €${plus}`;
+    }
+
+    // ==================== RADIO PRICE MANAGEMENT ====================
+    function setupRadioPrices() {
+        const radioSections = [
+            { sectionId: 1, planKey: 'dubinsko_pranje' },
+            { sectionId: 2, planKey: 'vozila_i_plovila' },
+            { sectionId: 3, planKey: 'hoteli_i_jahte' }
+        ];
+
+        radioSections.forEach(section => {
+            const radioPrices = currentPrices.radio_prices?.[section.planKey];
+            if (!radioPrices) return;
+
+            radioPrices.forEach(radioItem => {
+                const radioElement = document.getElementById(radioItem.id);
+                if (radioElement) {
+                    // Ažuriraj value atribut
+                    let value = radioItem.price.toFixed(2);
+                    if (radioItem.plus) {
+                        value += '+';
+                    }
+                    radioElement.value = value;
+
+                    // Postavi disabled status ako postoji
+                    if (radioItem.disabled) {
+                        radioElement.disabled = true;
+                    }
+
+                    // Ažuriraj prikaz cijene u output elementu
+                    const outputElement = document.getElementById(`total-${section.sectionId}`);
+                    if (outputElement && radioElement.checked) {
+                        updateRadioPriceDisplay(outputElement, radioItem, section.sectionId);
+                    }
+
+                    // Dodaj event listener za promjenu
+                    radioElement.addEventListener('change', function () {
+                        if (this.checked) {
+                            updateRadioPriceDisplay(outputElement, radioItem, section.sectionId);
+                        }
+                    });
+                }
+            });
+
+            // Inicijalno postavi prikaz za checked radio button
+            const checkedRadio = document.querySelector(`#checkboxes-${section.sectionId} input[type="radio"]:checked`);
+            if (checkedRadio) {
+                const radioId = checkedRadio.id;
+                const radioItem = radioPrices.find(item => item.id === radioId);
+                const outputElement = document.getElementById(`total-${section.sectionId}`);
+                if (radioItem && outputElement) {
+                    updateRadioPriceDisplay(outputElement, radioItem, section.sectionId);
+                }
+            }
+        });
+    }
+
+    function updateRadioPriceDisplay(output, radioItem, sectionId) {
+        let priceHtml = `<span class="euro">€</span><span>${radioItem.price.toFixed(2)}</span>`;
+
+        if (radioItem.plus) {
+            priceHtml += `<span class="price-plus">+</span>`;
+        }
+
+        let html = priceHtml;
+
+        if (sectionId === 2 && radioItem.price === 100.00) {
+            const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
+            html += ` <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>`;
+        }
+
+        output.innerHTML = html;
+    }
+
     // ==================== MODAL HISTORY MANAGEMENT ====================
     function setupGlobalHistoryHandler() {
         window.addEventListener('popstate', function (event) {
@@ -44,13 +151,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!state) {
                 // Zatvori sve modale kada se vratimo na osnovno stanje
                 closeAllModals();
-
-                // OSIGURAJ DA JE MARQUEE PONOVO POKRENUT
-                setTimeout(() => {
-                    if (window.manageMarqueeDuringModals) {
-                        window.manageMarqueeDuringModals();
-                    }
-                }, 200);
                 return;
             }
 
@@ -80,13 +180,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Zatvori pricing modal
         closePricingModalWithoutHistory();
-
-        // OSIGURAJ DA JE MARQUEE PONOVO POKRENUT
-        setTimeout(() => {
-            if (window.manageMarqueeDuringModals) {
-                window.manageMarqueeDuringModals();
-            }
-        }, 200);
     }
 
     // ==================== UI MANAGEMENT ====================
@@ -286,18 +379,36 @@ document.addEventListener('DOMContentLoaded', function () {
             const radios = document.querySelectorAll(`#checkboxes-${section.id} input[type="radio"]`);
             const output = document.getElementById(`total-${section.id}`);
 
+            // Inicijalno postavi prikaz za checked radio button
+            const checkedRadio = document.querySelector(`#checkboxes-${section.id} input[type="radio"]:checked`);
+            if (checkedRadio) {
+                const planKeys = ['dubinsko_pranje', 'vozila_i_plovila', 'hoteli_i_jahte'];
+                const planKey = planKeys[section.id - 1];
+                const radioPrices = currentPrices.radio_prices?.[planKey];
+                if (radioPrices) {
+                    const radioItem = radioPrices.find(item => item.id === checkedRadio.id);
+                    if (radioItem) {
+                        updateRadioPriceDisplay(output, radioItem, section.id);
+                    }
+                }
+            }
+
+            // Event listener za promjenu
             radios.forEach(radio => {
                 radio.addEventListener('change', function () {
                     if (this.checked) {
-                        updatePriceDisplay(output, this.value, section.id);
+                        const planKeys = ['dubinsko_pranje', 'vozila_i_plovila', 'hoteli_i_jahte'];
+                        const planKey = planKeys[section.id - 1];
+                        const radioPrices = currentPrices.radio_prices?.[planKey];
+                        if (radioPrices) {
+                            const radioItem = radioPrices.find(item => item.id === this.id);
+                            if (radioItem) {
+                                updateRadioPriceDisplay(output, radioItem, section.id);
+                            }
+                        }
                     }
                 });
             });
-
-            const checked = document.querySelector(`#checkboxes-${section.id} input[type="radio"]:checked`);
-            if (checked) {
-                updatePriceDisplay(output, checked.value, section.id);
-            }
         });
     }
 
@@ -337,9 +448,18 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.style.overflow = 'hidden';
 
         const planData = {
-            '1': { titleKey: 'pricing.plans.deepCleaning.modalTitle', pricesKey: 'deep_cleaning' },
-            '2': { titleKey: 'pricing.plans.vehicles.modalTitle', pricesKey: 'vehicles_and_vessels' },
-            '3': { titleKey: 'pricing.plans.hotels.modalTitle', pricesKey: 'hotels_and_yachts' }
+            '1': {
+                titleKey: 'pricing.plans.deepCleaning.modalTitle',
+                pricesKey: 'dubinsko_pranje'
+            },
+            '2': {
+                titleKey: 'pricing.plans.vehicles.modalTitle',
+                pricesKey: 'vozila_i_plovila'
+            },
+            '3': {
+                titleKey: 'pricing.plans.hotels.modalTitle',
+                pricesKey: 'hoteli_i_jahte'
+            }
         };
 
         const currentPlan = planData[planId];
@@ -349,11 +469,6 @@ document.addEventListener('DOMContentLoaded', function () {
         modalTitle.textContent = title || 'Cjenovnik';
         modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
         modal.style.display = 'block';
-
-        // PAUZIRAJ MARQUEE KADA SE OTvORI MODAL
-        if (window.manageMarqueeDuringModals) {
-            window.manageMarqueeDuringModals();
-        }
 
         // DODAJ U HISTORY SAMO AKO VEĆ NIJE DODATO
         const currentState = history.state;
@@ -378,13 +493,6 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
 
-        // NASTAVI MARQUEE KADA SE ZATVORI MODAL
-        setTimeout(() => {
-            if (window.manageMarqueeDuringModals) {
-                window.manageMarqueeDuringModals();
-            }
-        }, 100);
-
         // UKLONI HASH IZ URL-A SAMO AKO JE KORISNIK EKSPLICITNO ZATVORIO MODAL
         const currentState = history.state;
         if (currentState && currentState.modal === 'pricing') {
@@ -404,15 +512,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-
-        // NASTAVI MARQUEE KADA SE ZATVORI MODAL
-        setTimeout(() => {
-            if (window.manageMarqueeDuringModals) {
-                window.manageMarqueeDuringModals();
-            }
-        }, 100);
-
-        // NE DIRAJ HISTORY - ovo je pozvano zbog browser back dugmeta
     }
 
     function setupPricingModalEventListeners() {
@@ -478,7 +577,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function generatePricingContent(pricesKey) {
-        const prices = getTranslation(`pricing.modal.prices.${pricesKey}`);
+        const prices = currentPrices[pricesKey];
+        const translations = getTranslation(`pricing.modal.prices.${pricesKey}`);
 
         if (!prices || !Array.isArray(prices) || prices.length === 0) {
             return '<p class="pricing-no-prices">Nema dostupnih cijena</p>';
@@ -486,27 +586,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let html = '';
 
-        prices.forEach(category => {
+        prices.forEach((category, index) => {
+            const translatedCategory = translations?.[index];
+
             html += `
-            <div class="pricing-category">
-                <h4 class="pricing-category-title">${category.name}</h4>
-                <ul class="pricing-subitems">
+        <div class="pricing-category">
+            <h4 class="pricing-category-title">${translatedCategory?.name || category.name}</h4>
+            <ul class="pricing-subitems">
         `;
 
             if (category.subitems && Array.isArray(category.subitems)) {
-                category.subitems.forEach(item => {
+                category.subitems.forEach((item, itemIndex) => {
+                    const translatedItem = translatedCategory?.subitems?.[itemIndex];
                     html += `
-                    <li class="pricing-subitem">
-                        <span class="pricing-subitem-name">${item.name}</span>
-                        <span class="pricing-subitem-price">${item.value}</span>
-                    </li>
+                <li class="pricing-subitem">
+                    <span class="pricing-subitem-name">${translatedItem?.name || item.name}</span>
+                    <span class="pricing-subitem-price">${formatPrice(item)}</span>
+                </li>
                 `;
                 });
             }
 
             html += `
-                </ul>
-            </div>
+            </ul>
+        </div>
         `;
         });
 
@@ -515,49 +618,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ==================== PARTNERS MARQUEE ====================
     function setupPartnersMarquee() {
-        const wrapper = document.querySelector(".marquee-wrapper");
-        if (!wrapper) return;
-
-        // Ako je već inicijaliziran, samo restartuj animaciju
-        if (wrapper.dataset.marqueeInitialized === "true") {
-            restartMarqueeAnimation();
-            return;
-        }
-
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const container = document.querySelector(".marquee-inner");
 
         if (!container) return;
-
-        // Reset stanja prije ponovne inicijalizacije
-        container.style.transform = "translateX(0px)";
-
-        // Oznaci wrapper kao inicijaliziran
-        wrapper.dataset.marqueeInitialized = "true";
 
         if (prefersReducedMotion) {
             setupStaticPartnersLayout(container);
             return;
         }
 
-        setupAnimatedMarquee(container, wrapper);
-    }
-
-    // Nova funkcija za restart animacije
-    function restartMarqueeAnimation() {
-        const wrapper = document.querySelector(".marquee-wrapper");
-        const container = document.querySelector(".marquee-inner");
-
-        if (!wrapper || !container) return;
-
-        // Resetuj poziciju
-        container.style.transform = "translateX(0px)";
-
-        // Ponovo pokreni animaciju ako postoji
-        if (wrapper._marqueeAnimation) {
-            wrapper._marqueeAnimation.reset();
-            wrapper._marqueeAnimation.start();
-        }
+        setupAnimatedMarquee(container);
     }
 
     function setupStaticPartnersLayout(container) {
@@ -577,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function setupAnimatedMarquee(container, wrapper) {
+    function setupAnimatedMarquee(container) {
         // Kloniraj sadržaj za seamless loop
         const clones = container.cloneNode(true);
         container.appendChild(clones);
@@ -585,13 +656,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let scrollAmount = 0;
         let isPaused = false;
         let animationFrameId;
-        let isAnimating = true;
-
-        // Resetuj transformaciju prije početka
-        container.style.transform = "translateX(0px)";
 
         function marqueeScroll() {
-            if (!isAnimating || !isPaused) {
+            if (!isPaused) {
                 scrollAmount += 1;
                 container.style.transform = `translateX(-${scrollAmount}px)`;
 
@@ -602,103 +669,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            if (isAnimating) {
-                animationFrameId = requestAnimationFrame(marqueeScroll);
-            }
+            animationFrameId = requestAnimationFrame(marqueeScroll);
         }
 
         // Pokreni animaciju
         marqueeScroll();
 
         // Pause na hover/focus za bolje korisničko iskustvo
-        setupMarqueeInteractions(wrapper, () => isPaused = true, () => isPaused = false);
-
-        // Upravljanje vidljivošću stranice
-        setupVisibilityManagement(() => {
-            isAnimating = !document.hidden;
-            if (isAnimating && !animationFrameId) {
-                marqueeScroll();
-            }
-        });
-
-        // Čuvanje reference za cleanup
-        wrapper.dataset.marqueeInitialized = "true";
-        wrapper._marqueeAnimation = {
-            stop: () => {
-                isAnimating = false;
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                    animationFrameId = null;
-                }
-            },
-            start: () => {
-                if (!isAnimating) {
-                    isAnimating = true;
-                    marqueeScroll();
-                }
-            },
-            reset: () => {
-                scrollAmount = 0;
-                container.style.transform = "translateX(0px)";
-            }
-        };
-    }
-
-    function setupMarqueeInteractions(wrapper, onPause, onResume) {
-        if (!wrapper) return;
-
-        wrapper.addEventListener("mouseenter", onPause);
-        wrapper.addEventListener("mouseleave", onResume);
-
-        const logos = wrapper.querySelectorAll('.ratio');
-        logos.forEach(logo => {
-            logo.addEventListener('focus', onPause);
-            logo.addEventListener('blur', onResume);
-        });
-    }
-
-    function setupVisibilityManagement(callback) {
-        document.addEventListener('visibilitychange', function () {
-            callback();
-        });
-    }
-
-    // NOVA FUNKCIJA: Pauziranje marquee efekta kada su modali otvoreni
-    function manageMarqueeDuringModals() {
         const wrapper = document.querySelector(".marquee-wrapper");
-        if (!wrapper || !wrapper._marqueeAnimation) return;
+        if (wrapper) {
+            wrapper.addEventListener("mouseenter", () => isPaused = true);
+            wrapper.addEventListener("mouseleave", () => isPaused = false);
 
-        const galleryModal = document.getElementById('gallery-modal');
-        const pricingModal = document.getElementById('pricing-modal');
-
-        const isAnyModalOpen =
-            (galleryModal && galleryModal.style.display === 'block') ||
-            (pricingModal && pricingModal.style.display === 'block');
-
-        if (isAnyModalOpen) {
-            // Pauziraj marquee kada su modali otvoreni
-            wrapper._marqueeAnimation.stop();
-            wrapper.style.opacity = '0.7'; // Vizuelni indikator pauze
-        } else {
-            // Nastavi marquee kada su modali zatvoreni
-            wrapper._marqueeAnimation.start();
-            wrapper.style.opacity = '1';
-
-            // Reset pozicije ako je došlo do rasipanja
-            setTimeout(() => {
-                wrapper._marqueeAnimation.reset();
-            }, 100);
+            const logos = wrapper.querySelectorAll('.ratio');
+            logos.forEach(logo => {
+                logo.addEventListener('focus', () => isPaused = true);
+                logo.addEventListener('blur', () => isPaused = false);
+            });
         }
-    }
-
-    // NOVA FUNKCIJA: Cleanup marquee animacije
-    function cleanupMarquee() {
-        const wrapper = document.querySelector(".marquee-wrapper");
-        if (!wrapper || !wrapper._marqueeAnimation) return;
-
-        wrapper._marqueeAnimation.stop();
-        delete wrapper._marqueeAnimation;
-        wrapper.dataset.marqueeInitialized = "false";
     }
 
     // ==================== MAIN INITIALIZATION ====================
@@ -717,14 +705,15 @@ document.addEventListener('DOMContentLoaded', function () {
         setupPricing();
         setupPricingModalButtons();
 
-        // SAMO RESTARTUJ MARQUEE, NE PONOVNA INICIJALIZACIJA
-        restartMarqueeAnimation();
-
         localStorage.setItem('preferredLanguage', lang);
     }
 
     async function initializeApp() {
         const savedLanguage = localStorage.getItem('preferredLanguage') || 'sr';
+
+        // UČITAJ CIJENE PRIJE SVEGA
+        await loadPrices();
+        setupRadioPrices(); // POSTAVI RADIO CIJENE
 
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
@@ -738,10 +727,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // INICIJALIZUJ MARQUEE SAMO JEDNOM
         setupPartnersMarquee();
-
-        // POSTAVI GLOBALNE FUNKCIJE ZA MARQUEE MANAGEMENT
-        window.manageMarqueeDuringModals = manageMarqueeDuringModals;
-        window.cleanupMarquee = cleanupMarquee;
     }
 
     // ==================== START APPLICATION ====================
@@ -763,13 +748,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize when page loads
     window.addEventListener('load', function () {
         body.classList.add("loaded");
-    });
-
-    // Cleanup prije ponovnog učitavanja stranice
-    window.addEventListener('beforeunload', function () {
-        if (window.cleanupMarquee) {
-            window.cleanupMarquee();
-        }
     });
 
     initializeApp();

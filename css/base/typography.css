@@ -31,6 +31,7 @@ h3 {
   line-height: 1.2;
 }
 
+
 .h2:after {
   display: block;
   height: 1px;
@@ -42,23 +43,29 @@ h3 {
 }
 
 .h2-partners {
-  font-size: 3.6rem;
+  font-size: 3.4rem;
   line-height: 1.2;
-  margin-bottom: 2rem;
-  color: #c40308;
+  margin-bottom: 4rem;
+  color: #01579B;
+  font-weight: 600;
 }
 
 .partners-description {
   text-align: center;
   margin-bottom: 3rem;
-  color: #666;
-  font-size: 1.8rem;
-  margin-left: auto;
-  margin-right: auto;
+  color: #585858;
+  font-size: 2rem;
 }
 
 .cta {
-  margin-top: 3rem;
+  margin-top: 4rem;
+  padding: 2.5rem;
+  background-color: #E1BEE7;
+  background-color: #f3e6f6;
+  color: #1a223a;
+  letter-spacing: 2px;
+  font-size: 1.7rem;
+  font-weight: 500;
 }
 
 .h3-lg {

@@ -1,0 +1,243 @@
+{
+    "dubinsko_pranje": [
+        {
+            "name": "garniture",
+            "subitems": [
+                {
+                    "name": "stolice",
+                    "price": 5.00,
+                    "prefix": true
+                },
+                {
+                    "name": "tabure",
+                    "price": 10.00,
+                    "prefix": true
+                },
+                {
+                    "name": "fotelja",
+                    "price": 10.00,
+                    "prefix": true
+                },
+                {
+                    "name": "dvosjed",
+                    "price": 25.00
+                },
+                {
+                    "name": "trosjed",
+                    "price": 35.00
+                },
+                {
+                    "name": "mala_ugaona",
+                    "price": 50.00
+                },
+                {
+                    "name": "velika_ugaona",
+                    "price": 70.00
+                },
+                {
+                    "name": "bračni_krevet_jumbo",
+                    "price": 40.00
+                },
+                {
+                    "name": "jastuci",
+                    "price": 2.00,
+                    "prefix": true
+                }
+            ]
+        },
+        {
+            "name": "dušeci",
+            "subitems": [
+                {
+                    "name": "dječiji",
+                    "price": 10.00
+                },
+                {
+                    "name": "samac",
+                    "price": 20.00
+                },
+                {
+                    "name": "bračni",
+                    "price": 35.00,
+                    "prefix": true
+                }
+            ]
+        },
+        {
+            "name": "podne_obloge",
+            "subitems": [
+                {
+                    "name": "tepisi",
+                    "price": 2.50,
+                    "prefix": true
+                },
+                {
+                    "name": "itisoni_po_m2",
+                    "price": 3.00
+                }
+            ]
+        }
+    ],
+    "vozila_i_plovila": [
+        {
+            "name": "obično_pranje",
+            "subitems": [
+                {
+                    "name": "malo_vozilo",
+                    "price": 15.00
+                },
+                {
+                    "name": "karavan",
+                    "price": 15.00
+                },
+                {
+                    "name": "džip",
+                    "price": 20.00
+                },
+                {
+                    "name": "motorni_prostor",
+                    "price": 15.00
+                },
+                {
+                    "name": "airbox_tretman",
+                    "price": 40.00
+                }
+            ]
+        },
+        {
+            "name": "dubinsko_pranje",
+            "subitems": [
+                {
+                    "name": "malo_vozilo",
+                    "price": 100.00,
+                    "prefix": false
+                },
+                {
+                    "name": "limuzina",
+                    "price": 120.00
+                },
+                {
+                    "name": "karavan",
+                    "price": 150.00
+                },
+                {
+                    "name": "džip",
+                    "price": 150.00
+                }
+            ]
+        },
+        {
+            "name": "sređivanje_farova",
+            "subitems": [
+                {
+                    "name": "poliranje",
+                    "price": 40.00
+                },
+                {
+                    "name": "polimerizacija",
+                    "price": 50.00
+                }
+            ]
+        }
+    ],
+    "hoteli_i_jahte": [
+        {
+            "name": "održavanje_jahte",
+            "subitems": [
+                {
+                    "name": "spoljašnost",
+                    "price": 150.00
+                },
+                {
+                    "name": "kabina",
+                    "price": 30.00
+                },
+                {
+                    "name": "kormilo",
+                    "price": 25.00
+                }
+            ]
+        },
+        {
+            "name": "održavanje_hotela",
+            "subitems": [
+                {
+                    "name": "spoljašnost",
+                    "price": 20.00
+                },
+                {
+                    "name": "sobe",
+                    "price": 30.00
+                }
+            ]
+        },
+        {
+            "name": "zelene_površine",
+            "subitems": [
+                {
+                    "name": "dvosed",
+                    "price": 20.00
+                },
+                {
+                    "name": "kabina",
+                    "price": 30.00
+                },
+                {
+                    "name": "bašte",
+                    "price": 25.00
+                }
+            ]
+        }
+    ],
+    "radio_prices": {
+        "dubinsko_pranje": [
+            {
+                "id": "furniture",
+                "price": 50.00,
+                "plus": true
+            },
+            {
+                "id": "mattresses",
+                "price": 20.00,
+                "plus": true
+            },
+            {
+                "id": "cushions",
+                "price": 3.00,
+                "plus": true
+            }
+        ],
+        "vozila_i_plovila": [
+            {
+                "id": "regularWash",
+                "price": 15.00
+            },
+            {
+                "id": "deepWashing",
+                "price": 100.00,
+                "plus": true
+            },
+            {
+                "id": "headlights",
+                "price": 50.00
+            }
+        ],
+        "hoteli_i_jahte": [
+            {
+                "id": "exterior",
+                "price": 0.00,
+                "disabled": true
+            },
+            {
+                "id": "yachtInterior",
+                "price": 1.00,
+                "disabled": true
+            },
+            {
+                "id": "rooms",
+                "price": 2.00,
+                "disabled": true
+            }
+        ]
+    }
+}

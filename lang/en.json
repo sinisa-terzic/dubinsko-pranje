@@ -201,37 +201,30 @@
         },
         "modal": {
             "prices": {
-                "deep_cleaning": [
+                "dubinsko_pranje": [
                     {
                         "name": "Furniture Sets",
                         "subitems": [
                             {
-                                "name": "&#x2022; Chairs",
-                                "value": "<small>from</small> &nbsp;5.00 €"
+                                "name": "&#x2022; Chairs"
                             },
                             {
-                                "name": "&#x2022; Stool/Pouf",
-                                "value": "<small>from</small> &nbsp;10.00 €"
+                                "name": "&#x2022; Stool/Pouf"
                             },
                             {
-                                "name": "&#x2022; Armchair",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Armchair"
                             },
                             {
-                                "name": "&#x2022; Loveseat (Two-seater)",
-                                "value": "25.00 €"
+                                "name": "&#x2022; Loveseat (Two-seater)"
                             },
                             {
-                                "name": "&#x2022; Three-seater",
-                                "value": "35.00 €"
+                                "name": "&#x2022; Three-seater"
                             },
                             {
-                                "name": "&#x2022; Corner Sofa",
-                                "value": "<small>from</small> &nbsp;10.00 €"
+                                "name": "&#x2022; Corner Sofa"
                             },
                             {
-                                "name": "&#x2022; Pillow/Cushion",
-                                "value": "<small>from</small> &nbsp;2.00 €"
+                                "name": "&#x2022; Pillow/Cushion"
                             }
                         ]
                     },
@@ -239,16 +232,13 @@
                         "name": "Mattresses",
                         "subitems": [
                             {
-                                "name": "&#x2022; Children's",
-                                "value": "10.00 €"
+                                "name": "&#x2022; Children's"
                             },
                             {
-                                "name": "&#x2022; Single",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Single"
                             },
                             {
-                                "name": "&#x2022; Double/Queen",
-                                "value": "35.00 €"
+                                "name": "&#x2022; Double/Queen"
                             }
                         ]
                     },
@@ -256,39 +246,32 @@
                         "name": "Floor Coverings",
                         "subitems": [
                             {
-                                "name": "&#x2022; Rugs",
-                                "value": "<small>from</small> &nbsp;2.50"
+                                "name": "&#x2022; Rugs"
                             },
                             {
-                                "name": "&#x2022; Wall-to-Wall Carpet (per m²)",
-                                "value": "3.00 €"
+                                "name": "&#x2022; Wall-to-Wall Carpet (per m²)"
                             }
                         ]
                     }
                 ],
-                "vehicles_and_vessels": [
+                "vozila_i_plovila": [
                     {
                         "name": "Regular Wash",
                         "subitems": [
                             {
-                                "name": "&#x2022; Small vehicle",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Small vehicle"
                             },
                             {
-                                "name": "&#x2022; Station Wagon",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Station Wagon"
                             },
                             {
-                                "name": "&#x2022; SUV",
-                                "value": "20.00 €"
+                                "name": "&#x2022; SUV"
                             },
                             {
-                                "name": "&#x2022; Engine bay",
-                                "value": "15.00 €"
+                                "name": "&#x2022; Engine bay"
                             },
                             {
-                                "name": "&#x2022; Airbox treatment ~ 30 min.",
-                                "value": "40.00 €"
+                                "name": "&#x2022; Airbox treatment ~ 30 min."
                             }
                         ]
                     },
@@ -296,16 +279,16 @@
                         "name": "Deep Cleaning",
                         "subitems": [
                             {
-                                "name": "&#x2022; Small vehicle",
-                                "value": "<small>from</small> &nbsp;100.00 €"
+                                "name": "&#x2022; Small vehicle"
                             },
                             {
-                                "name": "&#x2022; Station Wagon",
-                                "value": "<small>from</small> &nbsp;120.00 €"
+                                "name": "&#x2022; Limousine"
                             },
                             {
-                                "name": "&#x2022; SUV",
-                                "value": "<small>from</small> &nbsp;150.00 €"
+                                "name": "&#x2022; Station Wagon"
+                            },
+                            {
+                                "name": "&#x2022; SUV"
                             }
                         ]
                     },
@@ -313,31 +296,26 @@
                         "name": "Headlight Restoration",
                         "subitems": [
                             {
-                                "name": "&#x2022; Polishing",
-                                "value": "40.00 €"
+                                "name": "&#x2022; Polishing"
                             },
                             {
-                                "name": "&#x2022; Polymerization",
-                                "value": "50.00 €"
+                                "name": "&#x2022; Polymerization"
                             }
                         ]
                     }
                 ],
-                "hotels_and_yachts": [
+                "hoteli_i_jahte": [
                     {
                         "name": "Yacht Maintenance",
                         "subitems": [
                             {
-                                "name": "&#x2022; Exterior",
-                                "value": "150.00 €"
+                                "name": "&#x2022; Exterior"
                             },
                             {
-                                "name": "&#x2022; Cabin",
-                                "value": "30.00 €"
+                                "name": "&#x2022; Cabin"
                             },
                             {
-                                "name": "&#x2022; Helm/Steering",
-                                "value": "25.00 €"
+                                "name": "&#x2022; Helm/Steering"
                             }
                         ]
                     },
@@ -345,12 +323,10 @@
                         "name": "Hotel Maintenance",
                         "subitems": [
                             {
-                                "name": "&#x2022; Exterior",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Exterior"
                             },
                             {
-                                "name": "&#x2022; Rooms",
-                                "value": "30.00 €"
+                                "name": "&#x2022; Rooms"
                             }
                         ]
                     },
@@ -358,20 +334,20 @@
                         "name": "Green Areas",
                         "subitems": [
                             {
-                                "name": "&#x2022; Loveseat (Outdoor)",
-                                "value": "20.00 €"
+                                "name": "&#x2022; Loveseat (Outdoor)"
                             },
                             {
-                                "name": "&#x2022; Cabin (Outdoor)",
-                                "value": "30.00 €"
+                                "name": "&#x2022; Cabin (Outdoor)"
                             },
                             {
-                                "name": "&#x2022; Gardens",
-                                "value": "25.00 €"
+                                "name": "&#x2022; Gardens"
                             }
                         ]
                     }
                 ]
+            },
+            "footer": {
+                "note": "<strong>Note:</strong> Prices are approximate and may vary depending on the condition and complexity of the work. The final price is determined after inspection."
             }
         }
     },
