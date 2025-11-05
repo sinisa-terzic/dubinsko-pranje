@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function formatPrice(priceData) {
         let prefix = '';
         if (priceData.prefix) {
-            // Dinamički prevod prefixa na osnovu trenutnog jezika
             const prefixTranslations = {
                 'sr': 'od',
                 'en': 'from',
@@ -83,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const radioPrices = currentPrices.radio_prices?.[section.planKey];
             if (!radioPrices) return;
 
+            // Ažuriraj vrednosti i postavi event listenere za sva radio dugmad
             radioPrices.forEach(radioItem => {
                 const radioElement = document.getElementById(radioItem.id);
                 if (radioElement) {
@@ -97,21 +97,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (radioItem.disabled) {
                         radioElement.disabled = true;
                     }
-
-                    // Ažuriraj prikaz cijene u output elementu
-                    const outputElement = document.getElementById(`total-${section.sectionId}`);
-                    if (outputElement && radioElement.checked) {
-                        updateRadioPriceDisplay(outputElement, radioItem, section.sectionId);
-                    }
-
-                    // Dodaj event listener za promjenu
-                    radioElement.addEventListener('change', function () {
-                        if (this.checked) {
-                            updateRadioPriceDisplay(outputElement, radioItem, section.sectionId);
-                        }
-                    });
                 }
             });
+
+            // Postavi event listener na cijeli container
+            const checkboxContainer = document.getElementById(`checkboxes-${section.sectionId}`);
+            if (checkboxContainer) {
+                checkboxContainer.addEventListener('change', function (e) {
+                    if (e.target.type === 'radio' && e.target.checked) {
+                        const radioItem = radioPrices.find(item => item.id === e.target.id);
+                        const outputElement = document.getElementById(`total-${section.sectionId}`);
+                        if (radioItem && outputElement) {
+                            updateRadioPriceDisplay(outputElement, radioItem, section.sectionId);
+                        }
+                    }
+                });
+            }
 
             // Inicijalno postavi prikaz za checked radio button
             const checkedRadio = document.querySelector(`#checkboxes-${section.sectionId} input[type="radio"]:checked`);
@@ -141,6 +142,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         output.innerHTML = html;
+
+        // Dodaj treptanje dugmetu
+        const button = document.getElementById(`showFullPrice-${sectionId}`);
+        if (button) {
+            button.classList.add('pulse');
+            setTimeout(() => {
+                button.classList.remove('pulse');
+            }, 800);
+        }
     }
 
     // ==================== MODAL HISTORY MANAGEMENT ====================
@@ -149,18 +159,15 @@ document.addEventListener('DOMContentLoaded', function () {
             const state = event.state;
 
             if (!state) {
-                // Zatvori sve modale kada se vratimo na osnovno stanje
                 closeAllModals();
                 return;
             }
 
             if (state.modal === 'gallery') {
-                // Ako smo se vratili na gallery state, ponovo otvori galeriju
                 if (window.galleryManager && window.galleryManager.elements.modal.style.display === 'none') {
                     window.galleryManager.open(state.index);
                 }
             } else if (state.modal === 'pricing') {
-                // Ponovo otvori pricing modal samo ako nije već otvoren
                 const pricingModal = document.getElementById('pricing-modal');
                 if (pricingModal && pricingModal.style.display === 'none') {
                     showPricingModal(state.planId);
@@ -170,7 +177,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function closeAllModals() {
-        // Zatvori galeriju
         const galleryModal = document.getElementById('gallery-modal');
         if (galleryModal && galleryModal.style.display === 'block') {
             if (window.galleryManager) {
@@ -178,7 +184,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Zatvori pricing modal
         closePricingModalWithoutHistory();
     }
 
@@ -198,7 +203,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function checkStickyNavigation() {
-        const heroRect = document.querySelector(".hero-text-box").getBoundingClientRect();
+        const heroSection = document.querySelector(".hero-text-box");
+        if (!heroSection) return;
+
+        const heroRect = heroSection.getBoundingClientRect();
 
         if (heroRect.bottom < 200) {
             body.classList.add("sticky");
@@ -367,65 +375,8 @@ document.addEventListener('DOMContentLoaded', function () {
         headerEl.classList.remove("nav-open");
     }
 
-    // ==================== PRICING SYSTEM ====================
-    function setupPricing() {
-        const priceSections = [
-            { id: 1 },
-            { id: 2 },
-            { id: 3 }
-        ];
-
-        priceSections.forEach(section => {
-            const radios = document.querySelectorAll(`#checkboxes-${section.id} input[type="radio"]`);
-            const output = document.getElementById(`total-${section.id}`);
-
-            // Inicijalno postavi prikaz za checked radio button
-            const checkedRadio = document.querySelector(`#checkboxes-${section.id} input[type="radio"]:checked`);
-            if (checkedRadio) {
-                const planKeys = ['dubinsko_pranje', 'vozila_i_plovila', 'hoteli_i_jahte'];
-                const planKey = planKeys[section.id - 1];
-                const radioPrices = currentPrices.radio_prices?.[planKey];
-                if (radioPrices) {
-                    const radioItem = radioPrices.find(item => item.id === checkedRadio.id);
-                    if (radioItem) {
-                        updateRadioPriceDisplay(output, radioItem, section.id);
-                    }
-                }
-            }
-
-            // Event listener za promjenu
-            radios.forEach(radio => {
-                radio.addEventListener('change', function () {
-                    if (this.checked) {
-                        const planKeys = ['dubinsko_pranje', 'vozila_i_plovila', 'hoteli_i_jahte'];
-                        const planKey = planKeys[section.id - 1];
-                        const radioPrices = currentPrices.radio_prices?.[planKey];
-                        if (radioPrices) {
-                            const radioItem = radioPrices.find(item => item.id === this.id);
-                            if (radioItem) {
-                                updateRadioPriceDisplay(output, radioItem, section.id);
-                            }
-                        }
-                    }
-                });
-            });
-        });
-    }
-
-    function updatePriceDisplay(output, value, sectionId) {
-        let html = `<span class="euro">€</span><span>${value}</span>`;
-
-        if (sectionId === 2 && value === '100.00') {
-            const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
-            html += ` <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>`;
-        }
-
-        output.innerHTML = html;
-    }
-
     // ==================== PRICING MODAL MANAGEMENT ====================
     function setupPricingHistory() {
-        // Proveri URL pri učitavanju stranice
         window.addEventListener('load', function () {
             const hash = window.location.hash;
             if (hash && hash.startsWith('#pricing-')) {
@@ -442,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!modal) return;
 
-        // Spriječi duplo otvaranje
         if (modal.style.display === 'block') return;
 
         document.body.style.overflow = 'hidden';
@@ -470,7 +420,6 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
         modal.style.display = 'block';
 
-        // DODAJ U HISTORY SAMO AKO VEĆ NIJE DODATO
         const currentState = history.state;
         if (!currentState || currentState.modal !== 'pricing' || currentState.planId !== planId) {
             window.history.pushState({
@@ -479,7 +428,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }, '', `#pricing-${planId}`);
         }
 
-        // PONOVO POSTAVI EVENT LISTENERE nakon promene jezika
         setupPricingModalEventListeners();
     }
 
@@ -487,16 +435,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('pricing-modal');
         if (!modal) return;
 
-        // Spriječi duplo zatvaranje
         if (modal.style.display === 'none') return;
 
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
 
-        // UKLONI HASH IZ URL-A SAMO AKO JE KORISNIK EKSPLICITNO ZATVORIO MODAL
         const currentState = history.state;
         if (currentState && currentState.modal === 'pricing') {
-            // Ovo znači da je korisnik zatvorio modal (ESC, klik van modala, X dugme)
             if (window.location.hash && window.location.hash.startsWith('#pricing-')) {
                 window.history.back();
             }
@@ -507,7 +452,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('pricing-modal');
         if (!modal) return;
 
-        // Spriječi duplo zatvaranje
         if (modal.style.display === 'none') return;
 
         modal.style.display = 'none';
@@ -518,37 +462,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const modal = document.getElementById('pricing-modal');
         const closeBtn = modal?.querySelector('.pricing-modal-close');
 
-        // Ukloni postojeće event listenere da ne bi bilo duplikata
         if (closeBtn) {
-            closeBtn.replaceWith(closeBtn.cloneNode(true));
-        }
-
-        // Ponovo postavi event listenere
-        const newCloseBtn = modal?.querySelector('.pricing-modal-close');
-
-        if (newCloseBtn) {
-            newCloseBtn.addEventListener('click', function (e) {
+            closeBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 closePricingModal();
             });
         }
 
-        // Klik van modala
         if (modal) {
-            // Ukloni postojeći event listener
-            modal.removeEventListener('click', handleModalClick);
-
-            // Dodaj novi event listener
-            modal.addEventListener('click', handleModalClick);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    closePricingModal();
+                }
+            });
         }
 
-        function handleModalClick(e) {
-            if (e.target === modal) {
-                closePricingModal();
-            }
-        }
-
-        // Escape key handler - globalni, ne mora da se resetuje
         if (!pricingModalInitialized) {
             document.addEventListener('keydown', function (e) {
                 const modal = document.getElementById('pricing-modal');
@@ -561,13 +489,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function setupPricingModalButtons() {
-        // Postavi event listenere za dugmad koja otvaraju modal
-        document.querySelectorAll('[id^="showFullPrice-"]').forEach(btn => {
-            // Ukloni postojeće event listenere
-            btn.replaceWith(btn.cloneNode(true));
-        });
-
-        // Ponovo postavi event listenere na nova dugmad
         document.querySelectorAll('[id^="showFullPrice-"]').forEach(btn => {
             btn.addEventListener('click', function () {
                 const planId = this.id.split('-')[1];
@@ -642,14 +563,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const images = container.querySelectorAll('.ratio');
         const totalImages = images.length;
 
-        // Ukloni duplikate za reduced motion
         for (let i = totalImages / 2; i < totalImages; i++) {
             images[i]?.remove();
         }
     }
 
     function setupAnimatedMarquee(container) {
-        // Kloniraj sadržaj za seamless loop
         const clones = container.cloneNode(true);
         container.appendChild(clones);
 
@@ -662,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 scrollAmount += 1;
                 container.style.transform = `translateX(-${scrollAmount}px)`;
 
-                // Reset kada pređe pola širine (originalni sadržaj)
                 if (scrollAmount >= container.scrollWidth / 2) {
                     scrollAmount = 0;
                     container.style.transform = `translateX(0px)`;
@@ -672,10 +590,8 @@ document.addEventListener('DOMContentLoaded', function () {
             animationFrameId = requestAnimationFrame(marqueeScroll);
         }
 
-        // Pokreni animaciju
         marqueeScroll();
 
-        // Pause na hover/focus za bolje korisničko iskustvo
         const wrapper = document.querySelector(".marquee-wrapper");
         if (wrapper) {
             wrapper.addEventListener("mouseenter", () => isPaused = true);
@@ -698,12 +614,10 @@ document.addEventListener('DOMContentLoaded', function () {
         applyTranslations(translations);
         updateLanguageDisplay(lang);
 
-        // ZATVORI SVE MODALE PRI PROMENI JEZIKA
         closeAllModals();
 
-        // RE-INICIJALIZUJ PRICING MODAL EVENT LISTENERE
-        setupPricing();
-        setupPricingModalButtons();
+        // Ponovo postavi radio cijene nakon promjene jezika
+        setupRadioPrices();
 
         localStorage.setItem('preferredLanguage', lang);
     }
@@ -711,21 +625,20 @@ document.addEventListener('DOMContentLoaded', function () {
     async function initializeApp() {
         const savedLanguage = localStorage.getItem('preferredLanguage') || 'sr';
 
-        // UČITAJ CIJENE PRIJE SVEGA
+        // Prvo učitaj cijene
         await loadPrices();
-        setupRadioPrices(); // POSTAVI RADIO CIJENE
+
+        // Postavi radio cijene PRIJE nego što apliciramo jezik
+        setupRadioPrices();
 
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
+
         checkStickyNavigation();
         setupGlobalHistoryHandler();
         setupPricingHistory();
-
-        // INICIJALIZUJ PRICING MODAL EVENT LISTENERE
         setupPricingModalEventListeners();
         setupPricingModalButtons();
-
-        // INICIJALIZUJ MARQUEE SAMO JEDNOM
         setupPartnersMarquee();
     }
 

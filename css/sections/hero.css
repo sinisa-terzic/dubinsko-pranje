@@ -80,6 +80,7 @@
     flex-direction: column;
     gap: 1vw;
     border-top-left-radius: 1vw;
+    overflow: hidden;
 }
 
 .call-option {
