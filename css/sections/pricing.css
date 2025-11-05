@@ -386,10 +386,6 @@ input:checked+.chtext {
         padding: 1.2rem 1.5rem;
     }
 
-    .pricing-modal-footer p {
-        font-size: 1.3rem;
-    }
-
     .pricing-category-title {
         font-weight: 500;
     }
