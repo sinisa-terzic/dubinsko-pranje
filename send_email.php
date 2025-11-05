@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
 // Omogući CORS za development
@@ -18,9 +18,15 @@ function isValidEmail($email)
 // Funkcija za validaciju telefonskog broja
 function isValidPhone($phone)
 {
-    // Dozvoljeni formati: xxx xxx xxx, +xxx xx xxx xxx, itd.
+    // Dozvoljeni formati: +381 64 123 4567, 064/123-4567, itd.
     $clean_phone = preg_replace('/\s+/', '', $phone);
-    return preg_match('/^(\+\d{1,4})?[\d\s\-\(\)]{7,15}$/', $clean_phone);
+    return preg_match('/^(\+\d{1,4}[\s\-]?)?(\(?\d{2,4}\)?[\s\-]?)?[\d\s\-]{7,15}$/', $clean_phone);
+}
+
+// Funkcija za validaciju imena
+function isValidName($name)
+{
+    return preg_match('/^[a-zA-ZčćžšđČĆŽŠĐ\s]{2,50}$/u', $name);
 }
 
 // Funkcija za čišćenje inputa
@@ -42,7 +48,7 @@ $response = [
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Proveri da li su sva polja poslana
-        $required_fields = ['subject', 'phone', 'message'];
+        $required_fields = ['name', 'email', 'phone', 'subject', 'message'];
         $missing_fields = [];
 
         foreach ($required_fields as $field) {
@@ -53,45 +59,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (!empty($missing_fields)) {
             $response['message'] = 'Molimo popunite sva obavezna polja.';
-            $response['errors'] = $missing_fields;
+            foreach ($missing_fields as $field) {
+                $response['errors'][] = [
+                    'field' => $field,
+                    'message' => 'Ovo polje je obavezno.'
+                ];
+            }
             echo json_encode($response);
             exit;
         }
 
         // Prikupljanje i čišćenje podataka
-        $subject = cleanInput($_POST['subject']);
+        $name = cleanInput($_POST['name']);
+        $email = cleanInput($_POST['email']);
         $phone = cleanInput($_POST['phone']);
+        $subject = cleanInput($_POST['subject']);
         $message = cleanInput($_POST['message']);
 
         // Validacija podataka
         $validation_errors = [];
 
-        // Validacija naslova
-        if (strlen($subject) < 2) {
-            $validation_errors[] = 'Naslov mora imati najmanje 2 karaktera.';
+        // Validacija imena
+        if (!isValidName($name)) {
+            $validation_errors[] = [
+                'field' => 'name',
+                'message' => 'Ime mora sadržati samo slova i biti između 2 i 50 karaktera.'
+            ];
         }
 
-        if (strlen($subject) > 100) {
-            $validation_errors[] = 'Naslov ne smije biti duži od 100 karaktera.';
+        // Validacija emaila
+        if (!isValidEmail($email)) {
+            $validation_errors[] = [
+                'field' => 'email',
+                'message' => 'Unesite ispravnu email adresu.'
+            ];
         }
 
         // Validacija telefona
         if (!isValidPhone($phone)) {
-            $validation_errors[] = 'Unesite ispravan broj telefona.';
+            $validation_errors[] = [
+                'field' => 'phone',
+                'message' => 'Unesite ispravan broj telefona.'
+            ];
+        }
+
+        // Validacija naslova
+        if (strlen($subject) < 2) {
+            $validation_errors[] = [
+                'field' => 'subject',
+                'message' => 'Naslov mora imati najmanje 2 karaktera.'
+            ];
+        }
+
+        if (strlen($subject) > 100) {
+            $validation_errors[] = [
+                'field' => 'subject',
+                'message' => 'Naslov ne smije biti duži od 100 karaktera.'
+            ];
         }
 
         // Validacija poruke
         if (strlen($message) < 10) {
-            $validation_errors[] = 'Poruka mora imati najmanje 10 karaktera.';
+            $validation_errors[] = [
+                'field' => 'message',
+                'message' => 'Poruka mora imati najmanje 10 karaktera.'
+            ];
         }
 
         if (strlen($message) > 1000) {
-            $validation_errors[] = 'Poruka ne smije biti duža od 1000 karaktera.';
+            $validation_errors[] = [
+                'field' => 'message',
+                'message' => 'Poruka ne smije biti duža od 1000 karaktera.'
+            ];
         }
 
         // Ako ima grešaka u validaciji
         if (!empty($validation_errors)) {
-            $response['message'] = 'Podaci nisu ispravni.';
+            $response['message'] = 'Podaci nisu ispravni. Molimo ispravite greške.';
             $response['errors'] = $validation_errors;
             echo json_encode($response);
             exit;
@@ -99,10 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Email konfiguracija
         $to = "sinisat@t-com.me";  // zamijeni sa svojim emailom
-
-        // Ako želiš da primaš kopije na drugi email
-        // $cc = "drugi@email.com";
-
         $email_subject = "Novi kontakt - " . $subject;
 
         // Poboljšani sadržaj emaila
@@ -110,8 +150,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Primili ste novu poruku putem kontakt forme.\n\n
         DETALJI PORUKE:\n
         ------------------------\n
-        Predmet: {$subject}\n
+        Ime i prezime: {$name}\n
+        Email: {$email}\n
         Telefon: {$phone}\n
+        Predmet: {$subject}\n
         Vrijeme: " . date('d.m.Y H:i:s') . "\n
         IP adresa: {$_SERVER['REMOTE_ADDR']}\n
         ------------------------\n\n
@@ -123,13 +165,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Zaglavlja
         $headers = "From: no-reply@dubinsko-pranje.com\r\n";
-        $headers .= "Reply-To: no-reply@dubinsko-pranje.com\r\n";
+        $headers .= "Reply-To: {$email}\r\n";
         $headers .= "X-Mailer: PHP/" . phpversion();
         $headers .= "MIME-Version: 1.0\r\n";
         $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-        // Dodaj CC ako je potrebno
-        // $headers .= "Cc: {$cc}\r\n";
 
         // Logovanje prije slanja (opciono za debugging)
         error_log("Attempting to send email to: {$to}");
