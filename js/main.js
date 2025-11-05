@@ -315,6 +315,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (value) element.innerHTML = value;
         });
 
+        // Prevođenje placeholder atributa
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            const value = getNestedValue(translations, key);
+            if (value) element.placeholder = value;
+        });
+
         // Update meta tags
         document.documentElement.lang = currentLanguage;
 
