@@ -160,7 +160,7 @@
                         "label": "Mattresses"
                     },
                     "cushions": {
-                        "label": "Carpets/Runners"
+                        "label": "Floor Coverings"
                     }
                 },
                 "fullPriceButton": "Deep Cleaning Price List",
@@ -347,7 +347,7 @@
                 ]
             },
             "footer": {
-                "note": "<strong>Note:</strong> Prices are approximate and may vary depending on the condition and complexity of the work. The final price is determined after inspection."
+                "note": "<strong>Note:</strong> &nbsp; Prices are approximate and may vary depending on the condition and complexity of the work. The final price is determined after inspection."
             }
         }
     },

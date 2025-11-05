@@ -467,6 +467,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function setupPricingModalEventListeners() {
         const modal = document.getElementById('pricing-modal');
+        const modalBody = modal?.querySelector('.pricing-modal-body');
         const closeBtn = modal?.querySelector('.pricing-modal-close');
 
         if (closeBtn) {
@@ -482,6 +483,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     closePricingModal();
                 }
             });
+
+            // Vrati skrol na vrh stranice
+            modalBody.scrollTo(0, 0);
         }
 
         if (!pricingModalInitialized) {

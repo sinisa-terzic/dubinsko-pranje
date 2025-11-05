@@ -160,7 +160,7 @@
                         "label": "Dušeci"
                     },
                     "cushions": {
-                        "label": "Etisoni"
+                        "label": "Podne obloge"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za dubinsko pranje",
@@ -353,7 +353,7 @@
                 ]
             },
             "footer": {
-                "note": "<strong>Napomena:</strong> Cijene su okvirne i mogu varirati u zavisnosti od stanja i kompleksnosti posla. Konačna cijena se utvrđuje nakon uvidaja."
+                "note": "<strong>Napomena:</strong> &nbsp; Cijene su okvirne i mogu varirati u zavisnosti od stanja i kompleksnosti posla. Konačna cijena se utvrđuje nakon uvidaja."
             }
         }
     },

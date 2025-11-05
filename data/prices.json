@@ -68,12 +68,13 @@
             "subitems": [
                 {
                     "name": "tepisi",
-                    "price": 2.50,
+                    "price": 3.00,
                     "prefix": true
                 },
                 {
                     "name": "itisoni_po_m2",
-                    "price": 3.00
+                    "price": 3.00,
+                    "prefix": true
                 }
             ]
         }
@@ -203,7 +204,7 @@
             },
             {
                 "id": "cushions",
-                "price": 2.50,
+                "price": 3.00,
                 "plus": true
             }
         ],
