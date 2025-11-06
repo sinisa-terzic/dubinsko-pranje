@@ -196,7 +196,7 @@ input:checked+.chtext {
     }
 
     50% {
-        box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
     }
 
     100% {
@@ -299,13 +299,13 @@ input:checked+.chtext {
 }
 
 .pricing-modal-footer strong {
-    color: #2c5aa0;
+    color: #5f3738;
     font-weight: 600;
 }
 
 .pricing-category {
     margin-bottom: 2.5rem;
-    background: #f8f9fa;
+    background: #fbfbfb;
     padding: 20px 0 0 20px;
     border-radius: 8px;
     border-left: 4px solid #2c5aa0;

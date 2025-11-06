@@ -358,7 +358,9 @@
         }
     },
     "partners": {
-        "title": "Our Business Partners"
+        "title": "Our Business Partners",
+        "subheading": "With our partners, we share the path towards innovation and success.",
+        "footer": "Join Us"
     },
     "contact": {
         "title": "Location",

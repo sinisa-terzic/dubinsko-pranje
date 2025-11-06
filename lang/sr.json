@@ -358,7 +358,9 @@
         }
     },
     "partners": {
-        "title": "Naši poslovni partneri"
+        "title": "Naši poslovni partneri",
+        "subheading": "Sa našim partnerima dijelimo put ka inovacijama i uspjehu.",
+        "footer": "Pridružite nam se"
     },
     "contact": {
         "title": "Lokacija",

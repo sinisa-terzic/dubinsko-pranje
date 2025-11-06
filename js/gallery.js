@@ -8,7 +8,7 @@ class GalleryManager {
         // Konfiguracija galerije
         this.config = {
             grid: {
-                desktop: { rows: 2, gap: 3, minWidth: 250 },   // Grid za desktop
+                desktop: { rows: 2, gap: 6, minWidth: 280 },   // Grid za desktop
                 tablet: { rows: 2, gap: 4, minWidth: 200 },   // Grid za tablet
                 mobile: { rows: 2, gap: 4, minWidth: 150 }    // Grid za mobile
             },
