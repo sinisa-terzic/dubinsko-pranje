@@ -35,7 +35,7 @@
 }
 
 .price-list-sum {
-    display: block;
+    display: flex;
     font-size: 5.5rem;
     font-weight: 600;
     color: #333;
@@ -46,12 +46,16 @@
     font-size: 3rem;
     font-weight: 500;
     margin-right: 0.8rem;
+    align-content: end;
+    margin-bottom: 0.3rem;
 }
 
 .price-plus {
     color: #1c6b20;
     font-weight: 400;
-    margin-left: 1rem;
+    margin-left: 0.8rem;
+    font-size: 4.5rem;
+    align-content: center;
 }
 
 .price-list-text {
@@ -249,7 +253,7 @@ input:checked+.chtext {
 .pricing-modal-header {
     position: sticky;
     top: 0;
-    background: #fefefe;
+    background: #f5f5f5;
     padding: 0;
     border-bottom: 2px solid #e0e0e0;
     z-index: 10001;
@@ -283,7 +287,7 @@ input:checked+.chtext {
     z-index: 10001;
     flex-shrink: 0;
     text-align: center;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
 }
 
 .pricing-modal-footer p {

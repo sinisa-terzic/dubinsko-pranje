@@ -406,15 +406,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const planData = {
             '1': {
-                titleKey: 'pricing.plans.deepCleaning.modalTitle',
+                titleKey: 'pricing.plans.dubinsko_pranje.modalTitle',
                 pricesKey: 'dubinsko_pranje'
             },
             '2': {
-                titleKey: 'pricing.plans.vehicles.modalTitle',
+                titleKey: 'pricing.plans.vozila_i_plovila.modalTitle',
                 pricesKey: 'vozila_i_plovila'
             },
             '3': {
-                titleKey: 'pricing.plans.hotels.modalTitle',
+                titleKey: 'pricing.plans.hoteli_i_jahte.modalTitle',
                 pricesKey: 'hoteli_i_jahte'
             }
         };

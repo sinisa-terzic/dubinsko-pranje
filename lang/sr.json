@@ -150,49 +150,49 @@
         "calculatorNote": "Kalkulator prikazuje početnu cijenu!",
         "dryingText": "sušenje",
         "plans": {
-            "deepCleaning": {
+            "dubinsko_pranje": {
                 "title": "dubinsko pranje",
                 "items": {
-                    "furniture": {
+                    "garniture": {
                         "label": "Garniture"
                     },
-                    "mattresses": {
+                    "dušeci": {
                         "label": "Dušeci"
                     },
-                    "cushions": {
+                    "podne_obloge": {
                         "label": "Podne obloge"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za dubinsko pranje",
                 "modalTitle": "Cjenovnik za dubinsko pranje"
             },
-            "vehicles": {
+            "vozila_i_plovila": {
                 "title": "vozila i plovila",
                 "items": {
-                    "regularWash": {
+                    "obično_pranje": {
                         "label": "Obično pranje"
                     },
-                    "deepWashing": {
+                    "dubinsko_pranje": {
                         "label": "Dubinsko pranje"
                     },
-                    "headlights": {
-                        "label": "Polimerizacija farova"
+                    "sređivanje_farova": {
+                        "label": "Sređivanje farova"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za vozila i plovila",
                 "modalTitle": "Cjenovnik za vozila i plovila"
             },
-            "hotels": {
+            "hoteli_i_jahte": {
                 "title": "Hoteli & Jahte",
                 "items": {
-                    "exterior": {
-                        "label": "Spoljašnost Hotela i Jahti"
+                    "održavanje_jahte": {
+                        "label": "Održavanje jahte"
                     },
-                    "yachtInterior": {
-                        "label": "Unutrašnjost Jahti"
+                    "održavanje_hotela": {
+                        "label": "Održavanje hotela"
                     },
-                    "rooms": {
-                        "label": "Sobe / Saloni / Terase"
+                    "zelene_površine": {
+                        "label": "Zelene površine"
                     }
                 },
                 "fullPriceButton": "Cjenovnik za hotele i jahte",
@@ -277,7 +277,7 @@
                                 "name": "&#x2022; Motorni prostor"
                             },
                             {
-                                "name": "&#x2022; Airbox tretman ~ 30 min."
+                                "name": "&#x2022; Airbox tretman"
                             }
                         ]
                     },
@@ -368,18 +368,6 @@
         "phonePlaceholder": "Telefon",
         "messagePlaceholder": "Vaša poruka...",
         "sendButton": "Pošalji",
-        "enterData": "Unesi podatke",
-        "sending": "Slanje...",
-        "successMessage": "Poruka je uspješno poslata!",
-        "errorMessage": "Greška pri slanju poruke. Pokušajte ponovo.",
-        "subjectRequired": "Naslov je obavezan",
-        "phoneRequired": "Broj telefona je obavezan",
-        "phoneInvalid": "Unesite ispravan broj telefona",
-        "messageRequired": "Poruka je obavezna",
-        "messageTooShort": "Poruka mora imati najmanje 10 karaktera",
-        "fieldRequired": "Ovo polje je obavezno",
-        "validationError": "Molimo popunite sva polja ispravno",
-        "submissionError": "Greška pri slanju. Kontaktirajte nas direktno.",
-        "resetForm": "Resetuj Formu"
+        "enterData": "Trenutno nije dostupno !"
     }
 }

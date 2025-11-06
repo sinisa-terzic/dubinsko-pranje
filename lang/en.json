@@ -150,49 +150,49 @@
         "calculatorNote": "Calculator shows starting price!",
         "dryingText": "drying",
         "plans": {
-            "deepCleaning": {
+            "dubinsko_pranje": {
                 "title": "deep cleaning",
                 "items": {
-                    "furniture": {
+                    "garniture": {
                         "label": "Furniture Sets"
                     },
-                    "mattresses": {
+                    "dušeci": {
                         "label": "Mattresses"
                     },
-                    "cushions": {
+                    "podne_obloge": {
                         "label": "Floor Coverings"
                     }
                 },
                 "fullPriceButton": "Deep Cleaning Price List",
                 "modalTitle": "Deep Cleaning Price List"
             },
-            "vehicles": {
+            "vozila_i_plovila": {
                 "title": "vehicles and vessels",
                 "items": {
-                    "regularWash": {
+                    "obično_pranje": {
                         "label": "Regular Wash"
                     },
-                    "deepWashing": {
+                    "dubinsko_pranje": {
                         "label": "Deep Washing"
                     },
-                    "headlights": {
-                        "label": "Headlight Polymerization"
+                    "sređivanje_farova": {
+                        "label": "Headlight Restoration"
                     }
                 },
                 "fullPriceButton": "Vehicle and Vessel Price List",
                 "modalTitle": "Vehicle and Vessel Price List"
             },
-            "hotels": {
+            "hoteli_i_jahte": {
                 "title": "Hotels & Yachts",
                 "items": {
-                    "exterior": {
-                        "label": "Hotel and Yacht Exterior"
+                    "održavanje_jahte": {
+                        "label": "Yacht Maintenance"
                     },
-                    "yachtInterior": {
-                        "label": "Yacht Interior"
+                    "održavanje_hotela": {
+                        "label": "Hotel Maintenance"
                     },
-                    "rooms": {
-                        "label": "Rooms / Lounges / Terraces"
+                    "zelene_površine": {
+                        "label": "Green Areas"
                     }
                 },
                 "fullPriceButton": "Hotels and Yachts Price List",
@@ -209,22 +209,28 @@
                                 "name": "&#x2022; Chairs"
                             },
                             {
-                                "name": "&#x2022; Stool/Pouf"
+                                "name": "&#x2022; Stools"
                             },
                             {
                                 "name": "&#x2022; Armchair"
                             },
                             {
-                                "name": "&#x2022; Loveseat (Two-seater)"
+                                "name": "&#x2022; Loveseat"
                             },
                             {
                                 "name": "&#x2022; Three-seater"
                             },
                             {
-                                "name": "&#x2022; Corner Sofa"
+                                "name": "&#x2022; Small Corner Sofa"
                             },
                             {
-                                "name": "&#x2022; Pillow/Cushion"
+                                "name": "&#x2022; Large Corner Sofa"
+                            },
+                            {
+                                "name": "&#x2022; Double Bed - JUMBO"
+                            },
+                            {
+                                "name": "&#x2022; Pillows"
                             }
                         ]
                     },
@@ -238,7 +244,7 @@
                                 "name": "&#x2022; Single"
                             },
                             {
-                                "name": "&#x2022; Double/Queen"
+                                "name": "&#x2022; Double"
                             }
                         ]
                     },
@@ -271,7 +277,7 @@
                                 "name": "&#x2022; Engine bay"
                             },
                             {
-                                "name": "&#x2022; Airbox treatment ~ 30 min."
+                                "name": "&#x2022; Airbox treatment"
                             }
                         ]
                     },
@@ -362,18 +368,6 @@
         "phonePlaceholder": "Phone",
         "messagePlaceholder": "Your message...",
         "sendButton": "Send",
-        "enterData": "Enter Data",
-        "sending": "Sending...",
-        "successMessage": "Message sent successfully!",
-        "errorMessage": "Error sending message. Please try again.",
-        "subjectRequired": "Subject is required",
-        "phoneRequired": "Phone number is required",
-        "phoneInvalid": "Please enter a valid phone number",
-        "messageRequired": "Message is required",
-        "messageTooShort": "Message must be at least 10 characters",
-        "fieldRequired": "This field is required",
-        "validationError": "Please fill all fields correctly",
-        "submissionError": "Error sending. Please contact us directly.",
-        "resetForm": "Reset Form"
+        "enterData": "Currently unavailable !"
     }
 }

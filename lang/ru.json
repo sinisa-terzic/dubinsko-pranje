@@ -150,49 +150,49 @@
         "calculatorNote": "Калькулятор показывает начальную цену!",
         "dryingText": "сушка",
         "plans": {
-            "deepCleaning": {
+            "dubinsko_pranje": {
                 "title": "глубинная чистка",
                 "items": {
-                    "furniture": {
+                    "garniture": {
                         "label": "Мягкая мебель"
                     },
-                    "mattresses": {
+                    "dušeci": {
                         "label": "Матрасы"
                     },
-                    "cushions": {
+                    "podne_obloge": {
                         "label": "Напольные покрытия"
                     }
                 },
                 "fullPriceButton": "Прейскурант глубинной чистки",
                 "modalTitle": "Прейскурант глубинной чистки"
             },
-            "vehicles": {
+            "vozila_i_plovila": {
                 "title": "транспорт и суда",
                 "items": {
-                    "regularWash": {
+                    "obično_pranje": {
                         "label": "Обычная мойка"
                     },
-                    "deepWashing": {
+                    "dubinsko_pranje": {
                         "label": "Глубинная чистка"
                     },
-                    "headlights": {
-                        "label": "Полимеризация фар"
+                    "sređivanje_farova": {
+                        "label": "Восстановление фар"
                     }
                 },
                 "fullPriceButton": "Прейскурант машины и судов",
                 "modalTitle": "Прейскурант транспортных средств и судов"
             },
-            "hotels": {
+            "hoteli_i_jahte": {
                 "title": "Отели и Яхты",
                 "items": {
-                    "exterior": {
-                        "label": "Экстерьер Отелей и Яхт"
+                    "održavanje_jahte": {
+                        "label": "Обслуживание яхт"
                     },
-                    "yachtInterior": {
-                        "label": "Интерьер Яхт"
+                    "održavanje_hotela": {
+                        "label": "Обслуживание отелей"
                     },
-                    "rooms": {
-                        "label": "Номера / Залы / Террасы"
+                    "zelene_površine": {
+                        "label": "Зеленые зоны"
                     }
                 },
                 "fullPriceButton": "Прейскурант отелей и яхт",
@@ -203,13 +203,13 @@
             "prices": {
                 "dubinsko_pranje": [
                     {
-                        "name": "Мягкая мебель",
+                        "name": "Гарнитуры",
                         "subitems": [
                             {
                                 "name": "&#x2022; Стулья"
                             },
                             {
-                                "name": "&#x2022; Пуф"
+                                "name": "&#x2022; Табуреты"
                             },
                             {
                                 "name": "&#x2022; Кресло"
@@ -221,10 +221,16 @@
                                 "name": "&#x2022; Трехместный диван"
                             },
                             {
-                                "name": "&#x2022; Угловой диван"
+                                "name": "&#x2022; Маленький угловой диван"
                             },
                             {
-                                "name": "&#x2022; Подушка"
+                                "name": "&#x2022; Большой угловой диван"
+                            },
+                            {
+                                "name": "&#x2022; Двуспальная кровать - JUMBO"
+                            },
+                            {
+                                "name": "&#x2022; Подушки"
                             }
                         ]
                     },
@@ -271,7 +277,7 @@
                                 "name": "&#x2022; Моторный отсек"
                             },
                             {
-                                "name": "&#x2022; Обработка Airbox ~ 30 мин."
+                                "name": "&#x2022; Обработка Airbox"
                             }
                         ]
                     },
@@ -362,18 +368,6 @@
         "phonePlaceholder": "Телефон",
         "messagePlaceholder": "Ваше сообщение...",
         "sendButton": "Отправить",
-        "enterData": "Введите данные",
-        "sending": "Отправка...",
-        "successMessage": "Сообщение успешно отправлено!",
-        "errorMessage": "Ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз.",
-        "subjectRequired": "Тема обязательна",
-        "phoneRequired": "Номер телефона обязателен",
-        "phoneInvalid": "Пожалуйста, введите действительный номер телефона",
-        "messageRequired": "Сообщение обязательно",
-        "messageTooShort": "Сообщение должно содержать не менее 10 символов",
-        "fieldRequired": "Это поле обязательно",
-        "validationError": "Пожалуйста, заполните все поля правильно",
-        "submissionError": "Ошибка отправки. Свяжитесь с нами напрямую.",
-        "resetForm": "Сбросить Форму"
+        "enterData": "Временно недоступно !"
     }
 }

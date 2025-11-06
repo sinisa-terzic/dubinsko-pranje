@@ -4,6 +4,7 @@
     position: relative;
     grid-template-columns: 2fr 1fr;
     z-index: 5;
+    background-color: var(--color-white);
 }
 
 .header-maps {
@@ -226,7 +227,7 @@ form textarea {
 .sendMsg:disabled {
     background-color: #282f39 !important;
     cursor: not-allowed !important;
-    /* opacity: 0.6 !important; */
+    color: #b0b7c0;
 }
 
 .sendMsg.loading {
