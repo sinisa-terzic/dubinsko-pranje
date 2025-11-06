@@ -23,101 +23,101 @@ class GalleryManager {
         this.images = [
             {
                 id: 1,
-                src: "img/gallery/1200x800/1.webp",           // Desktop modal slika
-                srcMobile: "img/gallery/800x600/1.webp",      // Mobile modal slika
-                thumbnail: "img/gallery/400x300/1.webp",      // Thumbnail za grid
-                alt: "Prekrasan prikaz prirode 1"
+                src: "img/gallery/1200x800/1.webp",
+                srcMobile: "img/gallery/800x600/1.webp",
+                thumbnail: "img/gallery/400x300/1.webp",
+                alt: "Profesionalno pranje poslovnog prostora"
             },
             {
                 id: 2,
                 src: "img/gallery/1200x800/2.webp",
                 srcMobile: "img/gallery/800x600/2.webp",
                 thumbnail: "img/gallery/400x300/2.webp",
-                alt: "Moderna arhitektura 2"
+                alt: "Dubinsko pranje tepiha u dnevnoj sobi"
             },
             {
                 id: 3,
                 src: "img/gallery/1200x800/3.webp",
                 srcMobile: "img/gallery/800x600/3.webp",
                 thumbnail: "img/gallery/400x300/3.webp",
-                alt: "Gradski vidik noću 3"
+                alt: "Kompletno dubinsko čišćenje unutrašnjosti automobila"
             },
             {
                 id: 4,
                 src: "img/gallery/1200x800/4.webp",
                 srcMobile: "img/gallery/800x600/4.webp",
                 thumbnail: "img/gallery/400x300/4.webp",
-                alt: "Planinski pejzaž 4"
+                alt: "Stolica s mrljama prije dubinskog pranja"
             },
             {
                 id: 5,
                 src: "img/gallery/1200x800/5.webp",
                 srcMobile: "img/gallery/800x600/5.webp",
                 thumbnail: "img/gallery/400x300/5.webp",
-                alt: "Morska obala 5"
+                alt: "Dubinsko pranje kauča u dnevnom boravku"
             },
             {
                 id: 6,
                 src: "img/gallery/1200x800/6.webp",
                 srcMobile: "img/gallery/800x600/6.webp",
                 thumbnail: "img/gallery/400x300/6.webp",
-                alt: "Šumska staza 6"
+                alt: "Tkanina garniture nakon dubinskog pranja"
             },
             {
                 id: 7,
                 src: "img/gallery/1200x800/7.webp",
                 srcMobile: "img/gallery/800x600/7.webp",
                 thumbnail: "img/gallery/400x300/7.webp",
-                alt: "Gradska četvrt 7"
+                alt: "Garnitura nakon profesionalnog čišćenja"
             },
             {
                 id: 8,
                 src: "img/gallery/1200x800/8.webp",
                 srcMobile: "img/gallery/800x600/8.webp",
                 thumbnail: "img/gallery/400x300/8.webp",
-                alt: "Zimski pejzaž 8"
+                alt: "Autosjedišta nakon dubinskog pranja"
             },
             {
                 id: 9,
                 src: "img/gallery/1200x800/9.webp",
                 srcMobile: "img/gallery/800x600/9.webp",
                 thumbnail: "img/gallery/400x300/9.webp",
-                alt: "Pustinjski krajolik 9"
+                alt: "Dubinsko pranje vozačevog sjedišta automobila"
             },
             {
                 id: 10,
                 src: "img/gallery/1200x800/10.webp",
                 srcMobile: "img/gallery/800x600/10.webp",
                 thumbnail: "img/gallery/400x300/10.webp",
-                alt: "Jezerski vidik 10"
+                alt: "Čišćenje naslona autosjedišta"
             },
             {
                 id: 11,
                 src: "img/gallery/1200x800/11.webp",
                 srcMobile: "img/gallery/800x600/11.webp",
                 thumbnail: "img/gallery/400x300/11.webp",
-                alt: "Planinski vrh 11"
+                alt: "Obnova i polimerizacija farova automobila"
             },
             {
                 id: 12,
                 src: "img/gallery/1200x800/12.webp",
                 srcMobile: "img/gallery/800x600/12.webp",
                 thumbnail: "img/gallery/400x300/12.webp",
-                alt: "Šumski potok 12"
+                alt: "Dubinsko pranje stražnjih sjedišta automobila"
             },
             {
                 id: 13,
                 src: "img/gallery/1200x800/13.webp",
                 srcMobile: "img/gallery/800x600/13.webp",
                 thumbnail: "img/gallery/400x300/13.webp",
-                alt: "Poljski cvijet 13"
+                alt: "Vanjsko pranje i sušenje vozila"
             },
             {
                 id: 14,
                 src: "img/gallery/1200x800/14.webp",
                 srcMobile: "img/gallery/800x600/14.webp",
                 thumbnail: "img/gallery/400x300/14.webp",
-                alt: "Gradska noć 14"
+                alt: "Kompletno pranje automobila"
             }
         ];
 
