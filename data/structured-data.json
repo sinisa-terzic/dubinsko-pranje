@@ -1,0 +1,58 @@
+{
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Perfect Shine",
+    "description": "Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju",
+    "url": "https://perfectshine.me",
+    "telephone": "+38268069211",
+    "email": "info@perfectshine.me",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Radanovići bb, Ruska garaža",
+        "addressLocality": "Kotor",
+        "addressRegion": "Crna Gora",
+        "postalCode": "85300",
+        "addressCountry": "ME"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 42.369187,
+        "longitude": 18.753562
+    },
+    "openingHours": [
+        "Mo-Su 08:00-20:00"
+    ],
+    "areaServed": [
+        "Tivat",
+        "Kotor",
+        "Budva",
+        "Herceg Novi",
+        "Podgorica",
+        "Crna Gora"
+    ],
+    "serviceType": [
+        "Dubinsko pranje automobila",
+        "Pranje garnitura",
+        "Održavanje jahti",
+        "Čišćenje hotela",
+        "Polimerizacija farova",
+        "Dezinfekcija",
+        "Dezinsekcija"
+    ],
+    "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 42.369187,
+            "longitude": 18.753562
+        },
+        "geoRadius": "50000"
+    },
+    "sameAs": [
+        "https://www.instagram.com/_dubinsko_pranje_tivat",
+        "https://www.facebook.com/profile.php?id=100064044033023",
+        "https://vm.tiktok.com/ZMYUrGDGo/"
+    ],
+    "priceRange": "€€",
+    "currenciesAccepted": "EUR"
+}

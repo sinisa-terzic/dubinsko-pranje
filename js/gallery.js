@@ -1,6 +1,6 @@
 /**
  * MODERN GALLERY - OPTIMIZOVANA RESPONZIVNA GALERIJA
- * Sa back button funkcionalnošću
+ * Sa back button funkcionalnošću i shuffle funkcionalnošću
  */
 
 class GalleryManager {
@@ -16,6 +16,11 @@ class GalleryManager {
             preload: {
                 enabled: true,                                 // Preload susednih slika
                 adjacentImages: 1                              // Broj susednih slika za preload
+            },
+            // NOVO: Shuffle konfiguracija
+            shuffle: {
+                enabled: true,           // Uključi miješanje slika
+                persistSession: false    // Ne pamti redoslijed tokom sesije
             }
         };
 
@@ -130,7 +135,9 @@ class GalleryManager {
             prevIndex: 0,              // Prethodni index za navigaciju
             swipeStartX: 0,            // Početna pozicija za swipe
             isSwiping: false,          // Da li je u toku swipe gest
-            isLoading: false           // Da li se učitava slika
+            isLoading: false,          // Da li se učitava slika
+            // NOVO: Miješane slike za grid
+            shuffledImages: []
         };
 
         this.intervals = {};    // Čuva interval za rotaciju i resize
@@ -147,6 +154,73 @@ class GalleryManager {
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseUp = this.handleMouseUp.bind(this);
         this.handlePopState = this.handlePopState.bind(this);
+    }
+
+    // =========================================================================
+    // SHUFFLE FUNCTIONALITY - MIJEŠANJE SLIKA
+    // =========================================================================
+
+    /**
+     * Miješa niz slika nasumično
+     * @param {Array} array - Niz slika za miješanje
+     * @returns {Array} Miješani niz
+     */
+    shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    /**
+     * Vraća listu slika za prikaz u gridu (miješanu)
+     * @returns {Array} Lista slika za grid
+     */
+    getImagesForGrid() {
+        // Ako već imamo miješane slike, vrati ih
+        if (this.state.shuffledImages.length > 0) {
+            return this.state.shuffledImages;
+        }
+
+        // Provjeri da li već postoji miješana verzija u sessionStorage
+        if (this.config.shuffle.persistSession) {
+            const sessionKey = 'gallery_shuffled_order';
+            const savedOrder = sessionStorage.getItem(sessionKey);
+
+            if (savedOrder) {
+                const order = JSON.parse(savedOrder);
+                this.state.shuffledImages = order.map(id => this.images.find(img => img.id === id));
+                return this.state.shuffledImages;
+            }
+        }
+
+        // Ako shuffle nije enabled, vrati originalni redoslijed
+        if (!this.config.shuffle.enabled) {
+            this.state.shuffledImages = [...this.images];
+            return this.state.shuffledImages;
+        }
+
+        // Miješaj slike
+        this.state.shuffledImages = this.shuffleArray(this.images);
+
+        // Sačuvaj redoslijed u sessionStorage ako je potrebno
+        if (this.config.shuffle.persistSession) {
+            const sessionKey = 'gallery_shuffled_order';
+            const order = this.state.shuffledImages.map(img => img.id);
+            sessionStorage.setItem(sessionKey, JSON.stringify(order));
+        }
+
+        return this.state.shuffledImages;
+    }
+
+    /**
+     * Vraća originalni redoslijed slika (za modal navigaciju)
+     * @returns {Array} Originalna lista slika
+     */
+    getImagesForModal() {
+        return this.images;
     }
 
     // =========================================================================
@@ -357,12 +431,14 @@ class GalleryManager {
         this.elements.gallery.innerHTML = '';
         this.stopRotation();
 
+        // KORIGOVANO: Koristi miješane slike za grid
+        const displayedImages = this.getImagesForGrid();
         const visibleCount = this.setupGridLayout();
-        const displayedImages = this.images.slice(0, visibleCount - 1);
-        this.state.rotatingImages = this.images.slice(visibleCount - 1);
+        const gridImages = displayedImages.slice(0, visibleCount - 1);
+        this.state.rotatingImages = displayedImages.slice(visibleCount - 1);
 
         // Dodaj prikazane slike u grid
-        displayedImages.forEach((image, index) => {
+        gridImages.forEach((image, index) => {
             this.elements.gallery.appendChild(this.createGalleryItem(image));
         });
 
@@ -387,12 +463,15 @@ class GalleryManager {
         const img = document.createElement('img');
         img.src = this.getThumbnailSource(image);
         img.alt = image.alt;
-        img.loading = 'lazy'; // Browser optimizacija za učitavanje
+        img.loading = 'lazy';
+        img.dataset.imageId = image.id; // DODANO: Čuva ID slike
 
-        // Klik otvara modal sa tom slikom
+        // KORIGOVANO: Koristi originalni index za otvaranje modala
         img.addEventListener('click', () => {
-            this.state.currentIndex = this.images.findIndex(img => img.id === image.id);
-            this.state.prevIndex = this.state.currentIndex;
+            // Pronađi originalni index ove slike
+            const originalIndex = this.images.findIndex(img => img.id === image.id);
+            this.state.currentIndex = originalIndex;
+            this.state.prevIndex = originalIndex;
             this.openModal();
         });
 
@@ -434,13 +513,14 @@ class GalleryManager {
             item.appendChild(moreText);
         }
 
-        // Klik otvara modal sa trenutno aktivnom slikom
+        // KORIGOVANO: Koristi originalni index za otvaranje modala
         item.addEventListener('click', () => {
             const activeImage = item.querySelector('.rotating-image.active') || item.querySelector('img');
             if (activeImage) {
                 const imageId = parseInt(activeImage.dataset.imageId);
-                this.state.currentIndex = this.images.findIndex(img => img.id === imageId);
-                this.state.prevIndex = this.state.currentIndex;
+                const originalIndex = this.images.findIndex(img => img.id === imageId);
+                this.state.currentIndex = originalIndex;
+                this.state.prevIndex = originalIndex;
                 this.openModal();
             }
         });
@@ -686,6 +766,7 @@ class GalleryManager {
      * @param {boolean} skipAnimation - Da li preskočiti animaciju
      */
     updateModalImage(skipAnimation = false) {
+        // KORIGOVANO: Koristi originalne slike za modal
         const currentImage = this.images[this.state.currentIndex];
         const responsiveSrc = this.getResponsiveSource(currentImage);
 
@@ -916,6 +997,26 @@ class GalleryManager {
      */
     cleanupModalEventListeners() {
         document.removeEventListener('keydown', this.handleKeyDown);
+    }
+
+    /**
+     * Resetuje shuffle - korisno ako želiš ponovo promiješati slike
+     */
+    resetShuffle() {
+        this.state.shuffledImages = [];
+        if (this.config.shuffle.persistSession) {
+            sessionStorage.removeItem('gallery_shuffled_order');
+        }
+        this.createGallery();
+    }
+
+    /**
+     * Uključuje/isključuje shuffle funkcionalnost
+     * @param {boolean} enabled - Da li je shuffle uključen
+     */
+    setShuffleEnabled(enabled) {
+        this.config.shuffle.enabled = enabled;
+        this.resetShuffle();
     }
 
     /**

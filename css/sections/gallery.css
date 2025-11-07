@@ -162,6 +162,7 @@
     background-color: rgba(0, 0, 0, 0.95);
     opacity: 0;
     transition: opacity 0.10s ease-out;
+    user-select: none;
 }
 
 .gallery-modal.active {

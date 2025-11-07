@@ -25,17 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPrices = {};
 
     // ==================== UTILITY FUNCTIONS ====================
-    function getNestedValue(obj, path) {
-        return path.split('.').reduce((current, key) => current?.[key], obj);
-    }
+    const utils = {
+        getNestedValue: (obj, path) => path.split('.').reduce((current, key) => current?.[key], obj),
 
-    function getTranslation(key) {
-        if (window.currentTranslations) {
-            return getNestedValue(window.currentTranslations, key);
+        stopPropagation: (e) => e?.stopPropagation(),
+
+        addHidden: (element) => element?.classList?.add('hidden'),
+
+        removeHidden: (element) => element?.classList?.remove('hidden'),
+
+        toggleHidden: (element) => element?.classList?.toggle('hidden'),
+
+        closeAllUIElements: () => {
+            const elements = [language, callOptions];
+            elements.forEach(el => utils.addHidden(el));
+            callUsImg?.classList.remove("callUs-is-open");
+            callUsIcon?.classList.remove("open-callUs-remove");
         }
-        const element = document.querySelector(`[data-i18n="${key}"]`);
-        return element ? element.textContent : null;
-    }
+    };
 
     // ==================== PRICE MANAGEMENT ====================
     async function loadPrices() {
@@ -82,25 +89,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const radioPrices = currentPrices.radio_prices?.[section.planKey];
             if (!radioPrices) return;
 
-            // Ažuriraj vrednosti i postavi event listenere za sva radio dugmad
+            // Ažuriraj vrednosti za sva radio dugmad
             radioPrices.forEach(radioItem => {
                 const radioElement = document.getElementById(radioItem.id);
                 if (radioElement) {
-                    // Ažuriraj value atribut
                     let value = radioItem.price.toFixed(2);
-                    if (radioItem.plus) {
-                        value += '+';
-                    }
+                    if (radioItem.plus) value += '+';
                     radioElement.value = value;
-
-                    // Postavi disabled status ako postoji
-                    if (radioItem.disabled) {
-                        radioElement.disabled = true;
-                    }
+                    if (radioItem.disabled) radioElement.disabled = true;
                 }
             });
 
-            // Postavi event listener na cijeli container
+            // Postavi event listener na container
             const checkboxContainer = document.getElementById(`checkboxes-${section.sectionId}`);
             if (checkboxContainer) {
                 checkboxContainer.addEventListener('change', function (e) {
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
-            // Inicijalno postavi prikaz za checked radio button
+            // Inicijalno postavi prikaz za checked radio
             const checkedRadio = document.querySelector(`#checkboxes-${section.sectionId} input[type="radio"]:checked`);
             if (checkedRadio) {
                 const radioId = checkedRadio.id;
@@ -129,13 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateRadioPriceDisplay(output, radioItem, sectionId) {
         let priceHtml = `<span class="euro">€</span><span>${radioItem.price.toFixed(2)}</span>`;
-
-        if (radioItem.plus) {
-            priceHtml += `<span class="price-plus">+</span>`;
-        }
+        if (radioItem.plus) priceHtml += `<span class="price-plus">+</span>`;
 
         let html = priceHtml;
-
         if (sectionId === 2 && radioItem.price === 100.00) {
             const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
             html += ` <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>`;
@@ -143,13 +139,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         output.innerHTML = html;
 
-        // Dodaj treptanje dugmetu
         const button = document.getElementById(`showFullPrice-${sectionId}`);
         if (button) {
             button.classList.add('pulse');
-            setTimeout(() => {
-                button.classList.remove('pulse');
-            }, 800);
+            setTimeout(() => button.classList.remove('pulse'), 800);
         }
     }
 
@@ -157,7 +150,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupGlobalHistoryHandler() {
         window.addEventListener('popstate', function (event) {
             const state = event.state;
-
             if (!state) {
                 closeAllModals();
                 return;
@@ -179,43 +171,25 @@ document.addEventListener('DOMContentLoaded', function () {
     function closeAllModals() {
         const galleryModal = document.getElementById('gallery-modal');
         if (galleryModal && galleryModal.style.display === 'block') {
-            if (window.galleryManager) {
-                window.galleryManager.closeModalWithoutHistory();
-            }
+            if (window.galleryManager) window.galleryManager.closeModalWithoutHistory();
         }
-
         closePricingModalWithoutHistory();
     }
 
     // ==================== UI MANAGEMENT ====================
-    function closeAllOpenElements() {
-        language.classList.add('hidden');
-        callOptions.classList.add('hidden');
-        callUsImg.classList.remove("callUs-is-open");
-        callUsIcon.classList.remove("open-callUs-remove");
-    }
-
-    function resetAllElements() {
-        language.classList.add('hidden');
-        callOptions.classList.add('hidden');
-        callUsImg.classList.remove("callUs-is-open");
-        callUsIcon.classList.remove("open-callUs-remove");
-    }
-
     function checkStickyNavigation() {
         const heroSection = document.querySelector(".hero-text-box");
         if (!heroSection) return;
 
         const heroRect = heroSection.getBoundingClientRect();
-
         if (heroRect.bottom < 200) {
             body.classList.add("sticky");
-            logo1.classList.add("hidden");
-            logo2.classList.remove("hidden");
+            utils.addHidden(logo1);
+            utils.removeHidden(logo2);
         } else {
             body.classList.remove("sticky");
-            logo1.classList.remove("hidden");
-            logo2.classList.add("hidden");
+            utils.removeHidden(logo1);
+            utils.addHidden(logo2);
         }
     }
 
@@ -223,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupEventListeners() {
         // Scroll handling
         window.addEventListener('scroll', function () {
-            closeAllOpenElements();
+            utils.closeAllUIElements();
             if (!scrollTimeout) {
                 scrollTimeout = setTimeout(function () {
                     scrollTimeout = null;
@@ -238,54 +212,57 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Close mobile navigation on link click
-        const allLinks = document.querySelectorAll("a:link");
-        allLinks.forEach(function (link) {
-            link.addEventListener("click", function (e) {
-                if (link.classList.contains("main-nav-link")) {
-                    headerEl.classList.toggle("nav-open");
-                }
+        document.querySelectorAll("a.main-nav-link").forEach(link => {
+            link.addEventListener("click", function () {
+                headerEl.classList.toggle("nav-open");
             });
         });
 
         // Language toggle
         languageImg?.addEventListener("click", function (e) {
-            e.stopPropagation();
-            language.classList.toggle("hidden");
-            callOptions.classList.add('hidden');
-            callUsImg.classList.remove("callUs-is-open");
-            callUsIcon.classList.remove("open-callUs-remove");
+            utils.stopPropagation(e);
+            utils.toggleHidden(language);
+            utils.addHidden(callOptions);
+            callUsImg?.classList.remove("callUs-is-open");
+            callUsIcon?.classList.remove("open-callUs-remove");
         });
 
         // Call options toggle  
         phoneNumber?.addEventListener("click", function (e) {
-            e.stopPropagation();
-            callOptions.classList.toggle("hidden");
-            language.classList.add('hidden');
-            callUsImg.classList.remove("callUs-is-open");
-            callUsIcon.classList.remove("open-callUs-remove");
+            utils.stopPropagation(e);
+            utils.toggleHidden(callOptions);
+            utils.addHidden(language);
+            callUsImg?.classList.remove("callUs-is-open");
+            callUsIcon?.classList.remove("open-callUs-remove");
         });
 
         // Call Us dialog
         callUsIcon?.addEventListener('click', function (e) {
-            e.stopPropagation();
-            callUsImg.classList.add("callUs-is-open");
+            utils.stopPropagation(e);
+            callUsImg?.classList.add("callUs-is-open");
             this.classList.add("open-callUs-remove");
-            language.classList.add('hidden');
-            callOptions.classList.add('hidden');
+            utils.addHidden(language);
+            utils.addHidden(callOptions);
         });
 
-        callUsClose?.addEventListener('click', resetAllElements);
-        document.addEventListener('click', resetAllElements);
+        callUsClose?.addEventListener('click', utils.closeAllUIElements);
+        document.addEventListener('click', utils.closeAllUIElements);
 
         // Prevent closing when clicking inside elements
         [language, callOptions, callUsImg].forEach(element => {
-            element?.addEventListener('click', function (e) {
-                e.stopPropagation();
-            });
+            element?.addEventListener('click', utils.stopPropagation);
         });
     }
 
     // ==================== INTERNATIONALIZATION ====================
+    function getTranslation(key) {
+        if (window.currentTranslations) {
+            return utils.getNestedValue(window.currentTranslations, key);
+        }
+        const element = document.querySelector(`[data-i18n="${key}"]`);
+        return element ? element.textContent : null;
+    }
+
     async function loadTranslations(lang) {
         try {
             const response = await fetch(`lang/${lang}.json`);
@@ -293,9 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return await response.json();
         } catch (error) {
             console.error('Error loading translations:', error);
-            if (lang !== 'sr') {
-                return loadTranslations('sr');
-            }
+            if (lang !== 'sr') return loadTranslations('sr');
             return {};
         }
     }
@@ -304,41 +279,194 @@ document.addEventListener('DOMContentLoaded', function () {
         // Text translations
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
-            const value = getNestedValue(translations, key);
+            const value = utils.getNestedValue(translations, key);
             if (value) element.textContent = value;
         });
 
         // HTML translations
         document.querySelectorAll('[data-i18n-html]').forEach(element => {
             const key = element.getAttribute('data-i18n-html');
-            const value = getNestedValue(translations, key);
+            const value = utils.getNestedValue(translations, key);
             if (value) element.innerHTML = value;
         });
 
-        // Prevođenje placeholder atributa
+        // Placeholder translations
         document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
             const key = element.getAttribute('data-i18n-placeholder');
-            const value = getNestedValue(translations, key);
+            const value = utils.getNestedValue(translations, key);
             if (value) element.placeholder = value;
         });
 
-        // Update meta tags
-        document.documentElement.lang = currentLanguage;
+        // SEO optimizations
+        updateSEOMetaTags(translations);
+    }
 
+    function updateSEOMetaTags(translations) {
+        // HTML lang attribute
+        const langMap = { 'sr': 'sr', 'en': 'en', 'ru': 'ru' };
+        document.documentElement.lang = langMap[currentLanguage] || 'sr';
+
+        // Meta description
         const metaDescription = document.querySelector('meta[name="description"]');
         if (metaDescription && translations.pageDescription) {
             metaDescription.content = translations.pageDescription;
         }
 
+        // Page title
         const pageTitle = document.querySelector('title');
         if (pageTitle && translations.pageTitle) {
             pageTitle.textContent = translations.pageTitle;
         }
 
-        const metaKeywords = document.querySelector('meta[name="keywords"]');
-        if (metaKeywords && translations.pageKeywords) {
-            metaKeywords.content = translations.pageKeywords;
+        // Update Open Graph tags
+        updateOpenGraphTags(translations);
+        updateSEOTags();
+        injectStructuredData();
+    }
+
+    function updateOpenGraphTags(translations) {
+        const ogLocaleMap = { 'sr': 'sr_RS', 'en': 'en_US', 'ru': 'ru_RU' };
+
+        // OG Locale
+        let ogLocale = document.querySelector('meta[property="og:locale"]');
+        if (!ogLocale) {
+            ogLocale = document.createElement('meta');
+            ogLocale.setAttribute('property', 'og:locale');
+            document.head.appendChild(ogLocale);
         }
+        ogLocale.setAttribute('content', ogLocaleMap[currentLanguage] || 'sr_RS');
+
+        // OG Title
+        let ogTitle = document.querySelector('meta[property="og:title"]');
+        if (!ogTitle) {
+            ogTitle = document.createElement('meta');
+            ogTitle.setAttribute('property', 'og:title');
+            document.head.appendChild(ogTitle);
+        }
+        ogTitle.setAttribute('content', translations.pageTitle || 'Perfect Shine - Dubinsko Pranje');
+
+        // OG Description
+        let ogDescription = document.querySelector('meta[property="og:description"]');
+        if (!ogDescription) {
+            ogDescription = document.createElement('meta');
+            ogDescription.setAttribute('property', 'og:description');
+            document.head.appendChild(ogDescription);
+        }
+        ogDescription.setAttribute('content', translations.pageDescription ||
+            'Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju.');
+
+        // OG URL
+        let ogUrl = document.querySelector('meta[property="og:url"]');
+        if (!ogUrl) {
+            ogUrl = document.createElement('meta');
+            ogUrl.setAttribute('property', 'og:url');
+            document.head.appendChild(ogUrl);
+        }
+        ogUrl.setAttribute('content', getCurrentLanguageUrl());
+    }
+
+    function updateSEOTags() {
+        const currentUrl = getCurrentLanguageUrl();
+
+        // Canonical URL
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) canonical.setAttribute('href', currentUrl);
+
+        updateHreflangTags(currentUrl);
+    }
+
+    function updateHreflangTags(currentUrl) {
+        const languages = ['sr', 'en', 'ru'];
+        const baseUrl = 'https://perfectshine.me';
+
+        languages.forEach(lang => {
+            const hreflang = document.querySelector(`link[hreflang="${lang === 'sr' ? 'sr' : lang}"]`);
+            if (hreflang) {
+                const url = lang === 'sr' ? `${baseUrl}/` : `${baseUrl}/${lang}/`;
+                hreflang.setAttribute('href', url);
+            }
+        });
+    }
+
+    function getCurrentLanguageUrl() {
+        const baseUrl = 'https://perfectshine.me';
+        return currentLanguage === 'sr' ? `${baseUrl}/` : `${baseUrl}/${currentLanguage}/`;
+    }
+
+    async function injectStructuredData() {
+        try {
+            const existingScript = document.getElementById('structured-data');
+            if (existingScript) existingScript.remove();
+
+            const response = await fetch('data/structured-data.json');
+            let structuredData = await response.json();
+            structuredData = await updateStructuredDataWithTranslations(structuredData);
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.id = 'structured-data';
+            script.textContent = JSON.stringify(structuredData);
+            document.head.appendChild(script);
+
+        } catch (error) {
+            console.error('Error loading structured data:', error);
+            injectBasicStructuredData();
+        }
+    }
+
+    async function updateStructuredDataWithTranslations(structuredData) {
+        const translations = window.currentTranslations;
+        if (translations && translations.pageDescription) {
+            structuredData.description = translations.pageDescription;
+        }
+        return structuredData;
+    }
+
+    function injectBasicStructuredData() {
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = 'structured-data';
+        script.textContent = JSON.stringify(getStructuredData());
+        document.head.appendChild(script);
+    }
+
+    function getStructuredData() {
+        const translations = window.currentTranslations || {};
+        return {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Perfect Shine",
+            "description": translations.pageDescription || "Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela",
+            "url": "https://perfectshine.me",
+            "telephone": "+38268069211",
+            "email": "info@perfectshine.me",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Radanovići bb, Ruska garaža",
+                "addressLocality": "Kotor",
+                "addressRegion": "Crna Gora",
+                "postalCode": "85300",
+                "addressCountry": "ME"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 42.369187,
+                "longitude": 18.753562
+            },
+            "openingHours": ["Mo-Su 08:00-20:00"],
+            "areaServed": { "@type": "State", "name": "Crna Gora" },
+            "serviceType": [
+                "Dubinsko pranje automobila",
+                "Pranje garnitura",
+                "Održavanje jahti",
+                "Čišćenje hotela",
+                "Polimerizacija farova"
+            ],
+            "sameAs": [
+                "https://www.instagram.com/_dubinsko_pranje_tivat",
+                "https://www.facebook.com/profile.php?id=100064044033023"
+            ]
+        };
     }
 
     function updateLanguageDisplay(lang) {
@@ -353,10 +481,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Update dropdown menu
         const availableLanguages = Object.keys(languageData).filter(l => l !== lang);
-        const flagLinks = languageDropdown.querySelectorAll('.flagLink');
+        const flagLinks = languageDropdown?.querySelectorAll('.flagLink') || [];
 
         flagLinks.forEach(link => link.style.display = 'none');
-
         availableLanguages.forEach((langCode, index) => {
             if (flagLinks[index]) {
                 flagLinks[index].style.display = 'flex';
@@ -376,9 +503,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function changeLanguage(lang) {
         if (lang === currentLanguage) return;
-
         await loadAndApplyLanguage(lang);
-        document.querySelector('.language').classList.add('hidden');
+        utils.addHidden(language);
         headerEl.classList.remove("nav-open");
     }
 
@@ -398,9 +524,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalTitle = document.getElementById('pricing-modal-title');
         const modalContent = document.getElementById('pricing-modal-content');
 
-        if (!modal) return;
-
-        if (modal.style.display === 'block') return;
+        if (!modal || modal.style.display === 'block') return;
 
         document.body.style.overflow = 'hidden';
 
@@ -440,9 +564,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function closePricingModal() {
         const modal = document.getElementById('pricing-modal');
-        if (!modal) return;
-
-        if (modal.style.display === 'none') return;
+        if (!modal || modal.style.display === 'none') return;
 
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
@@ -457,9 +579,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function closePricingModalWithoutHistory() {
         const modal = document.getElementById('pricing-modal');
-        if (!modal) return;
-
-        if (modal.style.display === 'none') return;
+        if (!modal || modal.style.display === 'none') return;
 
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
@@ -472,20 +592,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (closeBtn) {
             closeBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
+                utils.stopPropagation(e);
                 closePricingModal();
             });
         }
 
         if (modal) {
             modal.addEventListener('click', function (e) {
-                if (e.target === modal) {
-                    closePricingModal();
-                }
+                if (e.target === modal) closePricingModal();
             });
-
-            // Vrati skrol na vrh stranice
-            modalBody.scrollTo(0, 0);
+            if (modalBody) modalBody.scrollTo(0, 0);
         }
 
         if (!pricingModalInitialized) {
@@ -517,32 +633,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         let html = '';
-
         prices.forEach((category, index) => {
             const translatedCategory = translations?.[index];
-
-            html += `
-        <div class="pricing-category">
-            <h4 class="pricing-category-title">${translatedCategory?.name || category.name}</h4>
-            <ul class="pricing-subitems">
-        `;
+            html += `<div class="pricing-category">
+                <h4 class="pricing-category-title">${translatedCategory?.name || category.name}</h4>
+                <ul class="pricing-subitems">`;
 
             if (category.subitems && Array.isArray(category.subitems)) {
                 category.subitems.forEach((item, itemIndex) => {
                     const translatedItem = translatedCategory?.subitems?.[itemIndex];
-                    html += `
-                <li class="pricing-subitem">
-                    <span class="pricing-subitem-name">${translatedItem?.name || item.name}</span>
-                    <span class="pricing-subitem-price">${formatPrice(item)}</span>
-                </li>
-                `;
+                    html += `<li class="pricing-subitem">
+                        <span class="pricing-subitem-name">${translatedItem?.name || item.name}</span>
+                        <span class="pricing-subitem-price">${formatPrice(item)}</span>
+                    </li>`;
                 });
             }
 
-            html += `
-            </ul>
-        </div>
-        `;
+            html += `</ul></div>`;
         });
 
         return html;
@@ -552,15 +659,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupPartnersMarquee() {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const container = document.querySelector(".marquee-inner");
-
         if (!container) return;
 
         if (prefersReducedMotion) {
             setupStaticPartnersLayout(container);
-            return;
+        } else {
+            setupAnimatedMarquee(container);
         }
-
-        setupAnimatedMarquee(container);
     }
 
     function setupStaticPartnersLayout(container) {
@@ -573,7 +678,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const images = container.querySelectorAll('.ratio');
         const totalImages = images.length;
-
         for (let i = totalImages / 2; i < totalImages; i++) {
             images[i]?.remove();
         }
@@ -591,13 +695,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!isPaused) {
                 scrollAmount += 1;
                 container.style.transform = `translateX(-${scrollAmount}px)`;
-
                 if (scrollAmount >= container.scrollWidth / 2) {
                     scrollAmount = 0;
                     container.style.transform = `translateX(0px)`;
                 }
             }
-
             animationFrameId = requestAnimationFrame(marqueeScroll);
         }
 
@@ -620,31 +722,20 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadAndApplyLanguage(lang) {
         currentLanguage = lang;
         const translations = await loadTranslations(lang);
-
         window.currentTranslations = translations;
         applyTranslations(translations);
         updateLanguageDisplay(lang);
-
         closeAllModals();
-
-        // Ponovo postavi radio cijene nakon promjene jezika
         setupRadioPrices();
-
         localStorage.setItem('preferredLanguage', lang);
     }
 
     async function initializeApp() {
         const savedLanguage = localStorage.getItem('preferredLanguage') || 'sr';
-
-        // Prvo učitaj cijene
         await loadPrices();
-
-        // Postavi radio cijene PRIJE nego što apliciramo jezik
         setupRadioPrices();
-
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
-
         checkStickyNavigation();
         setupGlobalHistoryHandler();
         setupPricingHistory();
@@ -655,13 +746,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ==================== START APPLICATION ====================
     setupEventListeners();
-
-    // Set current year
     document.querySelector(".year").textContent = new Date().getFullYear();
 
-    // Language dropdown event
-    document.querySelector('.language').addEventListener('click', function (e) {
-        e.stopPropagation();
+    document.querySelector('.language')?.addEventListener('click', function (e) {
+        utils.stopPropagation(e);
         const flagLink = e.target.closest('.flagLink');
         if (flagLink) {
             const langCode = flagLink.getAttribute('data-lang-code');
@@ -669,7 +757,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Initialize when page loads
     window.addEventListener('load', function () {
         body.classList.add("loaded");
     });
