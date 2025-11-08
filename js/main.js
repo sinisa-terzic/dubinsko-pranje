@@ -155,11 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            if (state.modal === 'gallery') {
-                if (window.galleryManager && window.galleryManager.elements.modal.style.display === 'none') {
-                    window.galleryManager.open(state.index);
-                }
-            } else if (state.modal === 'pricing') {
+            if (state.modal === 'pricing') {
                 const pricingModal = document.getElementById('pricing-modal');
                 if (pricingModal && pricingModal.style.display === 'none') {
                     showPricingModal(state.planId);
@@ -169,10 +165,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function closeAllModals() {
-        const galleryModal = document.getElementById('gallery-modal');
-        if (galleryModal && galleryModal.style.display === 'block') {
-            if (window.galleryManager) window.galleryManager.closeModalWithoutHistory();
-        }
         closePricingModalWithoutHistory();
     }
 

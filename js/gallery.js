@@ -1,30 +1,21 @@
 /**
- * MODERN GALLERY - OPTIMIZOVANA RESPONZIVNA GALERIJA
- * Sa back button funkcionalnošću i shuffle funkcionalnošću
+ * OPTIMIZOVANA GALERIJA - STABILNA I BRZA
+ * Sve funkcionalnosti ostaju iste, samo optimizovano za stabilnost
  */
 
 class GalleryManager {
     constructor() {
-        // Konfiguracija galerije
         this.config = {
             grid: {
-                desktop: { rows: 2, gap: 6, minWidth: 300 },   // Grid za desktop
-                tablet: { rows: 2, gap: 4, minWidth: 200 },   // Grid za tablet
-                mobile: { rows: 2, gap: 4, minWidth: 150 }    // Grid za mobile
+                desktop: { rows: 2, gap: 6, minWidth: 300 },
+                tablet: { rows: 2, gap: 4, minWidth: 200 },
+                mobile: { rows: 2, gap: 4, minWidth: 150 }
             },
-            swipe: { threshold: 50 },                          // Minimalni swipe distance
-            preload: {
-                enabled: true,                                 // Preload susednih slika
-                adjacentImages: 1                              // Broj susednih slika za preload
-            },
-            // NOVO: Shuffle konfiguracija
-            shuffle: {
-                enabled: true,           // Uključi miješanje slika
-                persistSession: false    // Ne pamti redoslijed tokom sesije
-            }
+            swipe: { threshold: 50 },
+            preload: { enabled: true, adjacentImages: 1 },
+            shuffle: { enabled: true, persistSession: false }
         };
 
-        // Lista slika sa različitim rezolucijama za različite uređaje
         this.images = [
             {
                 id: 1,
@@ -126,25 +117,28 @@ class GalleryManager {
             }
         ];
 
-        // Stanje galerije - prati trenutnu poziciju i interakcije
         this.state = {
-            currentIndex: 0,           // Trenutno aktivna slika u modalu
-            rotatingImages: [],        // Slike za rotirajući element
-            currentRotatingIndex: 0,   // Trenutna pozicija u rotaciji
-            isAnimating: false,        // Da li je u toku animacija
-            prevIndex: 0,              // Prethodni index za navigaciju
-            swipeStartX: 0,            // Početna pozicija za swipe
-            isSwiping: false,          // Da li je u toku swipe gest
-            isLoading: false,          // Da li se učitava slika
-            // NOVO: Miješane slike za grid
-            shuffledImages: []
+            currentIndex: 0,
+            rotatingImages: [],
+            currentRotatingIndex: 0,
+            isAnimating: false,
+            prevIndex: 0,
+            swipeStartX: 0,
+            isSwiping: false,
+            isLoading: false,
+            shuffledImages: [],
+            isHistoryNavigation: false
         };
 
-        this.intervals = {};    // Čuva interval za rotaciju i resize
-        this.elements = {};     // Cache DOM elemenata
-        this.isInitialized = false;  // Da li je galerija inicijalizovana
+        this.intervals = {};
+        this.elements = {};
+        this.isInitialized = false;
+        this.eventListeners = [];
 
-        // Bind event handlers za održavanje context-a
+        this.bindEvents();
+    }
+
+    bindEvents() {
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleResize = this.handleResize.bind(this);
         this.handleTouchStart = this.handleTouchStart.bind(this);
@@ -156,15 +150,75 @@ class GalleryManager {
         this.handlePopState = this.handlePopState.bind(this);
     }
 
-    // =========================================================================
-    // SHUFFLE FUNCTIONALITY - MIJEŠANJE SLIKA
-    // =========================================================================
+    // HISTORY MANAGEMENT - POJEDOSTAVLJENO
+    setupGlobalHistoryHandler() {
+        this.removeEventListener('popstate', this.handlePopState);
+        window.addEventListener('popstate', this.handlePopState);
+        this.eventListeners.push({ element: window, type: 'popstate', handler: this.handlePopState });
+    }
 
-    /**
-     * Miješa niz slika nasumično
-     * @param {Array} array - Niz slika za miješanje
-     * @returns {Array} Miješani niz
-     */
+    handlePopState(event) {
+        if (this.state.isHistoryNavigation) return;
+
+        const state = event.state;
+        const isModalOpen = this.elements.modal?.style.display === 'block';
+
+        if (!state || state.modal !== 'gallery') {
+            if (isModalOpen) this.closeModalWithoutHistory();
+            return;
+        }
+
+        this.state.isHistoryNavigation = true;
+
+        if (isModalOpen) {
+            if (state.index !== this.state.currentIndex) {
+                this.state.prevIndex = this.state.currentIndex;
+                this.state.currentIndex = state.index;
+                this.updateModalImage();
+            }
+        } else {
+            this.state.currentIndex = state.index;
+            this.state.prevIndex = state.index;
+            this.openModalWithoutHistory();
+        }
+
+        setTimeout(() => { this.state.isHistoryNavigation = false; }, 50);
+    }
+
+    pushHistoryState(index) {
+        if (this.state.isHistoryNavigation) return;
+        this.state.isHistoryNavigation = true;
+
+        const state = { modal: 'gallery', index: index };
+        window.history.pushState(state, '', `#gallery-${index}`);
+
+        setTimeout(() => { this.state.isHistoryNavigation = false; }, 50);
+    }
+
+    replaceHistoryState(index) {
+        if (this.state.isHistoryNavigation) return;
+        this.state.isHistoryNavigation = true;
+
+        const state = { modal: 'gallery', index: index };
+        window.history.replaceState(state, '', `#gallery-${index}`);
+
+        setTimeout(() => { this.state.isHistoryNavigation = false; }, 50);
+    }
+
+    setupHashHandler() {
+        if (window.location.hash.startsWith('#gallery-')) {
+            const index = parseInt(window.location.hash.split('-')[1]);
+            if (!isNaN(index) && index >= 0 && index < this.images.length) {
+                setTimeout(() => {
+                    this.state.currentIndex = index;
+                    this.state.prevIndex = index;
+                    this.openModal();
+                }, 100);
+            }
+        }
+    }
+
+    // SHUFFLE - POJEDOSTAVLJENO
     shuffleArray(array) {
         const shuffled = [...array];
         for (let i = shuffled.length - 1; i > 0; i--) {
@@ -174,38 +228,24 @@ class GalleryManager {
         return shuffled;
     }
 
-    /**
-     * Vraća listu slika za prikaz u gridu (miješanu)
-     * @returns {Array} Lista slika za grid
-     */
     getImagesForGrid() {
-        // Ako već imamo miješane slike, vrati ih
         if (this.state.shuffledImages.length > 0) {
             return this.state.shuffledImages;
         }
 
-        // Provjeri da li već postoji miješana verzija u sessionStorage
         if (this.config.shuffle.persistSession) {
             const sessionKey = 'gallery_shuffled_order';
             const savedOrder = sessionStorage.getItem(sessionKey);
-
             if (savedOrder) {
                 const order = JSON.parse(savedOrder);
-                this.state.shuffledImages = order.map(id => this.images.find(img => img.id === id));
+                this.state.shuffledImages = order.map(id => this.images.find(img => img.id === id)).filter(Boolean);
                 return this.state.shuffledImages;
             }
         }
 
-        // Ako shuffle nije enabled, vrati originalni redoslijed
-        if (!this.config.shuffle.enabled) {
-            this.state.shuffledImages = [...this.images];
-            return this.state.shuffledImages;
-        }
+        this.state.shuffledImages = this.config.shuffle.enabled ?
+            this.shuffleArray(this.images) : [...this.images];
 
-        // Miješaj slike
-        this.state.shuffledImages = this.shuffleArray(this.images);
-
-        // Sačuvaj redoslijed u sessionStorage ako je potrebno
         if (this.config.shuffle.persistSession) {
             const sessionKey = 'gallery_shuffled_order';
             const order = this.state.shuffledImages.map(img => img.id);
@@ -215,21 +255,11 @@ class GalleryManager {
         return this.state.shuffledImages;
     }
 
-    /**
-     * Vraća originalni redoslijed slika (za modal navigaciju)
-     * @returns {Array} Originalna lista slika
-     */
     getImagesForModal() {
         return this.images;
     }
 
-    // =========================================================================
-    // PUBLIC API - METODE ZA KORIŠĆENJE GALERIJE IZVAN KLASE
-    // =========================================================================
-
-    /**
-     * Inicijalizacija galerije - mora se pozvati prilikom učitavanja stranice
-     */
+    // PUBLIC API
     init() {
         if (this.isInitialized) return;
 
@@ -238,40 +268,28 @@ class GalleryManager {
             this.createGallery();
             this.setupEventListeners();
             this.setupGlobalHistoryHandler();
+            this.setupHashHandler();
             this.isInitialized = true;
         } catch (error) {
             console.error('Gallery init failed:', error);
         }
     }
 
-    /**
-     * Otvara modal sa određenom slikom
-     * @param {number} imageIndex - Index slike za prikaz (0-based)
-     */
     open(imageIndex = 0) {
         if (imageIndex < 0 || imageIndex >= this.images.length) return;
-
-        // Spriječi duplo otvaranje
-        if (this.elements.modal.style.display === 'block') return;
+        if (this.elements.modal?.style.display === 'block') return;
 
         this.state.currentIndex = imageIndex;
         this.state.prevIndex = imageIndex;
         this.openModal();
     }
 
-    /**
-     * Zatvara modal
-     */
     close() {
         this.closeModal();
     }
 
-    /**
-     * Zatvara modal bez manipulacije history-ja
-     */
     closeModalWithoutHistory() {
-        // Spriječi duplo zatvaranje
-        if (this.elements.modal.style.display === 'none') return;
+        if (this.elements.modal?.style.display === 'none') return;
 
         this.elements.modal.classList.remove('active');
 
@@ -281,131 +299,54 @@ class GalleryManager {
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
 
-            // Ponovo pokreni rotaciju ako postoji
             if (this.state.rotatingImages.length > 1) {
                 this.startRotation();
             }
         }, 150);
     }
 
-    /**
-     * Prelazi na sledeću sliku
-     */
     next() {
         if (this.state.isAnimating) return;
         this.navigate(1);
     }
 
-    /**
-     * Prelazi na prethodnu sliku
-     */
     prev() {
         if (this.state.isAnimating) return;
         this.navigate(-1);
     }
 
-    // =========================================================================
-    // RESPONSIVE IMAGE SYSTEM - ODABIR OPTIMALNE SLIKE ZA UREĐAJ
-    // =========================================================================
-
-    /**
-     * Vraća odgovarajuću verziju slike na osnovu veličine ekrana
-     * @param {Object} image - Objekat slike sa src i srcMobile property-jima
-     * @returns {string} Putanja do optimalne slike
-     */
+    // RESPONSIVE IMAGE SYSTEM
     getResponsiveSource(image) {
         const width = window.innerWidth;
-        const isMobile = width < 768;
-
-        // Na mobilnim uređajima koristi mobile verziju ako postoji
-        if (isMobile && image.srcMobile) {
-            return image.srcMobile;
-        }
-
-        // Na desktop i tablet uređajima koristi desktop verziju
-        return image.src;
+        return (width < 768 && image.srcMobile) ? image.srcMobile : image.src;
     }
 
-    /**
-     * Vraća thumbnail sliku (uvek ista za sve uređaje)
-     * @param {Object} image - Objekat slike
-     * @returns {string} Putanja do thumbnail slike
-     */
     getThumbnailSource(image) {
         return image.thumbnail;
     }
 
-    // =========================================================================
-    // PRELOAD SYSTEM - PREDUZIMANJE SLIKA ZA BRŽU NAVIGACIJU
-    // =========================================================================
-
-    /**
-     * Preload susednih slika trenutno aktivne slike
-     * @param {number} currentIndex - Index trenutne slike
-     */
+    // PRELOAD SYSTEM
     preloadAdjacentImages(currentIndex) {
         if (!this.config.preload.enabled) return;
 
         const { adjacentImages } = this.config.preload;
-
-        // Preload slika sa obe strane trenutne slike
         for (let i = 1; i <= adjacentImages; i++) {
             const prevIndex = (currentIndex - i + this.images.length) % this.images.length;
             const nextIndex = (currentIndex + i) % this.images.length;
-
             this.preloadSingleImage(this.images[prevIndex]);
             this.preloadSingleImage(this.images[nextIndex]);
         }
     }
 
-    /**
-     * Preload pojedinačne slike
-     * @param {Object} image - Slika za preload
-     */
     preloadSingleImage(image) {
         const src = this.getResponsiveSource(image);
         const img = new Image();
         img.src = src;
     }
 
-    /**
-     * Prikazuje loading indicator dok se slika učitava
-     */
-    showLoading() {
-        this.state.isLoading = true;
-        this.elements.modalImage.classList.add('loading');
-
-        let spinner = document.querySelector('.gallery-loading-spinner');
-        if (!spinner) {
-            spinner = document.createElement('div');
-            spinner.className = 'gallery-loading-spinner';
-            this.elements.modalImageContainer.appendChild(spinner);
-        }
-        spinner.classList.add('active');
-    }
-
-    /**
-     * Skriva loading indicator
-     */
-    hideLoading() {
-        this.state.isLoading = false;
-        this.elements.modalImage.classList.remove('loading');
-
-        const spinner = document.querySelector('.gallery-loading-spinner');
-        if (spinner) {
-            spinner.classList.remove('active');
-        }
-    }
-
-    // =========================================================================
-    // CORE GALLERY FUNCTIONALITY - KREIRANJE I UPRAVLJANJE GALERIJOM
-    // =========================================================================
-
-    /**
-     * Keširanje DOM elemenata za brži pristup
-     */
+    // CORE GALLERY FUNCTIONALITY
     cacheElements() {
-        const elements = {
+        const selectors = {
             gallery: '#gallery',
             modal: '#gallery-modal',
             modalImage: '#gallery-modal-image',
@@ -416,33 +357,29 @@ class GalleryManager {
             imageIndicators: '#gallery-image-indicators'
         };
 
-        for (const [key, selector] of Object.entries(elements)) {
+        for (const [key, selector] of Object.entries(selectors)) {
             this.elements[key] = document.querySelector(selector);
             if (!this.elements[key] && key !== 'imageIndicators') {
-                throw new Error(`Element not found: ${selector}`);
+                console.warn(`Element not found: ${selector}`);
             }
         }
     }
 
-    /**
-     * Kreira grid galeriju sa svim slikama
-     */
     createGallery() {
+        if (!this.elements.gallery) return;
+
         this.elements.gallery.innerHTML = '';
         this.stopRotation();
 
-        // KORIGOVANO: Koristi miješane slike za grid
         const displayedImages = this.getImagesForGrid();
         const visibleCount = this.setupGridLayout();
         const gridImages = displayedImages.slice(0, visibleCount - 1);
         this.state.rotatingImages = displayedImages.slice(visibleCount - 1);
 
-        // Dodaj prikazane slike u grid
-        gridImages.forEach((image, index) => {
+        gridImages.forEach((image) => {
             this.elements.gallery.appendChild(this.createGalleryItem(image));
         });
 
-        // Dodaj rotirajući element ako ima viška slika
         if (this.state.rotatingImages.length > 0) {
             this.elements.gallery.appendChild(this.createRotatingItem());
             if (this.state.rotatingImages.length > 1) {
@@ -451,11 +388,6 @@ class GalleryManager {
         }
     }
 
-    /**
-     * Kreira pojedinačni element u gridu
-     * @param {Object} image - Slika za prikaz
-     * @returns {HTMLElement} Gallery item element
-     */
     createGalleryItem(image) {
         const item = document.createElement('div');
         item.className = 'gallery-item';
@@ -464,25 +396,24 @@ class GalleryManager {
         img.src = this.getThumbnailSource(image);
         img.alt = image.alt;
         img.loading = 'lazy';
-        img.dataset.imageId = image.id; // DODANO: Čuva ID slike
+        img.dataset.imageId = image.id;
 
-        // KORIGOVANO: Koristi originalni index za otvaranje modala
-        img.addEventListener('click', () => {
-            // Pronađi originalni index ove slike
+        const clickHandler = () => {
             const originalIndex = this.images.findIndex(img => img.id === image.id);
-            this.state.currentIndex = originalIndex;
-            this.state.prevIndex = originalIndex;
-            this.openModal();
-        });
+            if (originalIndex !== -1) {
+                this.state.currentIndex = originalIndex;
+                this.state.prevIndex = originalIndex;
+                this.openModal();
+            }
+        };
+
+        img.addEventListener('click', clickHandler);
+        this.eventListeners.push({ element: img, type: 'click', handler: clickHandler });
 
         item.appendChild(img);
         return item;
     }
 
-    /**
-     * Kreira rotirajući element koji prikazuje više slika u jednom slotu
-     * @returns {HTMLElement} Rotating item element
-     */
     createRotatingItem() {
         const item = document.createElement('div');
         const hasMultipleImages = this.state.rotatingImages.length > 1;
@@ -491,7 +422,6 @@ class GalleryManager {
             'gallery-item rotating-item' :
             'gallery-item rotating-item no-rotation';
 
-        // Dodaj sve slike za rotaciju
         this.state.rotatingImages.forEach((image, index) => {
             const img = document.createElement('img');
             img.src = this.getThumbnailSource(image);
@@ -505,7 +435,6 @@ class GalleryManager {
             item.appendChild(img);
         });
 
-        // Dodaj tekst koji pokazuje broj preostalih slika
         if (hasMultipleImages) {
             const moreText = document.createElement('div');
             moreText.className = 'more-text';
@@ -513,36 +442,31 @@ class GalleryManager {
             item.appendChild(moreText);
         }
 
-        // KORIGOVANO: Koristi originalni index za otvaranje modala
-        item.addEventListener('click', () => {
+        const clickHandler = () => {
             const activeImage = item.querySelector('.rotating-image.active') || item.querySelector('img');
             if (activeImage) {
                 const imageId = parseInt(activeImage.dataset.imageId);
                 const originalIndex = this.images.findIndex(img => img.id === imageId);
-                this.state.currentIndex = originalIndex;
-                this.state.prevIndex = originalIndex;
-                this.openModal();
+                if (originalIndex !== -1) {
+                    this.state.currentIndex = originalIndex;
+                    this.state.prevIndex = originalIndex;
+                    this.openModal();
+                }
             }
-        });
+        };
+
+        item.addEventListener('click', clickHandler);
+        this.eventListeners.push({ element: item, type: 'click', handler: clickHandler });
 
         return item;
     }
 
-    // =========================================================================
-    // IMAGE ROTATION SYSTEM - AUTOMATSKA ROTACIJA SLIKA U ROTATING ELEMENTU
-    // =========================================================================
-
-    /**
-     * Pokreće automatsku rotaciju slika
-     */
+    // IMAGE ROTATION SYSTEM
     startRotation() {
         this.stopRotation();
         this.intervals.rotation = setInterval(() => this.rotateImages(), 2500);
     }
 
-    /**
-     * Zaustavlja rotaciju slika
-     */
     stopRotation() {
         if (this.intervals.rotation) {
             clearInterval(this.intervals.rotation);
@@ -550,12 +474,12 @@ class GalleryManager {
         }
     }
 
-    /**
-     * Rotira slike u rotating elementu
-     */
     rotateImages() {
         const rotatingItem = document.querySelector('.rotating-item');
-        if (!rotatingItem) return;
+        if (!rotatingItem) {
+            this.stopRotation();
+            return;
+        }
 
         const images = rotatingItem.querySelectorAll('.rotating-image');
         if (images.length === 0) {
@@ -563,71 +487,75 @@ class GalleryManager {
             return;
         }
 
-        // Ukloni aktivnu klasu sa trenutne slike
         const currentActive = rotatingItem.querySelector('.rotating-image.active');
         if (currentActive) currentActive.classList.remove('active');
 
-        // Postavi sledeću sliku kao aktivnu
         this.state.currentRotatingIndex = (this.state.currentRotatingIndex + 1) % images.length;
         images[this.state.currentRotatingIndex].classList.add('active');
     }
 
-    // =========================================================================
-    // SWIPE & DRAG FUNCTIONALITY - TOUCH I MOUSE NAVIGACIJA
-    // =========================================================================
-
-    /**
-     * Postavlja event listenere za swipe i drag
-     */
+    // SWIPE & DRAG FUNCTIONALITY - FIXED TOUCHMOVE
     setupSwipeEvents() {
         const container = this.elements.modalImageContainer;
         if (!container) return;
 
-        // Touch events za mobilne uređaje
-        container.addEventListener('touchstart', this.handleTouchStart, { passive: false });
-        container.addEventListener('touchmove', this.handleTouchMove, { passive: false });
-        container.addEventListener('touchend', this.handleTouchEnd);
+        const events = [
+            { type: 'touchstart', handler: this.handleTouchStart, options: { passive: true } },
+            { type: 'touchmove', handler: this.handleTouchMove, options: { passive: true } },
+            { type: 'touchend', handler: this.handleTouchEnd, options: { passive: true } },
+            { type: 'mousedown', handler: this.handleMouseDown },
+            { type: 'mousemove', handler: this.handleMouseMove },
+            { type: 'mouseup', handler: this.handleMouseUp },
+            { type: 'mouseleave', handler: this.handleMouseUp },
+            { type: 'dragstart', handler: (e) => e.preventDefault() }
+        ];
 
-        // Mouse events za desktop
-        container.addEventListener('mousedown', this.handleMouseDown);
-        container.addEventListener('mousemove', this.handleMouseMove);
-        container.addEventListener('mouseup', this.handleMouseUp);
-        container.addEventListener('mouseleave', this.handleMouseUp);
-        container.addEventListener('dragstart', (e) => e.preventDefault());
+        events.forEach(({ type, handler, options }) => {
+            container.addEventListener(type, handler, options);
+            this.eventListeners.push({ element: container, type, handler, options });
+        });
     }
 
-    /**
-     * Početak touch swipe gesta
-     */
     handleTouchStart(e) {
         if (this.state.isAnimating) return;
         this.state.swipeStartX = e.touches[0].clientX;
         this.state.isSwiping = true;
     }
 
-    /**
-     * Kretanje tokom touch swipe gesta
-     */
     handleTouchMove(e) {
         if (!this.state.isSwiping || this.state.isAnimating) return;
+
+        // Uklonjen preventDefault() jer uzrokuje warning
+        // Samo prati kretanje bez blokiranja scrolla
         const touch = e.touches[0];
         const swipeX = touch.clientX - this.state.swipeStartX;
-        if (Math.abs(swipeX) > 10) e.preventDefault();
+
+        // Možemo dodati visual feedback bez blokiranja scrolla
+        if (Math.abs(swipeX) > this.config.swipe.threshold) {
+            // Dodajemo CSS klasu za feedback ali ne blokiramo scroll
+            this.elements.modalImageContainer.classList.add('swipe-active');
+        } else {
+            this.elements.modalImageContainer.classList.remove('swipe-active');
+        }
     }
 
-    /**
-     * Kraj touch swipe gesta
-     */
     handleTouchEnd(e) {
         if (!this.state.isSwiping || this.state.isAnimating) return;
+
+        // Ukloni visual feedback
+        this.elements.modalImageContainer.classList.remove('swipe-active');
+
         const touch = e.changedTouches[0];
-        this.processSwipe(touch.clientX - this.state.swipeStartX);
+        const swipeX = touch.clientX - this.state.swipeStartX;
+
+        // Procesuiraj swipe samo ako je dovoljno velik
+        if (Math.abs(swipeX) > this.config.swipe.threshold) {
+            swipeX > 0 ? this.prev() : this.next();
+        }
+
         this.state.isSwiping = false;
     }
 
-    /**
-     * Početak mouse drag gesta
-     */
     handleMouseDown(e) {
         if (this.state.isAnimating || e.button !== 0) return;
         this.state.swipeStartX = e.clientX;
@@ -635,75 +563,50 @@ class GalleryManager {
         document.body.style.userSelect = 'none';
     }
 
-    /**
-     * Kretanje tokom mouse drag gesta
-     */
     handleMouseMove(e) {
-        // Samo prati kretanje - processing se radi u handleMouseUp
+        // Samo prati kretanje
     }
 
-    /**
-     * Kraj mouse drag gesta
-     */
     handleMouseUp(e) {
         if (!this.state.isSwiping || this.state.isAnimating) return;
-        this.processSwipe(e.clientX - this.state.swipeStartX);
+
+        const swipeX = e.clientX - this.state.swipeStartX;
+
+        if (Math.abs(swipeX) > this.config.swipe.threshold) {
+            swipeX > 0 ? this.prev() : this.next();
+        }
+
         this.state.isSwiping = false;
         document.body.style.userSelect = '';
     }
 
-    /**
-     * Procesuira swipe/drag gest i navigira ako je dovoljno dug
-     * @param {number} swipeX - Razlika u X koordinati
-     */
-    processSwipe(swipeX) {
-        if (Math.abs(swipeX) > this.config.swipe.threshold) {
-            swipeX > 0 ? this.prev() : this.next();
-        }
-    }
-
-    /**
-     * Uklanja swipe event listenere
-     */
     cleanupSwipeEvents() {
         const container = this.elements.modalImageContainer;
         if (!container) return;
 
-        const events = [
-            'touchstart', 'touchmove', 'touchend',
-            'mousedown', 'mousemove', 'mouseup', 'mouseleave'
-        ];
-
-        events.forEach(event => {
-            container.removeEventListener(event, this[`handle${event.charAt(0).toUpperCase() + event.slice(1)}`]);
+        this.eventListeners = this.eventListeners.filter(listener => {
+            if (listener.element === container &&
+                ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup', 'mouseleave', 'dragstart'].includes(listener.type)) {
+                container.removeEventListener(listener.type, listener.handler);
+                return false;
+            }
+            return true;
         });
     }
 
-    // =========================================================================
-    // MODAL FUNCTIONALITY - UPRAVLJANJE MODAL PROZOROM
-    // =========================================================================
-
-    /**
-     * Otvara modal sa trenutnom slikom
-     */
+    // MODAL FUNCTIONALITY
     openModal() {
-        // Spriječi duplo otvaranje
-        if (this.elements.modal.style.display === 'block') return;
+        if (!this.elements.modal || this.elements.modal.style.display === 'block') return;
 
         this.stopRotation();
         this.elements.modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
 
-        // DODAJ U HISTORY SAMO AKO VEĆ NIJE DODATO
         const currentState = history.state;
-        if (!currentState || currentState.modal !== 'gallery' || currentState.index !== this.state.currentIndex) {
-            window.history.pushState({
-                modal: 'gallery',
-                index: this.state.currentIndex
-            }, '', `#gallery-${this.state.currentIndex}`);
+        if (!currentState || currentState.modal !== 'gallery') {
+            this.pushHistoryState(this.state.currentIndex);
         }
 
-        // Mali delay za CSS transition
         setTimeout(() => {
             this.elements.modal.classList.add('active');
         }, 10);
@@ -714,12 +617,25 @@ class GalleryManager {
         this.setupModalEventListeners();
     }
 
-    /**
-     * Zatvara modal
-     */
+    openModalWithoutHistory() {
+        if (!this.elements.modal || this.elements.modal.style.display === 'block') return;
+
+        this.stopRotation();
+        this.elements.modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+
+        setTimeout(() => {
+            this.elements.modal.classList.add('active');
+        }, 10);
+
+        this.createIndicators();
+        this.updateModalImage(true);
+        this.setupSwipeEvents();
+        this.setupModalEventListeners();
+    }
+
     closeModal() {
-        // Spriječi duplo zatvaranje
-        if (this.elements.modal.style.display === 'none') return;
+        if (!this.elements.modal || this.elements.modal.style.display === 'none') return;
 
         this.elements.modal.classList.remove('active');
 
@@ -729,52 +645,35 @@ class GalleryManager {
             this.cleanupModalEventListeners();
             this.cleanupSwipeEvents();
 
-            // VRATI HISTORY SAMO AKO JE KORISNIK EKSPLICITNO ZATVORIO MODAL
             const currentState = history.state;
             if (currentState && currentState.modal === 'gallery') {
-                // Ovo znači da je korisnik zatvorio modal (ESC, klik van modala, X dugme)
+                this.state.isHistoryNavigation = true;
                 window.history.back();
+                setTimeout(() => { this.state.isHistoryNavigation = false; }, 50);
             }
 
-            // Ponovo pokreni rotaciju ako postoji
             if (this.state.rotatingImages.length > 1) {
                 this.startRotation();
             }
         }, 150);
     }
 
-    /**
-     * Navigira kroz slike u modalu
-     * @param {number} direction - Smer navigacije (1 = next, -1 = prev)
-     */
     navigate(direction) {
         if (this.state.isAnimating) return;
         this.state.prevIndex = this.state.currentIndex;
         this.state.currentIndex = (this.state.currentIndex + direction + this.images.length) % this.images.length;
-
-        // Ažuriraj history kada se navigira kroz slike
-        window.history.replaceState({
-            modal: 'gallery',
-            index: this.state.currentIndex
-        }, '', `#gallery-${this.state.currentIndex}`);
-
+        this.replaceHistoryState(this.state.currentIndex);
         this.updateModalImage();
     }
 
-    /**
-     * Ažurira prikaz slike u modalu sa animacijom
-     * @param {boolean} skipAnimation - Da li preskočiti animaciju
-     */
     updateModalImage(skipAnimation = false) {
-        // KORIGOVANO: Koristi originalne slike za modal
         const currentImage = this.images[this.state.currentIndex];
-        const responsiveSrc = this.getResponsiveSource(currentImage);
+        if (!currentImage) return;
 
-        // Preload susedne slike za bržu navigaciju
+        const responsiveSrc = this.getResponsiveSource(currentImage);
         this.preloadAdjacentImages(this.state.currentIndex);
 
         if (skipAnimation) {
-            // Direktno postavi sliku bez animacije (prvo otvaranje)
             this.elements.modalImage.src = responsiveSrc;
             this.elements.modalImage.alt = currentImage.alt;
             this.updateIndicators();
@@ -784,7 +683,6 @@ class GalleryManager {
         this.state.isAnimating = true;
         const direction = this.getNavigationDirection();
 
-        // Animacija izlaska trenutne slike
         this.elements.modalImage.classList.add(direction === 'next' ? 'slide-out-left' : 'slide-out-right');
 
         setTimeout(() => {
@@ -792,7 +690,6 @@ class GalleryManager {
             this.elements.modalImage.src = responsiveSrc;
             this.elements.modalImage.alt = currentImage.alt;
 
-            // Animacija ulaska nove slike
             this.elements.modalImage.classList.add(direction === 'next' ? 'slide-in-right' : 'slide-in-left');
             this.updateIndicators();
 
@@ -803,18 +700,11 @@ class GalleryManager {
         }, 250);
     }
 
-    /**
-     * Određuje smer navigacije za animacije
-     * @returns {string} 'next' ili 'prev'
-     */
     getNavigationDirection() {
         const diff = this.state.currentIndex - this.state.prevIndex;
         return (diff === 1 || diff === -(this.images.length - 1)) ? 'next' : 'prev';
     }
 
-    /**
-     * Kreira indikatore (tačkice) za navigaciju
-     */
     createIndicators() {
         if (!this.elements.imageIndicators) return;
 
@@ -822,26 +712,22 @@ class GalleryManager {
         this.images.forEach((_, index) => {
             const indicator = document.createElement('div');
             indicator.className = `gallery-indicator ${index === this.state.currentIndex ? 'active' : ''}`;
-            indicator.addEventListener('click', () => {
+
+            const clickHandler = () => {
                 if (this.state.isAnimating) return;
                 this.state.prevIndex = this.state.currentIndex;
                 this.state.currentIndex = index;
-
-                // Ažuriraj history kada se klikne na indikator
-                window.history.replaceState({
-                    modal: 'gallery',
-                    index: this.state.currentIndex
-                }, '', `#gallery-${this.state.currentIndex}`);
-
+                this.replaceHistoryState(index);
                 this.updateModalImage();
-            });
+            };
+
+            indicator.addEventListener('click', clickHandler);
+            this.eventListeners.push({ element: indicator, type: 'click', handler: clickHandler });
+
             this.elements.imageIndicators.appendChild(indicator);
         });
     }
 
-    /**
-     * Ažurira aktivni indikator
-     */
     updateIndicators() {
         const indicators = document.querySelectorAll('.gallery-indicator');
         indicators.forEach((indicator, index) => {
@@ -849,57 +735,13 @@ class GalleryManager {
         });
     }
 
-    // =========================================================================
-    // GLOBAL HISTORY MANAGEMENT - INTEGRACIJA SA BROWSER HISTORY
-    // =========================================================================
-
-    /**
-     * Postavlja globalni history handler za galeriju
-     */
-    setupGlobalHistoryHandler() {
-        window.addEventListener('popstate', this.handlePopState);
-    }
-
-    /**
-     * Rukuje popstate eventovima
-     */
-    handlePopState(event) {
-        const state = event.state;
-
-        if (!state) {
-            // Nema state - zatvori galeriju ako je otvorena
-            if (this.elements.modal.style.display === 'block') {
-                this.closeModalWithoutHistory();
-            }
-            return;
-        }
-
-        if (state.modal === 'gallery') {
-            // Browser back - zatvori galeriju
-            if (this.elements.modal.style.display === 'block') {
-                this.closeModalWithoutHistory();
-            }
-            // Browser forward - otvori galeriju sa istim indexom
-            else if (state.index !== undefined && this.elements.modal.style.display === 'none') {
-                this.state.currentIndex = state.index;
-                this.state.prevIndex = state.index;
-                this.openModal();
-            }
-        }
-    }
-
-    // =========================================================================
-    // GRID SYSTEM - RESPONZIVNI GRID LAYOUT
-    // =========================================================================
-
-    /**
-     * Postavlja grid layout na osnovu veličine ekrana
-     * @returns {number} Broj elemenata koji mogu da stanu u grid
-     */
+    // GRID SYSTEM
     setupGridLayout() {
+        if (!this.elements.gallery?.parentElement) return 0;
+
         const config = this.getCurrentConfig();
         const containerWidth = this.elements.gallery.parentElement.clientWidth;
-        const maxColumns = Math.floor(containerWidth / config.minWidth);
+        const maxColumns = Math.max(1, Math.floor(containerWidth / config.minWidth));
         const itemsPerRow = Math.min(maxColumns, Math.ceil(this.images.length / config.rows));
 
         this.elements.gallery.style.gridTemplateColumns = `repeat(${itemsPerRow}, 1fr)`;
@@ -908,10 +750,6 @@ class GalleryManager {
         return itemsPerRow * config.rows;
     }
 
-    /**
-     * Vraća konfiguraciju za trenutnu veličinu ekrana
-     * @returns {Object} Grid konfiguracija
-     */
     getCurrentConfig() {
         const width = window.innerWidth;
         if (width >= 1200) return this.config.grid.desktop;
@@ -919,48 +757,26 @@ class GalleryManager {
         return this.config.grid.mobile;
     }
 
-    // =========================================================================
-    // EVENT MANAGEMENT - UPRAVLJANJE EVENT LISTENERIMA
-    // =========================================================================
-
-    /**
-     * Postavlja osnovne event listenere
-     */
+    // EVENT MANAGEMENT
     setupEventListeners() {
-        // Dugme za zatvaranje modala
-        if (this.elements.closeBtn) {
-            this.elements.closeBtn.addEventListener('click', () => this.closeModal());
-        }
+        const elements = [
+            { element: this.elements.closeBtn, type: 'click', handler: () => this.closeModal() },
+            { element: this.elements.modal, type: 'click', handler: (e) => { if (e.target === this.elements.modal) this.closeModal(); } },
+            { element: this.elements.prevBtn, type: 'click', handler: (e) => { e.stopPropagation(); this.prev(); } },
+            { element: this.elements.nextBtn, type: 'click', handler: (e) => { e.stopPropagation(); this.next(); } }
+        ];
 
-        // Klik van slike zatvara modal
-        if (this.elements.modal) {
-            this.elements.modal.addEventListener('click', (e) => {
-                if (e.target === this.elements.modal) this.closeModal();
-            });
-        }
+        elements.forEach(({ element, type, handler }) => {
+            if (element) {
+                element.addEventListener(type, handler);
+                this.eventListeners.push({ element, type, handler });
+            }
+        });
 
-        // Navigaciona dugmad
-        if (this.elements.prevBtn) {
-            this.elements.prevBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.prev();
-            });
-        }
-
-        if (this.elements.nextBtn) {
-            this.elements.nextBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.next();
-            });
-        }
-
-        // Resize event za responzivnost
         window.addEventListener('resize', this.handleResize);
+        this.eventListeners.push({ element: window, type: 'resize', handler: this.handleResize });
     }
 
-    /**
-     * Rukuje resize eventom sa debounce-om
-     */
     handleResize() {
         clearTimeout(this.intervals.resize);
         this.intervals.resize = setTimeout(() => {
@@ -968,16 +784,11 @@ class GalleryManager {
         }, 250);
     }
 
-    /**
-     * Postavlja event listenere specifične za modal
-     */
     setupModalEventListeners() {
         document.addEventListener('keydown', this.handleKeyDown);
+        this.eventListeners.push({ element: document, type: 'keydown', handler: this.handleKeyDown });
     }
 
-    /**
-     * Rukuje keyboard navigacijom
-     */
     handleKeyDown(e) {
         switch (e.key) {
             case 'Escape':
@@ -992,16 +803,22 @@ class GalleryManager {
         }
     }
 
-    /**
-     * Uklanja modal event listenere
-     */
     cleanupModalEventListeners() {
-        document.removeEventListener('keydown', this.handleKeyDown);
+        this.eventListeners = this.eventListeners.filter(listener => {
+            if (listener.type === 'keydown') {
+                document.removeEventListener(listener.type, listener.handler);
+                return false;
+            }
+            return true;
+        });
     }
 
-    /**
-     * Resetuje shuffle - korisno ako želiš ponovo promiješati slike
-     */
+    removeEventListener(element, type, handler) {
+        if (element && handler) {
+            element.removeEventListener(type, handler);
+        }
+    }
+
     resetShuffle() {
         this.state.shuffledImages = [];
         if (this.config.shuffle.persistSession) {
@@ -1010,46 +827,41 @@ class GalleryManager {
         this.createGallery();
     }
 
-    /**
-     * Uključuje/isključuje shuffle funkcionalnost
-     * @param {boolean} enabled - Da li je shuffle uključen
-     */
     setShuffleEnabled(enabled) {
         this.config.shuffle.enabled = enabled;
         this.resetShuffle();
     }
 
-    /**
-     * Čišćenje resursa
-     */
     cleanup() {
         this.stopRotation();
-        this.cleanupModalEventListeners();
-        this.cleanupSwipeEvents();
-        window.removeEventListener('popstate', this.handlePopState);
 
-        if (this.intervals.resize) {
-            clearTimeout(this.intervals.resize);
-        }
+        // Cleanup all event listeners
+        this.eventListeners.forEach(({ element, type, handler }) => {
+            if (element && handler) {
+                element.removeEventListener(type, handler);
+            }
+        });
+        this.eventListeners = [];
+
+        // Cleanup intervals
+        Object.values(this.intervals).forEach(interval => {
+            if (interval) clearTimeout(interval);
+        });
+        this.intervals = {};
 
         this.isInitialized = false;
     }
 }
 
-// =============================================================================
-// GLOBAL INITIALIZATION - AUTOMATSKA INICIJALIZACIJA GALERIJE
-// =============================================================================
-
-// Kreiraj globalni instance ako ne postoji
+// GLOBAL INITIALIZATION
 if (!window.galleryManager) {
     window.galleryManager = new GalleryManager();
 }
 
-// Auto-inicijalizacija kada se DOM učita
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(() => window.galleryManager.init(), 100);
+        setTimeout(() => window.galleryManager?.init(), 100);
     });
 } else {
-    setTimeout(() => window.galleryManager.init(), 100);
+    setTimeout(() => window.galleryManager?.init(), 100);
 }
