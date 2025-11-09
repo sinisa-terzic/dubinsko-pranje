@@ -24,11 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
     let pricingModalInitialized = false;
     let currentPrices = {};
 
-    // ==================== UTILITY FUNCTIONS ====================
+    // ==================== OPTIMIZOVANE UTILITY FUNCTIONS ====================
     const utils = {
-        getNestedValue: (obj, path) => path.split('.').reduce((current, key) => current?.[key], obj),
+        getNestedValue: (obj, path) => {
+            if (!obj || !path) return null;
+            return path.split('.').reduce((current, key) => current?.[key], obj);
+        },
 
-        stopPropagation: (e) => e?.stopPropagation(),
+        stopPropagation: (e) => e?.stopPropagation?.(),
 
         addHidden: (element) => element?.classList?.add('hidden'),
 
@@ -37,14 +40,27 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleHidden: (element) => element?.classList?.toggle('hidden'),
 
         closeAllUIElements: () => {
-            const elements = [language, callOptions];
-            elements.forEach(el => utils.addHidden(el));
+            utils.addHidden(language);
+            utils.addHidden(callOptions);
             callUsImg?.classList.remove("callUs-is-open");
             callUsIcon?.classList.remove("open-callUs-remove");
         }
     };
 
-    // ==================== PRICE MANAGEMENT ====================
+    // ==================== DEBOUNCE FUNKCIJA ZA PERFORMANSE ====================
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // ==================== OPTIMIZOVAN PRICE MANAGEMENT ====================
     async function loadPrices() {
         try {
             const response = await fetch('data/prices.json');
@@ -58,6 +74,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function formatPrice(priceData) {
+        if (!priceData) return '';
+
         let prefix = '';
         if (priceData.prefix) {
             const prefixTranslations = {
@@ -74,10 +92,10 @@ document.addEventListener('DOMContentLoaded', function () {
             plus = `<span class="price-plus">+</span>`;
         }
 
-        return `${prefix}${priceData.price.toFixed(2)} €${plus}`;
+        return `${prefix}${priceData.price?.toFixed(2) || '0.00'} €${plus}`;
     }
 
-    // ==================== RADIO PRICE MANAGEMENT ====================
+    // ==================== OPTIMIZOVAN RADIO PRICE MANAGEMENT ====================
     function setupRadioPrices() {
         const radioSections = [
             { sectionId: 1, planKey: 'dubinsko_pranje' },
@@ -93,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
             radioPrices.forEach(radioItem => {
                 const radioElement = document.getElementById(radioItem.id);
                 if (radioElement) {
-                    let value = radioItem.price.toFixed(2);
+                    let value = radioItem.price?.toFixed(2) || '0.00';
                     if (radioItem.plus) value += '+';
                     radioElement.value = value;
                     if (radioItem.disabled) radioElement.disabled = true;
@@ -128,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateRadioPriceDisplay(output, radioItem, sectionId) {
-        let priceHtml = `<span class="euro">€</span><span>${radioItem.price.toFixed(2)}</span>`;
+        let priceHtml = `<span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>`;
         if (radioItem.plus) priceHtml += `<span class="price-plus">+</span>`;
 
         let html = priceHtml;
@@ -146,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ==================== MODAL HISTORY MANAGEMENT ====================
+    // ==================== OPTIMIZOVAN MODAL HISTORY MANAGEMENT ====================
     function setupGlobalHistoryHandler() {
         window.addEventListener('popstate', function (event) {
             const state = event.state;
@@ -168,8 +186,8 @@ document.addEventListener('DOMContentLoaded', function () {
         closePricingModalWithoutHistory();
     }
 
-    // ==================== UI MANAGEMENT ====================
-    function checkStickyNavigation() {
+    // ==================== OPTIMIZOVAN UI MANAGEMENT ====================
+    const optimizedCheckStickyNavigation = debounce(() => {
         const heroSection = document.querySelector(".hero-text-box");
         if (!heroSection) return;
 
@@ -183,11 +201,15 @@ document.addEventListener('DOMContentLoaded', function () {
             utils.removeHidden(logo1);
             utils.addHidden(logo2);
         }
+    }, 10);
+
+    function checkStickyNavigation() {
+        optimizedCheckStickyNavigation();
     }
 
-    // ==================== EVENT HANDLERS ====================
+    // ==================== OPTIMIZOVANI EVENT HANDLERS ====================
     function setupEventListeners() {
-        // Scroll handling
+        // Optimizovano scroll handling sa debounce
         window.addEventListener('scroll', function () {
             utils.closeAllUIElements();
             if (!scrollTimeout) {
@@ -238,7 +260,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         callUsClose?.addEventListener('click', utils.closeAllUIElements);
-        document.addEventListener('click', utils.closeAllUIElements);
+
+        // Optimizovano outside click handling
+        document.addEventListener('click', function (e) {
+            // Proveri da li je klik van UI elemenata
+            if (!e.target.closest('.language') &&
+                !e.target.closest('.call-options') &&
+                !e.target.closest('.callUs') &&
+                !e.target.closest('#languageImg') &&
+                !e.target.closest('.phone-number')) {
+                utils.closeAllUIElements();
+            }
+        });
 
         // Prevent closing when clicking inside elements
         [language, callOptions, callUsImg].forEach(element => {
@@ -246,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ==================== INTERNATIONALIZATION ====================
+    // ==================== OPTIMIZOVANA INTERNATIONALIZATION ====================
     function getTranslation(key) {
         if (window.currentTranslations) {
             return utils.getNestedValue(window.currentTranslations, key);
@@ -268,6 +301,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function applyTranslations(translations) {
+        if (!translations) return;
+
         // Text translations
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
@@ -294,6 +329,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateSEOMetaTags(translations) {
+        if (!translations) return;
+
         // HTML lang attribute
         const langMap = { 'sr': 'sr', 'en': 'en', 'ru': 'ru' };
         document.documentElement.lang = langMap[currentLanguage] || 'sr';
@@ -335,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ogTitle.setAttribute('property', 'og:title');
             document.head.appendChild(ogTitle);
         }
-        ogTitle.setAttribute('content', translations.pageTitle || 'Perfect Shine - Dubinsko Pranje');
+        ogTitle.setAttribute('content', translations?.pageTitle || 'Perfect Shine - Dubinsko Pranje');
 
         // OG Description
         let ogDescription = document.querySelector('meta[property="og:description"]');
@@ -344,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ogDescription.setAttribute('property', 'og:description');
             document.head.appendChild(ogDescription);
         }
-        ogDescription.setAttribute('content', translations.pageDescription ||
+        ogDescription.setAttribute('content', translations?.pageDescription ||
             'Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju.');
 
         // OG URL
@@ -466,7 +503,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const languageDropdown = document.querySelector('.language');
 
         // Update main button
-        if (languageImg) {
+        if (languageImg && languageData[lang]) {
             languageImg.src = languageData[lang].flag;
             languageImg.alt = languageData[lang].name;
         }
@@ -477,7 +514,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         flagLinks.forEach(link => link.style.display = 'none');
         availableLanguages.forEach((langCode, index) => {
-            if (flagLinks[index]) {
+            if (flagLinks[index] && languageData[langCode]) {
                 flagLinks[index].style.display = 'flex';
                 flagLinks[index].setAttribute('data-lang-code', langCode);
                 flagLinks[index].querySelector('.flag').src = languageData[langCode].flag.replace('+', '');
@@ -500,7 +537,7 @@ document.addEventListener('DOMContentLoaded', function () {
         headerEl.classList.remove("nav-open");
     }
 
-    // ==================== PRICING MODAL MANAGEMENT ====================
+    // ==================== OPTIMIZOVAN PRICING MODAL MANAGEMENT ====================
     function setupPricingHistory() {
         window.addEventListener('load', function () {
             const hash = window.location.hash;
@@ -647,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return html;
     }
 
-    // ==================== PARTNERS MARQUEE ====================
+    // ==================== OPTIMIZOVAN PARTNERS MARQUEE ====================
     function setupPartnersMarquee() {
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const container = document.querySelector(".marquee-inner");
@@ -710,7 +747,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ==================== MAIN INITIALIZATION ====================
+    // ==================== OPTIMIZOVANA MAIN INITIALIZATION ====================
     async function loadAndApplyLanguage(lang) {
         currentLanguage = lang;
         const translations = await loadTranslations(lang);
