@@ -604,7 +604,7 @@ class GalleryManager {
 
         const events = [
             { type: 'touchstart', handler: this.handleTouchStart, options: { passive: true } },
-            { type: 'touchmove', handler: this.handleTouchMove, options: { passive: true } }, // ISPRAVLJENO: passive: true
+            { type: 'touchmove', handler: this.handleTouchMove, options: { passive: false } }, // ISPRAVLJENO: passive: true
             { type: 'touchend', handler: this.handleTouchEnd, options: { passive: true } },
             { type: 'mousedown', handler: this.handleMouseDown, options: { passive: true } },
             { type: 'mousemove', handler: this.handleMouseMove, options: { passive: true } },

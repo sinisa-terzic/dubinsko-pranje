@@ -1,6 +1,6 @@
 {
-    "pageTitle": "Dubinsko Pranje",
-    "pageDescription": "Perfect Shine - vaše rešenje za savršen sjaj! Nudimo kompletne usluge čišćenja, dubinskog pranja i poliranja za domove, firme, automobile i jahte na crnogorskom primorju. Učinite da vaš prostor i vozilo zablistaju.",
+    "pageTitle": "Dubinsko Pranje Tivat, Kotor, Budva | Perfect Shine",
+    "pageDescription": "Dubinsko pranje Tivat, Kotor, Budva | Čišćenje automobila, namještaja, jahti, hotela | Besplatna procjena | Radimo 7 dana | +382 68 069 211",
     "nav": {
         "services": "Usluge",
         "gallery": "Galerija",
@@ -23,16 +23,19 @@
         "number": "+382 68 069 211"
     },
     "about": {
-        "subheading": "Dubinsko pranje",
-        "title": "Šta je dubinsko pranje i čemu služi?",
-        "description": "Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do pet centimetara, kako bi efikasno uklonila nečistoće iz materijala. Zatim se izvlače iz istih, a za taj proces se koriste <a href=\"#featuree\" class=\"link\">profesionalne mašine</a> i savremena, neškodljiva, biorazgradiva sredstva. <a href=\"#services\" class=\"link\">Usluge vršimo</a> na području Tivta, Kotora, Budve i drugih gradova na crnogorskom primorju.",
+        "subheading": "Dubinsko pranje Tivat, Kotor, Budva",
+        "title": "Vodeći servis za dubinsko pranje na Crnogorskom primorju",
+        "lead": "<strong>Perfect Shine nudi vrhunske usluge dubinskog pranja na području Tivta, Kotora i Budve.</strong>",
+        "description1": "Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do pet centimetara, kako bi efikasno uklonila nečistoće iz materijala.",
+        "description2": "Naš tim garantuje kvalitet i preciznost u dubinskom čišćenju automobila, garnitura, dušeka i itisona. Koristimo savremenu opremu i ekološki prihvatljiva sredstva koja efikasno uklanjaju nečistoće iz dubokih slojeva materijala.",
+        "description3": "<strong>Pružamo usluge širom crnogorskog primorja - pozovite nas za besplatnu procjenu i uverite se u kvalitet našeg rada!</strong>",
         "button": "Saznajte više »"
     },
     "services": {
-        "subheading": "usluge dubinskog pranja",
-        "title": "Dubinsko pranje i mašinsko čišćenje",
+        "subheading": "usluge dubinskog pranja tivat, kotor, budva",
+        "title": "Kompletne Usluge Dubinskog Pranja",
         "service1": {
-            "title": "Dubisko pranje",
+            "title": "Namještaj & Itisoni",
             "activities": {
                 "cleaning": "Čišćenje",
                 "washing": "Pranje"
@@ -48,7 +51,7 @@
             }
         },
         "service2": {
-            "title": "Vozila i plovila",
+            "title": "Vozila & Plovila",
             "activities": {
                 "cleaning": "Čišćenje",
                 "washing": "Pranje",
@@ -151,7 +154,7 @@
         "dryingText": "sušenje",
         "plans": {
             "dubinsko_pranje": {
-                "title": "dubinsko pranje",
+                "title": "Namještaj & Itisoni",
                 "items": {
                     "garniture": {
                         "label": "Garniture"
@@ -163,11 +166,11 @@
                         "label": "Podne obloge"
                     }
                 },
-                "fullPriceButton": "Cjenovnik za dubinsko pranje",
-                "modalTitle": "Cjenovnik za dubinsko pranje"
+                "fullPriceButton": "Kompletan cjenovnik",
+                "modalTitle": "Cjenovnik za namještaj / itisoni"
             },
             "vozila_i_plovila": {
-                "title": "vozila i plovila",
+                "title": "Vozila & Plovila",
                 "items": {
                     "obično_pranje": {
                         "label": "Obično pranje"
@@ -179,8 +182,8 @@
                         "label": "Sređivanje farova"
                     }
                 },
-                "fullPriceButton": "Cjenovnik za vozila i plovila",
-                "modalTitle": "Cjenovnik za vozila i plovila"
+                "fullPriceButton": "Kompletan cjenovnik",
+                "modalTitle": "Cjenovnik za vozila / plovila"
             },
             "hoteli_i_jahte": {
                 "title": "Hoteli & Jahte",
@@ -195,8 +198,8 @@
                         "label": "Zelene površine"
                     }
                 },
-                "fullPriceButton": "Cjenovnik za hotele i jahte",
-                "modalTitle": "Cjenovnik za jahte i hotele"
+                "fullPriceButton": "Kompletan cjenovnik",
+                "modalTitle": "Cjenovnik za jahte / hotele"
             }
         },
         "modal": {

@@ -1,6 +1,6 @@
 {
-    "pageTitle": "Deep Clearning",
-    "pageDescription": "Perfect Shine – your solution for the perfect shine! We offer complete cleaning, deep washing (shampooing), and polishing services for homes, businesses, cars, and yachts on the Montenegrin coast (Crnogorsko primorje). Make your space and vehicle sparkle!",
+    "pageTitle": "Deep Cleaning Tivat, Kotor, Budva | Perfect Shine",
+    "pageDescription": "Deep cleaning Tivat, Kotor, Budva | Professional cleaning of cars, furniture, yachts, hotels | Free estimate | Open 7 days a week | +382 68 069 211",
     "nav": {
         "services": "Services",
         "gallery": "Gallery",
@@ -20,16 +20,19 @@
         "number": "+382 68 069 211"
     },
     "about": {
-        "subheading": "Deep Cleaning",
-        "title": "What is deep cleaning and what is it used for?",
-        "description": "Deep cleaning is a type of machine washing where agents penetrate deeper layers, up to five centimeters, to effectively remove impurities from materials. These are then extracted using <a href=\"#featuree\" class=\"link\">professional machines</a> and modern, harmless, biodegradable products. <a href=\"#services\" class=\"link\">We provide services</a> in the area of Tivat, Kotor, Budva and other towns on the Montenegrin coast.",
-        "button": "Find out more »"
+        "subheading": "Deep Cleaning Tivat, Kotor, Budva",
+        "title": "Leading Deep Cleaning Service on the Montenegrin Coast",
+        "lead": "<strong>Perfect Shine offers premium deep cleaning services in the areas of Tivat, Kotor, and Budva.</strong>",
+        "description1": "Deep cleaning is a type of mechanical cleaning where cleaning agents penetrate into deeper layers, up to five centimeters, to effectively remove impurities from materials.",
+        "description2": "Our team guarantees quality and precision in deep cleaning of cars, upholstery, mattresses, and cushions. We use modern equipment and environmentally friendly agents that effectively remove impurities from deep material layers.",
+        "description3": "<strong>We provide services throughout the Montenegrin coast - call us for a free assessment and see the quality of our work for yourself!</strong>",
+        "button": "Learn More »"
     },
     "services": {
-        "subheading": "deep cleaning services",
-        "title": "Deep Cleaning and Machine Cleaning",
+        "subheading": "deep cleaning services tivat, kotor, budva",
+        "title": "Complete Deep Cleaning Services",
         "service1": {
-            "title": "Deep Cleaning",
+            "title": "Furniture & Rugs",
             "activities": {
                 "cleaning": "Cleaning",
                 "washing": "Washing"
@@ -45,7 +48,7 @@
             }
         },
         "service2": {
-            "title": "Vehicles and Vessels",
+            "title": "Vehicles & Vessels",
             "activities": {
                 "cleaning": "Cleaning",
                 "washing": "Washing",
@@ -53,7 +56,7 @@
             },
             "items": {
                 "regularWash": "Regular wash",
-                "deepWashing": "Deep washing",
+                "deepWashing": "Deep cleaning",
                 "headlights": "Headlight polymerization"
             },
             "links": {
@@ -144,66 +147,66 @@
         "title": "CALL US"
     },
     "pricing": {
-        "title": "Our service prices",
+        "title": "Our Service Prices",
         "subheading": "Price List",
         "selectService": "Select Service",
         "calculatorNote": "Calculator shows starting price!",
         "dryingText": "drying",
         "plans": {
             "dubinsko_pranje": {
-                "title": "deep cleaning",
+                "title": "Furniture & Rugs",
                 "items": {
                     "garniture": {
-                        "label": "Furniture Sets"
+                        "label": "Furniture sets"
                     },
                     "dušeci": {
                         "label": "Mattresses"
                     },
                     "podne_obloge": {
-                        "label": "Floor Coverings"
+                        "label": "Floor coverings"
                     }
                 },
-                "fullPriceButton": "Deep Cleaning Price List",
-                "modalTitle": "Deep Cleaning Price List"
+                "fullPriceButton": "Complete price list",
+                "modalTitle": "Price list for furniture / rugs"
             },
             "vozila_i_plovila": {
-                "title": "vehicles and vessels",
+                "title": "Vehicles & Vessels",
                 "items": {
                     "obično_pranje": {
-                        "label": "Regular Wash"
+                        "label": "Regular wash"
                     },
                     "dubinsko_pranje": {
-                        "label": "Deep Washing"
+                        "label": "Deep cleaning"
                     },
                     "sređivanje_farova": {
-                        "label": "Headlight Restoration"
+                        "label": "Headlight polishing"
                     }
                 },
-                "fullPriceButton": "Vehicle and Vessel Price List",
-                "modalTitle": "Vehicle and Vessel Price List"
+                "fullPriceButton": "Complete price list",
+                "modalTitle": "Price list for vehicles / vessels"
             },
             "hoteli_i_jahte": {
                 "title": "Hotels & Yachts",
                 "items": {
                     "održavanje_jahte": {
-                        "label": "Yacht Maintenance"
+                        "label": "Yacht maintenance"
                     },
                     "održavanje_hotela": {
-                        "label": "Hotel Maintenance"
+                        "label": "Hotel maintenance"
                     },
                     "zelene_površine": {
-                        "label": "Green Areas"
+                        "label": "Green areas"
                     }
                 },
-                "fullPriceButton": "Hotels and Yachts Price List",
-                "modalTitle": "Yachts and Hotels Price List"
+                "fullPriceButton": "Complete price list",
+                "modalTitle": "Price list for yachts / hotels"
             }
         },
         "modal": {
             "prices": {
                 "dubinsko_pranje": [
                     {
-                        "name": "Furniture Sets",
+                        "name": "Furniture sets",
                         "subitems": [
                             {
                                 "name": "&#x2022; Chairs"
@@ -212,25 +215,25 @@
                                 "name": "&#x2022; Stools"
                             },
                             {
-                                "name": "&#x2022; Armchair"
+                                "name": "&#x2022; Armchairs"
                             },
                             {
-                                "name": "&#x2022; Loveseat"
+                                "name": "&#x2022; Two-seater"
                             },
                             {
                                 "name": "&#x2022; Three-seater"
                             },
                             {
-                                "name": "&#x2022; Small Corner Sofa"
+                                "name": "&#x2022; Small corner sofa"
                             },
                             {
-                                "name": "&#x2022; Large Corner Sofa"
+                                "name": "&#x2022; Large corner sofa"
                             },
                             {
-                                "name": "&#x2022; Double Bed - JUMBO"
+                                "name": "&#x2022; Double bed - JUMBO"
                             },
                             {
-                                "name": "&#x2022; Pillows"
+                                "name": "&#x2022; Cushions"
                             }
                         ]
                     },
@@ -249,32 +252,32 @@
                         ]
                     },
                     {
-                        "name": "Floor Coverings",
+                        "name": "Floor coverings",
                         "subitems": [
                             {
-                                "name": "&#x2022; Rugs"
+                                "name": "&#x2022; Carpets"
                             },
                             {
-                                "name": "&#x2022; Wall-to-Wall Carpet (per m²)"
+                                "name": "&#x2022; Rugs (per m²)"
                             }
                         ]
                     }
                 ],
                 "vozila_i_plovila": [
                     {
-                        "name": "Regular Wash",
+                        "name": "Regular wash",
                         "subitems": [
                             {
                                 "name": "&#x2022; Small vehicle"
                             },
                             {
-                                "name": "&#x2022; Station Wagon"
+                                "name": "&#x2022; Station wagon"
                             },
                             {
                                 "name": "&#x2022; SUV"
                             },
                             {
-                                "name": "&#x2022; Engine bay"
+                                "name": "&#x2022; Engine compartment"
                             },
                             {
                                 "name": "&#x2022; Airbox treatment"
@@ -282,16 +285,16 @@
                         ]
                     },
                     {
-                        "name": "Deep Cleaning",
+                        "name": "Deep cleaning",
                         "subitems": [
                             {
                                 "name": "&#x2022; Small vehicle"
                             },
                             {
-                                "name": "&#x2022; Limousine"
+                                "name": "&#x2022; Sedan"
                             },
                             {
-                                "name": "&#x2022; Station Wagon"
+                                "name": "&#x2022; Station wagon"
                             },
                             {
                                 "name": "&#x2022; SUV"
@@ -299,7 +302,7 @@
                         ]
                     },
                     {
-                        "name": "Headlight Restoration",
+                        "name": "Headlight polishing",
                         "subitems": [
                             {
                                 "name": "&#x2022; Polishing"
@@ -312,7 +315,7 @@
                 ],
                 "hoteli_i_jahte": [
                     {
-                        "name": "Yacht Maintenance",
+                        "name": "Yacht maintenance",
                         "subitems": [
                             {
                                 "name": "&#x2022; Exterior"
@@ -321,12 +324,12 @@
                                 "name": "&#x2022; Cabin"
                             },
                             {
-                                "name": "&#x2022; Helm/Steering"
+                                "name": "&#x2022; Helm"
                             }
                         ]
                     },
                     {
-                        "name": "Hotel Maintenance",
+                        "name": "Hotel maintenance",
                         "subitems": [
                             {
                                 "name": "&#x2022; Exterior"
@@ -337,13 +340,13 @@
                         ]
                     },
                     {
-                        "name": "Green Areas",
+                        "name": "Green areas",
                         "subitems": [
                             {
-                                "name": "&#x2022; Loveseat (Outdoor)"
+                                "name": "&#x2022; Two-seater bench"
                             },
                             {
-                                "name": "&#x2022; Cabin (Outdoor)"
+                                "name": "&#x2022; Cabin"
                             },
                             {
                                 "name": "&#x2022; Gardens"
