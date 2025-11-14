@@ -378,13 +378,15 @@
         "sending": "Sending...",
         "error": "An error occurred. Please try again.",
         "success": "Message sent successfully!",
-        "validation": {
-            "required": "All fields are required.",
-            "subjectLength": "Subject must have at least 2 characters.",
-            "subjectRandom": "Subject should not contain random text.",
-            "phoneInvalid": "Please enter a valid phone number.",
-            "messageLength": "Message must have at least 5 characters.",
-            "messageRandom": "Message should not contain random text."
+        "contact": {
+            "validation": {
+                "required": "All fields are required.",
+                "subjectLength": "Subject must have at least 2 characters and contain meaningful text.",
+                "subjectRandom": "Subject should not contain random text, repeating characters or isolated letters.",
+                "phoneInvalid": "Please enter a valid phone number.",
+                "messageLength": "Message must have at least 5 characters and contain meaningful text.",
+                "messageRandom": "Message should not contain random text, repeating characters or isolated letters."
+            }
         }
     }
 }

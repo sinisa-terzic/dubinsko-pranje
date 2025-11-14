@@ -240,9 +240,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 isValid = validateSubject(value);
                 if (!isValid) {
                     if (value.length < 2) {
-                        message = getTranslation('contact.validation.subjectLength') || 'Tema mora imati najmanje 2 karaktera.';
+                        message = getTranslation('contact.validation.subjectLength') || 'Tema mora imati najmanje 2 karaktera i sadržati smislen tekst.';
                     } else {
-                        message = getTranslation('contact.validation.subjectRandom') || 'Tema ne smije sadržavati nasumičan tekst.';
+                        message = getTranslation('contact.validation.subjectRandom') || 'Tema ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova.';
                     }
                 }
                 break;
@@ -258,9 +258,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 isValid = validateMessage(value);
                 if (!isValid) {
                     if (value.length < 5) {
-                        message = getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera.';
+                        message = getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera i sadržati smislen tekst.';
                     } else {
-                        message = getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst.';
+                        message = getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova.';
                     }
                 }
                 break;
@@ -303,8 +303,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const field = form.querySelector('input[name="subject"]');
             validateField(field);
             let errorMsg = subject.length < 2
-                ? getTranslation('contact.validation.subjectLength') || 'Tema mora imati najmanje 2 karaktera.'
-                : getTranslation('contact.validation.subjectRandom') || 'Tema ne smije sadržavati nasumičan tekst.';
+                ? getTranslation('contact.validation.subjectLength') || 'Tema mora imati najmanje 2 karaktera i sadržati smislen tekst.'
+                : getTranslation('contact.validation.subjectRandom') || 'Tema ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova.';
             return {
                 isValid: false,
                 message: errorMsg
@@ -324,8 +324,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const field = form.querySelector('textarea[name="message"]');
             validateField(field);
             let errorMsg = message.length < 5
-                ? getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera.'
-                : getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst.';
+                ? getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera i sadržati smislen tekst.'
+                : getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova.';
             return {
                 isValid: false,
                 message: errorMsg
@@ -342,6 +342,18 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check for random text (repeating characters, no vowels, etc.)
         if (isRandomText(subject)) return false;
 
+        // Check for 3 or more identical consecutive characters
+        if (hasConsecutiveCharacters(subject, 3)) return false;
+
+        // Check for isolated double characters (like "aa" not part of a word)
+        if (hasIsolatedDoubleCharacters(subject)) return false;
+
+        // Check for repetitive patterns
+        if (hasRepetitivePattern(subject)) return false;
+
+        // Check if text looks like actual words/sentences
+        if (!looksLikeMeaningfulText(subject)) return false;
+
         return true;
     }
 
@@ -357,6 +369,202 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check for random text
         if (isRandomText(message)) return false;
 
+        // Check for 3 or more identical consecutive characters
+        if (hasConsecutiveCharacters(message, 3)) return false;
+
+        // Check for isolated double characters (like "aa" not part of a word)
+        if (hasIsolatedDoubleCharacters(message)) return false;
+
+        // Check for repetitive patterns
+        if (hasRepetitivePattern(message)) return false;
+
+        // Check if text looks like actual words/sentences
+        if (!looksLikeMeaningfulText(message)) return false;
+
+        return true;
+    }
+
+    // Check for consecutive identical characters
+    function hasConsecutiveCharacters(text, maxConsecutive) {
+        const regex = new RegExp(`(.)\\1{${maxConsecutive - 1},}`, 'i');
+        return regex.test(text);
+    }
+
+    // Check for repetitive patterns (like "abcabc", "123123")
+    function hasRepetitivePattern(text) {
+        if (text.length < 4) return false;
+
+        // Remove spaces for pattern detection
+        const cleanText = text.replace(/\s+/g, '');
+
+        // Check for short repetitive patterns (2-3 characters repeating)
+        for (let patternLength = 2; patternLength <= 3; patternLength++) {
+            for (let i = 0; i <= cleanText.length - patternLength * 2; i++) {
+                const pattern = cleanText.substring(i, i + patternLength);
+                const nextSegment = cleanText.substring(i + patternLength, i + patternLength * 2);
+
+                if (pattern === nextSegment) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Check for isolated double characters that are not part of legitimate words
+    function hasIsolatedDoubleCharacters(text) {
+        const words = text.toLowerCase().split(/\s+/);
+
+        // Common legitimate words with double letters in Serbian/English
+        const legitimateDoubleWords = [
+            // Serbian words
+            'address', 'business', 'class', 'glass', 'pass', 'mass', 'grass',
+            'kassa', 'massa', 'press', 'stress', 'success', 'access',
+            'ball', 'call', 'fall', 'hall', 'mall', 'tall', 'wall',
+            'book', 'cook', 'look', 'took', 'hook', 'brook',
+            'food', 'good', 'hood', 'mood', 'wood', 'blood',
+            'door', 'floor', 'poor', 'moor',
+            'feel', 'heel', 'keel', 'peel', 'reel', 'wheel',
+            'keep', 'deep', 'sleep', 'sheep', 'steep', 'sweep',
+            'meet', 'feet', 'sheet', 'sweet', 'street',
+            'pool', 'cool', 'fool', 'tool', 'school',
+            'room', 'broom', 'groom', 'bloom',
+            'soon', 'moon', 'noon', 'spoon', 'cartoon',
+            'see', 'tree', 'free', 'three', 'agree',
+            'add', 'odd', 'buddy', 'muddy', 'teddy',
+            'egg', 'beg', 'leg', 'peg',
+            'inn', 'win', 'pin', 'tin', 'skin',
+            'off', 'coffee', 'toffee', 'office',
+            'well', 'bell', 'cell', 'fell', 'sell', 'tell', 'yell',
+            'will', 'hill', 'mill', 'pill', 'till', 'still',
+            'doll', 'roll', 'troll', 'stroll',
+            'bull', 'full', 'pull', 'null',
+            'bass', 'lass', 'mass', 'pass', 'glass', 'class',
+            'less', 'mess', 'bless', 'dress', 'press',
+            'chess', 'guess', 'bless', 'dress',
+            'butt', 'cutt', 'mutt', 'putt',
+
+            // Common English words
+            'letter', 'better', 'butter', 'matter', 'latter',
+            'summer', 'dimmer', 'hammer', 'stammer',
+            'winner', 'dinner', 'sinner', 'tinner',
+            'happy', 'sloppy', 'choppy', 'poppy',
+            'little', 'bottle', 'cattle', 'kettle',
+            'middle', 'paddle', 'saddle', 'waddle',
+            'puzzle', 'guzzle', 'muzzle', 'nuzzle',
+            'bubble', 'rubble', 'stubble', 'double',
+            'cuddle', 'huddle', 'muddle', 'puddle'
+        ];
+
+        for (let word of words) {
+            if (word.length < 2) continue;
+
+            // Check for double characters in the word
+            const doubleMatches = word.match(/([a-z])\1/g);
+            if (doubleMatches) {
+                for (let doubleChar of doubleMatches) {
+                    // If this is a legitimate word with double letters, skip
+                    if (legitimateDoubleWords.some(legitWord =>
+                        legitWord.includes(doubleChar) ||
+                        word.length > 2 && isPartOfLegitimateWord(word))) {
+                        continue;
+                    }
+
+                    // If it's just two identical characters (like "aa", "bb")
+                    if (word === doubleChar.repeat(2)) {
+                        return true;
+                    }
+
+                    // If it's at the beginning or end and looks isolated
+                    if ((word.startsWith(doubleChar.repeat(2)) ||
+                        word.endsWith(doubleChar.repeat(2))) &&
+                        word.length <= 4) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Check if a word with double letters is likely legitimate
+    function isPartOfLegitimateWord(word) {
+        // Common word patterns in Serbian/English
+        const commonPatterns = [
+            /^[bcdfghjklmnpqrstvwxyz]{0,2}[aeiou]{1,2}[bcdfghjklmnpqrstvwxyz]{0,2}$/i, // CVC pattern
+            /^[aeiou]{1,2}[bcdfghjklmnpqrstvwxyz]{1,3}[aeiou]{0,2}$/i, // VC pattern
+            /^[bcdfghjklmnpqrstvwxyz]{1,3}[aeiou]{1,3}$/i // CV pattern
+        ];
+
+        return commonPatterns.some(pattern => pattern.test(word));
+    }
+
+    // Check if text looks like meaningful content
+    function looksLikeMeaningfulText(text) {
+        const words = text.trim().split(/\s+/);
+
+        // If too few words for the length, likely not meaningful
+        if (words.length < 2 && text.length > 10) return false;
+
+        // Check word length distribution
+        let shortWords = 0;
+        let mediumWords = 0;
+        let longWords = 0;
+
+        for (let word of words) {
+            const cleanWord = word.replace(/[^a-zA-ZčćžšđČĆŽŠĐ]/g, '');
+            if (cleanWord.length <= 2) shortWords++;
+            else if (cleanWord.length <= 5) mediumWords++;
+            else longWords++;
+        }
+
+        const totalMeaningfulWords = mediumWords + longWords;
+
+        // If most words are very short and there are many of them, likely random
+        if (shortWords > 5 && totalMeaningfulWords < 2) return false;
+
+        // Check for reasonable vowel-consonant ratio across the text
+        const cleanText = text.replace(/[^a-zA-ZčćžšđČĆŽŠĐ]/g, '').toLowerCase();
+        const vowels = cleanText.match(/[aeioučćžšđ]/gi);
+        const consonants = cleanText.match(/[bcdfghjklmnpqrstvwxyz]/gi);
+
+        if (!vowels || !consonants) return false;
+
+        const vowelRatio = vowels.length / cleanText.length;
+        const consonantRatio = consonants.length / cleanText.length;
+
+        // Reasonable text should have balanced vowel-consonant ratio
+        if (vowelRatio < 0.2 || vowelRatio > 0.6) return false;
+        if (consonantRatio < 0.3 || consonantRatio > 0.8) return false;
+
+        // Check for common word beginnings/endings
+        const commonBeginnings = ['pr', 'kr', 'tr', 'st', 'sp', 'pl', 'br', 'dr', 'gr', 'the', 'and', 'for', 'you'];
+        const commonEndings = ['je', 'ju', 'ja', 'ti', 'ci', 'ni', 'li', 'ri', 'ing', 'ed', 'es', 'ly'];
+
+        let hasCommonStructures = false;
+        for (let word of words) {
+            const cleanWord = word.toLowerCase().replace(/[^a-zčćžšđ]/g, '');
+            if (cleanWord.length < 3) continue;
+
+            for (let beginning of commonBeginnings) {
+                if (cleanWord.startsWith(beginning)) {
+                    hasCommonStructures = true;
+                    break;
+                }
+            }
+            for (let ending of commonEndings) {
+                if (cleanWord.endsWith(ending)) {
+                    hasCommonStructures = true;
+                    break;
+                }
+            }
+        }
+
+        // If no common structures found in longer text, likely not meaningful
+        if (words.length > 3 && !hasCommonStructures) return false;
+
         return true;
     }
 
@@ -365,22 +573,96 @@ document.addEventListener('DOMContentLoaded', function () {
         // Remove spaces and convert to lowercase
         const cleanText = text.replace(/\s+/g, '').toLowerCase();
 
-        // Check for repeating characters (like "aaaa", "1111")
-        if (/(.)\1{3,}/.test(cleanText)) return true;
+        // Check for repeating characters (like "aaaa", "1111") - now 3 or more
+        if (/(.)\1{2,}/.test(cleanText)) return true;
+
+        // Check for isolated double characters
+        if (hasIsolatedDoubleCharacters(text)) return true;
 
         // Check for very low vowel-to-consonant ratio (indicative of random typing)
-        const vowels = cleanText.match(/[aeiou]/gi);
+        const vowels = cleanText.match(/[aeioučćžšđ]/gi);
         const consonants = cleanText.match(/[bcdfghjklmnpqrstvwxyz]/gi);
 
-        if (!vowels && consonants && consonants.length > 8) return true;
+        const vowelCount = vowels ? vowels.length : 0;
+        const consonantCount = consonants ? consonants.length : 0;
+        const totalLetters = vowelCount + consonantCount;
+
+        // If there are enough letters but very few vowels, it's likely random
+        if (totalLetters > 6 && vowelCount / totalLetters < 0.2) return true;
+
+        // If there are too many consonants in a row
+        if (consonants && consonants.length > 8 && vowelCount < 2) return true;
 
         // Check for keyboard walking (adjacent keys)
         const commonRandomPatterns = [
-            /qwerty/i, /asdfgh/i, /zxcvbn/i, /123456/i,
-            /qazwsx/i, /edcrfv/i, /tgbnhy/i
+            /qwerty/i, /asdfgh/i, /zxcvbn/i, /123456/i, /abcdef/i,
+            /qazwsx/i, /edcrfv/i, /tgbnhy/i, /yhnujm/i, /ikm,/i,
+            /ol./i, /p;/i, /['\]]/i, /qwertyuiop/i, /asdfghjkl/i,
+            /zxcvbnm/i, /1234567890/i,
+            /mnbvcxz/i, /lkjhgfdsa/i, /poiuytrewq/i, // reverse patterns
+            /aqz/i, /wsx/i, /edc/i, /rfv/i, /tgb/i, /yhn/i, /ujm/i, /ik,/i, /ol./i, /p;/i // diagonal patterns
         ];
 
-        return commonRandomPatterns.some(pattern => pattern.test(text));
+        if (commonRandomPatterns.some(pattern => pattern.test(text))) return true;
+
+        // Check for sequential characters (like "abcde", "12345")
+        if (isSequential(cleanText)) return true;
+
+        // Check for mixed random patterns (letters and numbers mixed randomly)
+        if (isMixedRandom(cleanText)) return true;
+
+        // Check if text doesn't look meaningful
+        if (!looksLikeMeaningfulText(text)) return true;
+
+        return false;
+    }
+
+    // Check for sequential characters (alphabetical or numerical)
+    function isSequential(text) {
+        if (text.length < 4) return false;
+
+        // Check numerical sequences
+        if (/123|234|345|456|567|678|789|890/.test(text)) return true;
+        if (/987|876|765|654|543|432|321|210/.test(text)) return true;
+
+        // Check alphabetical sequences (3+ consecutive letters)
+        for (let i = 0; i <= text.length - 3; i++) {
+            const segment = text.substring(i, i + 3);
+            if (segment.length === 3 &&
+                isAlphabeticalSequence(segment)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Check if 3 characters form an alphabetical sequence
+    function isAlphabeticalSequence(segment) {
+        const chars = segment.split('');
+        for (let i = 1; i < chars.length; i++) {
+            const current = chars[i].charCodeAt(0);
+            const previous = chars[i - 1].charCodeAt(0);
+
+            // Check if characters are consecutive in alphabet
+            if (Math.abs(current - previous) !== 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Check for mixed random patterns (like "a1b2c3", "q1w2e3")
+    function isMixedRandom(text) {
+        if (text.length < 6) return false;
+
+        // Pattern: alternating letter-number-letter-number
+        if (/^([a-z]\d){3,}/i.test(text)) return true;
+
+        // Pattern: alternating number-letter-number-letter
+        if (/^(\d[a-z]){3,}/i.test(text)) return true;
+
+        return false;
     }
 
     // Field error display functions

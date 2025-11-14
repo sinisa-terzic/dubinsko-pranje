@@ -380,11 +380,11 @@
         "success": "Poruka je uspješno poslana!",
         "validation": {
             "required": "Sva polja su obavezna.",
-            "subjectLength": "Tema mora imati najmanje 2 karaktera.",
-            "subjectRandom": "Tema ne smije sadržavati nasumičan tekst.",
+            "subjectLength": "Tema mora imati najmanje 2 karaktera i sadržati smislen tekst.",
+            "subjectRandom": "Tema ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova.",
             "phoneInvalid": "Unesite ispravan broj telefona.",
-            "messageLength": "Poruka mora imati najmanje 5 karaktera.",
-            "messageRandom": "Poruka ne smije sadržavati nasumičan tekst."
+            "messageLength": "Poruka mora imati najmanje 5 karaktera i sadržati smislen tekst.",
+            "messageRandom": "Poruka ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova."
         }
     }
 }
