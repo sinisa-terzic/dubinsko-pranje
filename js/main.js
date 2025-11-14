@@ -90,13 +90,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
 
                 if (result.success) {
-                    // Success message
+                    // Success message - RESET FORM
                     showNotification(result.message, 'success');
                     this.reset(); // Reset form
                 } else {
-                    // Error message - RESETUJ FORMU I PRI GREŠCI
+                    // Error message - PROVERI STATUS KOD ZA RESET
                     showNotification(result.message, 'error');
-                    this.reset(); // Reset form i pri grešci
+
+                    // Resetuj formu samo ako je server greška (500), ne za validacione greške (400)
+                    if (response.status >= 500) {
+                        this.reset(); // Reset form samo za server greške
+                    }
+                    // Za validacione greške (400) ne resetujemo formu - korisnik može da popravi podatke
                 }
 
             } catch (error) {
@@ -105,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     getTranslation('contact.error') || 'Došlo je do greške. Pokušajte ponovo.',
                     'error'
                 );
-                // Reset form i pri network greškama
+                // Reset form i pri network greškama (to su takođe greške slanja)
                 contactForm.reset();
             } finally {
                 // Re-enable button
