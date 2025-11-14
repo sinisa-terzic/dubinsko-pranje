@@ -373,9 +373,18 @@
         "phonePlaceholder": "Telefon",
         "messagePlaceholder": "Vaša poruka...",
         "sendButton": "Pošalji",
-        "enterData": "Trenutno nije dostupno !",
+        "enterData": "Unesite podatke",
+        "noData": "Trenutno nije dostupno !",
         "sending": "Slanje...",
         "error": "Došlo je do greške. Pokušajte ponovo.",
-        "success": "Poruka je uspješno poslana!"
+        "success": "Poruka je uspješno poslana!",
+        "validation": {
+            "required": "Sva polja su obavezna.",
+            "subjectLength": "Tema mora imati najmanje 2 karaktera.",
+            "subjectRandom": "Tema ne smije sadržavati nasumičan tekst.",
+            "phoneInvalid": "Unesite ispravan broj telefona.",
+            "messageLength": "Poruka mora imati najmanje 5 karaktera.",
+            "messageRandom": "Poruka ne smije sadržavati nasumičan tekst."
+        }
     }
 }

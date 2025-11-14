@@ -69,12 +69,20 @@ document.addEventListener('DOMContentLoaded', function () {
         contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
+            // Validacija forme prije slanja
+            const validationResult = validateContactForm(this);
+            if (!validationResult.isValid) {
+                showNotification(validationResult.message, 'error');
+                return;
+            }
+
             const submitButton = this.querySelector('.sendMsg');
             const originalText = submitButton.textContent;
 
             // Disable button and show loading state
             submitButton.disabled = true;
             submitButton.textContent = getTranslation('contact.sending') || 'Slanje...';
+            submitButton.classList.add('loading');
 
             try {
                 const formData = new FormData(this);
@@ -91,17 +99,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (result.success) {
                     // Success message - RESET FORM
-                    showNotification(result.message, 'success');
-                    this.reset(); // Reset form
+                    showNotification(
+                        getTranslation('contact.success') || 'Poruka je uspješno poslana! Kontaktiraćemo vas uskoro.',
+                        'success'
+                    );
+                    this.reset();
+                    clearFieldErrors(); // Clear any existing errors
                 } else {
-                    // Error message - PROVERI STATUS KOD ZA RESET
+                    // Error message - samo za server greške
                     showNotification(result.message, 'error');
 
-                    // Resetuj formu samo ako je server greška (500), ne za validacione greške (400)
+                    // Resetuj formu samo ako je server greška (500)
                     if (response.status >= 500) {
-                        this.reset(); // Reset form samo za server greške
+                        this.reset();
+                        clearFieldErrors();
                     }
-                    // Za validacione greške (400) ne resetujemo formu - korisnik može da popravi podatke
                 }
 
             } catch (error) {
@@ -110,13 +122,277 @@ document.addEventListener('DOMContentLoaded', function () {
                     getTranslation('contact.error') || 'Došlo je do greške. Pokušajte ponovo.',
                     'error'
                 );
-                // Reset form i pri network greškama (to su takođe greške slanja)
+                // Reset form i pri network greškama
                 contactForm.reset();
+                clearFieldErrors();
             } finally {
                 // Re-enable button
                 submitButton.disabled = false;
                 submitButton.textContent = originalText;
+                submitButton.classList.remove('loading');
             }
+        });
+
+        // Real-time validation
+        setupRealTimeValidation(contactForm);
+    }
+
+    // Real-time validation setup
+    function setupRealTimeValidation(form) {
+        const inputs = form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('blur', function () {
+                validateField(this);
+            });
+
+            input.addEventListener('input', function () {
+                // Clear error state when user starts typing
+                if (this.classList.contains('invalid')) {
+                    this.classList.remove('invalid');
+                    const errorElement = this.parentNode.querySelector('.field-error');
+                    if (errorElement) {
+                        errorElement.remove();
+                    }
+                }
+            });
+        });
+    }
+
+    // Validate individual field
+    function validateField(field) {
+        const value = field.value.trim();
+        const fieldName = field.name;
+        let isValid = true;
+        let message = '';
+
+        switch (fieldName) {
+            case 'subject':
+                isValid = validateSubject(value);
+                if (!isValid) {
+                    if (value.length < 2) {
+                        message = getTranslation('contact.validation.subjectLength') || 'Tema mora imati najmanje 2 karaktera.';
+                    } else {
+                        message = getTranslation('contact.validation.subjectRandom') || 'Tema ne smije sadržavati nasumičan tekst.';
+                    }
+                }
+                break;
+
+            case 'phone':
+                isValid = validatePhone(value);
+                if (!isValid) {
+                    message = getTranslation('contact.validation.phoneInvalid') || 'Unesite ispravan broj telefona.';
+                }
+                break;
+
+            case 'message':
+                isValid = validateMessage(value);
+                if (!isValid) {
+                    if (value.length < 5) {
+                        message = getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera.';
+                    } else {
+                        message = getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst.';
+                    }
+                }
+                break;
+        }
+
+        // Update field appearance
+        if (value !== '') {
+            if (isValid) {
+                field.classList.remove('invalid');
+                field.classList.add('valid');
+            } else {
+                field.classList.remove('valid');
+                field.classList.add('invalid');
+                showFieldError(field, message);
+            }
+        } else {
+            field.classList.remove('valid', 'invalid');
+            removeFieldError(field);
+        }
+
+        return isValid;
+    }
+
+    // Validate entire form
+    function validateContactForm(form) {
+        const subject = form.querySelector('input[name="subject"]').value.trim();
+        const phone = form.querySelector('input[name="phone"]').value.trim();
+        const message = form.querySelector('textarea[name="message"]').value.trim();
+
+        // Check if fields are empty
+        if (!subject || !phone || !message) {
+            return {
+                isValid: false,
+                message: getTranslation('contact.validation.required') || 'Sva polja su obavezna.'
+            };
+        }
+
+        // Validate individual fields
+        if (!validateSubject(subject)) {
+            const field = form.querySelector('input[name="subject"]');
+            validateField(field);
+            let errorMsg = subject.length < 2
+                ? getTranslation('contact.validation.subjectLength') || 'Tema mora imati najmanje 2 karaktera.'
+                : getTranslation('contact.validation.subjectRandom') || 'Tema ne smije sadržavati nasumičan tekst.';
+            return {
+                isValid: false,
+                message: errorMsg
+            };
+        }
+
+        if (!validatePhone(phone)) {
+            const field = form.querySelector('input[name="phone"]');
+            validateField(field);
+            return {
+                isValid: false,
+                message: getTranslation('contact.validation.phoneInvalid') || 'Unesite ispravan broj telefona.'
+            };
+        }
+
+        if (!validateMessage(message)) {
+            const field = form.querySelector('textarea[name="message"]');
+            validateField(field);
+            let errorMsg = message.length < 5
+                ? getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera.'
+                : getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst.';
+            return {
+                isValid: false,
+                message: errorMsg
+            };
+        }
+
+        return { isValid: true, message: '' };
+    }
+
+    // Validate entire form
+    function validateContactForm(form) {
+        const subject = form.querySelector('input[name="subject"]').value.trim();
+        const phone = form.querySelector('input[name="phone"]').value.trim();
+        const message = form.querySelector('textarea[name="message"]').value.trim();
+
+        // Check if fields are empty
+        if (!subject || !phone || !message) {
+            return {
+                isValid: false,
+                message: getTranslation('contact.enterData') || 'Sva polja su obavezna.'
+            };
+        }
+
+        // Validate individual fields
+        if (!validateSubject(subject)) {
+            const field = form.querySelector('input[name="subject"]');
+            validateField(field);
+            let errorMsg = subject.length < 2
+                ? 'Tema mora imati najmanje 2 karaktera.'
+                : 'Tema ne smije sadržavati nasumičan tekst.';
+            return {
+                isValid: false,
+                message: errorMsg
+            };
+        }
+
+        if (!validatePhone(phone)) {
+            const field = form.querySelector('input[name="phone"]');
+            validateField(field);
+            return {
+                isValid: false,
+                message: 'Unesite ispravan broj telefona.'
+            };
+        }
+
+        if (!validateMessage(message)) {
+            const field = form.querySelector('textarea[name="message"]');
+            validateField(field);
+            let errorMsg = message.length < 5
+                ? 'Poruka mora imati najmanje 5 karaktera.'
+                : 'Poruka ne smije sadržavati nasumičan tekst.';
+            return {
+                isValid: false,
+                message: errorMsg
+            };
+        }
+
+        return { isValid: true, message: '' };
+    }
+
+    // Specific validation functions
+    function validateSubject(subject) {
+        if (subject.length < 2) return false;
+
+        // Check for random text (repeating characters, no vowels, etc.)
+        if (isRandomText(subject)) return false;
+
+        return true;
+    }
+
+    function validatePhone(phone) {
+        // Basic phone validation - allow numbers, +, -, spaces, parentheses
+        const phoneRegex = /^[+]?[0-9\s\-\(\)]{6,20}$/;
+        return phoneRegex.test(phone);
+    }
+
+    function validateMessage(message) {
+        if (message.length < 5) return false;
+
+        // Check for random text
+        if (isRandomText(message)) return false;
+
+        return true;
+    }
+
+    // Detect random text (simple heuristic)
+    function isRandomText(text) {
+        // Remove spaces and convert to lowercase
+        const cleanText = text.replace(/\s+/g, '').toLowerCase();
+
+        // Check for repeating characters (like "aaaa", "1111")
+        if (/(.)\1{3,}/.test(cleanText)) return true;
+
+        // Check for very low vowel-to-consonant ratio (indicative of random typing)
+        const vowels = cleanText.match(/[aeiou]/gi);
+        const consonants = cleanText.match(/[bcdfghjklmnpqrstvwxyz]/gi);
+
+        if (!vowels && consonants && consonants.length > 8) return true;
+
+        // Check for keyboard walking (adjacent keys)
+        const commonRandomPatterns = [
+            /qwerty/i, /asdfgh/i, /zxcvbn/i, /123456/i,
+            /qazwsx/i, /edcrfv/i, /tgbnhy/i
+        ];
+
+        return commonRandomPatterns.some(pattern => pattern.test(text));
+    }
+
+    // Field error display functions
+    function showFieldError(field, message) {
+        // Remove existing error
+        removeFieldError(field);
+
+        // Create error element
+        const errorElement = document.createElement('span');
+        errorElement.className = 'field-error';
+        errorElement.textContent = message;
+
+        // Insert after the field
+        field.parentNode.insertBefore(errorElement, field.nextSibling);
+    }
+
+    function removeFieldError(field) {
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+    }
+
+    function clearFieldErrors() {
+        const errors = document.querySelectorAll('.field-error');
+        errors.forEach(error => error.remove());
+
+        const fields = document.querySelectorAll('.info input, .info textarea');
+        fields.forEach(field => {
+            field.classList.remove('invalid', 'valid');
         });
     }
 
@@ -133,30 +409,6 @@ document.addEventListener('DOMContentLoaded', function () {
         notification.className = `form-notification form-notification-${type}`;
         notification.textContent = message;
 
-        // Add styles
-        notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 20px;
-        border-radius: 5px;
-        color: white;
-        font-weight: bold;
-        z-index: 10000;
-        max-width: 400px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        animation: slideIn 0.3s ease-out;
-    `;
-
-        // Set background color based on type
-        const colors = {
-            success: '#28a745',
-            error: '#dc3545',
-            info: '#17a2b8'
-        };
-
-        notification.style.backgroundColor = colors[type] || colors.info;
-
         document.body.appendChild(notification);
 
         // Auto remove after 5 seconds
@@ -166,36 +418,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 setTimeout(() => notification.remove(), 300);
             }
         }, 5000);
-    }
-
-    // Add CSS animations for notifications
-    function addNotificationStyles() {
-        if (document.querySelector('#notification-styles')) return;
-
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
-        }
-        
-        .sendMsg:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        
-        .form-notification {
-            font-family: inherit;
-            font-size: 14px;
-        }
-    `;
-        document.head.appendChild(style);
     }
 
     // ==================== OPTIMIZOVAN PRICE MANAGEMENT ====================
@@ -910,7 +1132,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setupPricingModalButtons();
         setupPartnersMarquee();
         setupContactForm();
-        addNotificationStyles();
     }
 
     // ==================== START APPLICATION ====================

@@ -230,6 +230,72 @@ form textarea {
     color: #b0b7c0;
 }
 
+/* Contact Form Validation Styles */
+.form-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 10000;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+    font-family: inherit;
+    font-size: 1.4rem;
+}
+
+.form-notification-success {
+    background-color: #28a745;
+}
+
+.form-notification-error {
+    background-color: #dc3545;
+}
+
+.form-notification-info {
+    background-color: #17a2b8;
+}
+
+/* Form Validation States */
+.info input.invalid,
+.info textarea.invalid {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1) !important;
+}
+
+.info input.valid,
+.info textarea.valid {
+    border-color: #28a745 !important;
+}
+
+/* Field Error Messages */
+.field-error {
+    color: #dc3545;
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 0 0 1.5rem 0;
+    padding: 0.5rem;
+    background: #fef2f2;
+    border-radius: 0.25rem;
+    border-left: 2px solid #dc3545;
+    display: block;
+}
+
+.field-error.hidden {
+    display: none;
+}
+
+/* Loading State */
+.sendMsg:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #282f39 !important;
+    color: #b0b7c0;
+}
+
 .sendMsg.loading {
     position: relative;
     color: transparent !important;
@@ -249,86 +315,28 @@ form textarea {
     animation: sendMsg 1s linear infinite;
 }
 
-.info.invalid {
-    border-color: #ef4444 !important;
-    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1) !important;
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-/* Field Error Messages */
-.field-error {
-    color: #ef4444;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    background: #fef2f2;
-    border-radius: 0.25rem;
-    border-left: 3px solid #ef4444;
-}
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
 
-.field-error.hidden {
-    display: none;
-}
-
-/* Feedback Messages */
-.contact-success,
-.contact-error {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.contact-success {
-    background: #ecfdf5;
-    border: 1px solid #10b981;
-    color: #065f46;
-}
-
-.contact-error {
-    background: #fef2f2;
-    border: 1px solid #ef4444;
-    color: #991b1b;
-}
-
-.contact-success.hidden,
-.contact-error.hidden {
-    display: none;
-}
-
-.success-content,
-.error-content {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    justify-content: space-between;
-}
-
-.close-feedback {
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-    display: flex;
-    align-items: center;
-}
-
-.close-feedback:hover {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.success-icon {
-    color: #10b981;
-    font-size: 1.25rem;
-}
-
-.error-icon {
-    color: #ef4444;
-    font-size: 1.25rem;
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
 }
 
 @keyframes sendMsg {
@@ -338,58 +346,5 @@ form textarea {
 
     100% {
         transform: rotate(360deg);
-    }
-}
-
-/* Reset Button Container */
-.contact-reset-container {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: flex-end;
-    animation: fadeIn 0.3s ease;
-}
-
-.contact-reset-container.hidden {
-    display: none;
-}
-
-.reset-form-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: #f8f9fa;
-    color: #6c757d;
-    border: 1px solid #dee2e6;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.reset-form-btn:hover {
-    background: #e9ecef;
-    color: #495057;
-    border-color: #adb5bd;
-    transform: translateY(-1px);
-}
-
-.reset-form-btn:active {
-    transform: translateY(0);
-}
-
-.reset-form-btn ion-icon {
-    font-size: 1rem;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
