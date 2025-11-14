@@ -27,7 +27,7 @@
         "title": "Vodeći servis za dubinsko pranje na Crnogorskom primorju",
         "lead": "<strong>Perfect Shine nudi vrhunske usluge dubinskog pranja na području Tivta, Kotora i Budve.</strong>",
         "description1": "Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do pet centimetara, kako bi efikasno uklonila nečistoće iz materijala.",
-        "description2": "Naš tim garantuje kvalitet i preciznost u dubinskom čišćenju automobila, garnitura, dušeka i itisona. Koristimo savremenu opremu i ekološki prihvatljiva sredstva koja efikasno uklanjaju nečistoće iz dubokih slojeva materijala.",
+        "description2": "Naš tim garantuje kvalitet i preciznost u dubinskom čišćenju automobila, garnitura, dušeka i itisona. Koristimo <a href=\"#featuree\" class=\"link\">savremenu opremu i ekološki prihvatljiva sredstva</a> koja efikasno uklanjaju nečistoće iz dubokih slojeva materijala.",
         "description3": "<strong>Pružamo usluge širom crnogorskog primorja - pozovite nas za besplatnu procjenu i uverite se u kvalitet našeg rada!</strong>",
         "button": "Saznajte više »"
     },
@@ -369,10 +369,13 @@
         "title": "Lokacija",
         "sendEmail": "Pošalji imejl",
         "address": "Adresa",
-        "subjectPlaceholder": "Naslov poruke",
+        "namePlaceholder": "Vaše ime",
         "phonePlaceholder": "Telefon",
         "messagePlaceholder": "Vaša poruka...",
         "sendButton": "Pošalji",
-        "enterData": "Trenutno nije dostupno !"
+        "enterData": "Trenutno nije dostupno !",
+        "sending": "Slanje...",
+        "error": "Došlo je do greške. Pokušajte ponovo.",
+        "success": "Poruka je uspješno poslana!"
     }
 }

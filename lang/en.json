@@ -24,7 +24,7 @@
         "title": "Leading Deep Cleaning Service on the Montenegrin Coast",
         "lead": "<strong>Perfect Shine offers premium deep cleaning services in the areas of Tivat, Kotor, and Budva.</strong>",
         "description1": "Deep cleaning is a type of mechanical cleaning where cleaning agents penetrate into deeper layers, up to five centimeters, to effectively remove impurities from materials.",
-        "description2": "Our team guarantees quality and precision in deep cleaning of cars, upholstery, mattresses, and cushions. We use modern equipment and environmentally friendly agents that effectively remove impurities from deep material layers.",
+        "description2": "Our team guarantees quality and precision in deep cleaning of cars, furniture sets, mattresses, and rugs. We use <a href=\"#featuree\" class=\"link\">modern equipment and environmentally friendly products</a> that effectively remove impurities from deep material layers.",
         "description3": "<strong>We provide services throughout the Montenegrin coast - call us for a free assessment and see the quality of our work for yourself!</strong>",
         "button": "Learn More »"
     },
@@ -369,10 +369,13 @@
         "title": "Location",
         "sendEmail": "Send email",
         "address": "Address",
-        "subjectPlaceholder": "Message subject",
+        "namePlaceholder": "Your name",
         "phonePlaceholder": "Phone",
         "messagePlaceholder": "Your message...",
         "sendButton": "Send",
-        "enterData": "Currently unavailable !"
+        "enterData": "Currently unavailable !",
+        "sending": "Sending...",
+        "error": "An error occurred. Please try again.",
+        "success": "Message sent successfully!"
     }
 }

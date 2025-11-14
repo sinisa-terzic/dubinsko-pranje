@@ -60,6 +60,139 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
+    // ==================== CONTACT FORM HANDLING ====================
+    function setupContactForm() {
+        const contactForm = document.querySelector('form.info');
+
+        if (!contactForm) return;
+
+        contactForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitButton = this.querySelector('.sendMsg');
+            const originalText = submitButton.textContent;
+
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitButton.textContent = getTranslation('contact.sending') || 'Slanje...';
+
+            try {
+                const formData = new FormData(this);
+
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Success message
+                    showNotification(result.message, 'success');
+                    this.reset(); // Reset form
+                } else {
+                    // Error message - RESETUJ FORMU I PRI GREŠCI
+                    showNotification(result.message, 'error');
+                    this.reset(); // Reset form i pri grešci
+                }
+
+            } catch (error) {
+                console.error('Form submission error:', error);
+                showNotification(
+                    getTranslation('contact.error') || 'Došlo je do greške. Pokušajte ponovo.',
+                    'error'
+                );
+                // Reset form i pri network greškama
+                contactForm.reset();
+            } finally {
+                // Re-enable button
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        });
+    }
+
+    // Notification function
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        const existingNotification = document.querySelector('.form-notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `form-notification form-notification-${type}`;
+        notification.textContent = message;
+
+        // Add styles
+        notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        z-index: 10000;
+        max-width: 400px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        animation: slideIn 0.3s ease-out;
+    `;
+
+        // Set background color based on type
+        const colors = {
+            success: '#28a745',
+            error: '#dc3545',
+            info: '#17a2b8'
+        };
+
+        notification.style.backgroundColor = colors[type] || colors.info;
+
+        document.body.appendChild(notification);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideOut 0.3s ease-in';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 5000);
+    }
+
+    // Add CSS animations for notifications
+    function addNotificationStyles() {
+        if (document.querySelector('#notification-styles')) return;
+
+        const style = document.createElement('style');
+        style.id = 'notification-styles';
+        style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        .sendMsg:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .form-notification {
+            font-family: inherit;
+            font-size: 14px;
+        }
+    `;
+        document.head.appendChild(style);
+    }
+
     // ==================== OPTIMIZOVAN PRICE MANAGEMENT ====================
     async function loadPrices() {
         try {
@@ -771,6 +904,8 @@ document.addEventListener('DOMContentLoaded', function () {
         setupPricingModalEventListeners();
         setupPricingModalButtons();
         setupPartnersMarquee();
+        setupContactForm();
+        addNotificationStyles();
     }
 
     // ==================== START APPLICATION ====================

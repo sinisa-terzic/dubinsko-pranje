@@ -786,7 +786,7 @@
 
     <!-- BORDER - dots 3 row -->
     <div class="border-dots">
-        <img class="img" src="img/border/border.png" alt="Border for page">
+        <img class="border-dots" src="img/border/border.png" alt="Border for page">
     </div>
 
 
@@ -1020,31 +1020,29 @@
 
             <iframe class="maps" title="Google map location for Dubinsko pranje - Tivat"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3550.348769895219!2d18.753562499999997!3d42.369187499999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134c2dbcb3e3e07f%3A0x40de6adfaf8d0d77!2sPERFECT%20SHINE%20DOO!5e1!3m2!1sen!2s!4v1744321106200!5m2!1sen!2s"
-                width="600" height="450" style="width: 100%; height: 100%; border: 0;" allowfullscreen="" loading="lazy"
+                width="100%" height="100%" style="border: 0;" allowfullscreen="" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"></iframe>
 
             <div class="contact-maps">
 
                 <div class="info">
                     <h3 class="h3" data-i18n="contact.sendEmail">Pošalji imejl</h3>
-                    <form class="info" method="POST" autocomplete="off">
+
+                    <form class="info" method="POST" action="send_email.php" autocomplete="off">
                         <input placeholder="Subject" type="text" name="subject" class="info"
-                            data-i18n-placeholder="contact.subjectPlaceholder" disabled>
+                            data-i18n-placeholder="contact.namePlaceholder" required>
                         <input placeholder="Phone" type="tel" name="phone" class="info"
-                            data-i18n-placeholder="contact.phonePlaceholder" disabled>
+                            data-i18n-placeholder="contact.phonePlaceholder" required>
                         <textarea placeholder="Message" name="message" rows="4" class="info"
-                            data-i18n-placeholder="contact.messagePlaceholder" disabled></textarea>
-                        <button type="submit" class="sendMsg" disabled data-i18n="contact.enterData">Trenutno nije
-                            dostupno</button>
+                            data-i18n-placeholder="contact.messagePlaceholder" required></textarea>
+                        <button type="submit" class="sendMsg" data-i18n="contact.sendButton">Pošalji</button>
                     </form>
 
                     <h3 class="h3" data-i18n="contact.address">Adresa</h3>
                     <p class="p">Radanovići bb, Ruska garaža</p>
                     <p class="p">85 300 Kotor, Crna Gora</p>
-                    <p class="p entypo-phone"><ion-icon name="call-outline"></ion-icon> &nbsp; <a
-                            href="tel:+38268069211">+382
-                            68 069 211</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ion-icon name="mail-outline"></ion-icon>
-                        &nbsp;
+                    <p class="p entypo-phone"><ion-icon name="call-outline"></ion-icon> <a href="tel:+38268069211">+382
+                            68 069 211</a> &nbsp;&nbsp;&nbsp; <ion-icon name="mail-outline"></ion-icon>
                         info@perfectshine.me
                     </p>
                 </div>
