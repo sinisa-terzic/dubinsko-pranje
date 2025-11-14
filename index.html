@@ -1029,12 +1029,24 @@
                     <h3 class="h3" data-i18n="contact.sendEmail">Pošalji imejl</h3>
 
                     <form class="info" method="POST" action="send_email.php" autocomplete="off">
-                        <input placeholder="Subject" type="text" name="subject" class="info"
-                            data-i18n-placeholder="contact.namePlaceholder">
-                        <input placeholder="Phone" type="tel" name="phone" class="info"
-                            data-i18n-placeholder="contact.phonePlaceholder">
-                        <textarea placeholder="Message" name="message" rows="4" class="info"
-                            data-i18n-placeholder="contact.messagePlaceholder"></textarea>
+                        <div class="input-wrapper">
+                            <input placeholder="Subject" type="text" name="subject" class="info"
+                                data-i18n-placeholder="contact.namePlaceholder">
+                            <button type="button" class="clear-input" aria-label="Clear input">×</button>
+                        </div>
+
+                        <div class="input-wrapper">
+                            <input placeholder="Phone" type="tel" name="phone" class="info"
+                                data-i18n-placeholder="contact.phonePlaceholder">
+                            <button type="button" class="clear-input" aria-label="Clear input">×</button>
+                        </div>
+
+                        <div class="textarea-wrapper">
+                            <textarea placeholder="Message" name="message" rows="4" class="info"
+                                data-i18n-placeholder="contact.messagePlaceholder"></textarea>
+                            <button type="button" class="clear-input" aria-label="Clear input">×</button>
+                        </div>
+
                         <button type="submit" class="sendMsg" data-i18n="contact.sendButton">Pošalji</button>
                     </form>
 

@@ -348,3 +348,86 @@ form textarea {
         transform: rotate(360deg);
     }
 }
+
+/* Clear input buttons */
+.input-wrapper,
+.textarea-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.clear-input,
+.clear-textarea {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #8e9699;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 2;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.clear-textarea {
+    top: 20px;
+    transform: none;
+    right: 15px;
+}
+
+.clear-input:hover,
+.clear-textarea:hover {
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.clear-input:focus,
+.clear-textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3);
+}
+
+/* Show clear button when input has content */
+.input-wrapper:focus-within .clear-input,
+.input-wrapper:hover .clear-input,
+.textarea-wrapper:focus-within .clear-textarea,
+.textarea-wrapper:hover .clear-textarea {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ensure input doesn't go behind the button */
+.input-wrapper input,
+.textarea-wrapper textarea {
+    padding-right: 40px !important;
+    width: 100%;
+}
+
+/* Adjust textarea padding for the clear button */
+.textarea-wrapper textarea {
+    padding-right: 45px !important;
+    resize: vertical;
+}
+
+/* Hide clear button when input is empty */
+.input-wrapper input:placeholder-shown+.clear-input,
+.textarea-wrapper textarea:placeholder-shown+.clear-textarea {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Show clear button when input has value (JavaScript will handle this) */
+.input-wrapper input:not(:placeholder-shown)+.clear-input,
+.textarea-wrapper textarea:not(:placeholder-shown)+.clear-textarea {
+    opacity: 1;
+    visibility: visible;
+}

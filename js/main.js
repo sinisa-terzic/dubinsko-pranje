@@ -66,6 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!contactForm) return;
 
+        // Setup clear buttons functionality
+        setupClearButtons(contactForm);
+
         contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -105,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
                     this.reset();
                     clearFieldErrors(); // Clear any existing errors
+                    updateClearButtonsVisibility(contactForm); // Update clear buttons after reset
                 } else {
                     // Error message - samo za server greške
                     showNotification(result.message, 'error');
@@ -113,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (response.status >= 500) {
                         this.reset();
                         clearFieldErrors();
+                        updateClearButtonsVisibility(contactForm);
                     }
                 }
 
@@ -125,6 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Reset form i pri network greškama
                 contactForm.reset();
                 clearFieldErrors();
+                updateClearButtonsVisibility(contactForm);
             } finally {
                 // Re-enable button
                 submitButton.disabled = false;
@@ -135,6 +141,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Real-time validation
         setupRealTimeValidation(contactForm);
+    }
+
+    // Setup clear buttons functionality
+    function setupClearButtons(form) {
+        const clearButtons = form.querySelectorAll('.clear-input, .clear-textarea');
+
+        clearButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const wrapper = this.closest('.input-wrapper, .textarea-wrapper');
+                const input = wrapper.querySelector('input, textarea');
+
+                // Clear the input
+                input.value = '';
+                input.focus();
+
+                // Remove validation classes
+                input.classList.remove('valid', 'invalid');
+
+                // Remove field errors
+                removeFieldError(input);
+
+                // Update button visibility
+                updateClearButtonVisibility(input);
+
+                // Trigger input event for validation
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+        });
+
+        // Add input event listeners to update clear button visibility
+        const inputs = form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', function () {
+                updateClearButtonVisibility(this);
+            });
+
+            // Initial visibility check
+            updateClearButtonVisibility(input);
+        });
+    }
+
+    // Update clear button visibility based on input content
+    function updateClearButtonVisibility(input) {
+        const wrapper = input.closest('.input-wrapper, .textarea-wrapper');
+        const clearButton = wrapper.querySelector('.clear-input, .clear-textarea');
+
+        if (input.value.trim() !== '') {
+            clearButton.style.opacity = '1';
+            clearButton.style.visibility = 'visible';
+        } else {
+            clearButton.style.opacity = '0';
+            clearButton.style.visibility = 'hidden';
+        }
+    }
+
+    // Update all clear buttons visibility in form
+    function updateClearButtonsVisibility(form) {
+        const inputs = form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]');
+        inputs.forEach(input => {
+            updateClearButtonVisibility(input);
+        });
     }
 
     // Real-time validation setup
@@ -155,6 +222,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         errorElement.remove();
                     }
                 }
+                // Update clear button visibility
+                updateClearButtonVisibility(this);
             });
         });
     }
@@ -257,57 +326,6 @@ document.addEventListener('DOMContentLoaded', function () {
             let errorMsg = message.length < 5
                 ? getTranslation('contact.validation.messageLength') || 'Poruka mora imati najmanje 5 karaktera.'
                 : getTranslation('contact.validation.messageRandom') || 'Poruka ne smije sadržavati nasumičan tekst.';
-            return {
-                isValid: false,
-                message: errorMsg
-            };
-        }
-
-        return { isValid: true, message: '' };
-    }
-
-    // Validate entire form
-    function validateContactForm(form) {
-        const subject = form.querySelector('input[name="subject"]').value.trim();
-        const phone = form.querySelector('input[name="phone"]').value.trim();
-        const message = form.querySelector('textarea[name="message"]').value.trim();
-
-        // Check if fields are empty
-        if (!subject || !phone || !message) {
-            return {
-                isValid: false,
-                message: getTranslation('contact.enterData') || 'Sva polja su obavezna.'
-            };
-        }
-
-        // Validate individual fields
-        if (!validateSubject(subject)) {
-            const field = form.querySelector('input[name="subject"]');
-            validateField(field);
-            let errorMsg = subject.length < 2
-                ? 'Tema mora imati najmanje 2 karaktera.'
-                : 'Tema ne smije sadržavati nasumičan tekst.';
-            return {
-                isValid: false,
-                message: errorMsg
-            };
-        }
-
-        if (!validatePhone(phone)) {
-            const field = form.querySelector('input[name="phone"]');
-            validateField(field);
-            return {
-                isValid: false,
-                message: 'Unesite ispravan broj telefona.'
-            };
-        }
-
-        if (!validateMessage(message)) {
-            const field = form.querySelector('textarea[name="message"]');
-            validateField(field);
-            let errorMsg = message.length < 5
-                ? 'Poruka mora imati najmanje 5 karaktera.'
-                : 'Poruka ne smije sadržavati nasumičan tekst.';
             return {
                 isValid: false,
                 message: errorMsg
