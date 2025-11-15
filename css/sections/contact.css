@@ -282,6 +282,8 @@ form textarea {
     border-radius: 0.25rem;
     border-left: 2px solid #dc3545;
     display: block;
+    /* line-height: 1.6rem; */
+    /* letter-spacing: 1px; */
 }
 
 .field-error.hidden {
@@ -298,7 +300,8 @@ form textarea {
 
 .sendMsg.loading {
     position: relative;
-    color: transparent !important;
+    /* color: transparent !important; */
+    color: #b0b7c0;
 }
 
 .sendMsg.loading::after {
@@ -354,7 +357,6 @@ form textarea {
 .textarea-wrapper {
     position: relative;
     width: 100%;
-    margin-bottom: 8px;
 }
 
 .clear-input,

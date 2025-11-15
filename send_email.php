@@ -74,20 +74,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $mail->send();
 
-        echo json_encode([
-            'success' => true,
-            'message' => 'Poruka je uspješno poslana! Kontaktiraćemo vas uskoro.'
-        ]);
+        echo json_encode(['success' => true]);
     } catch (Exception $e) {
         error_log("Email Error: " . $e->getMessage());
 
         http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Došlo je do greške prilikom slanja poruke. Pokušajte ponovo kasnije.'
-        ]);
+        echo json_encode(['success' => false]);
     }
 } else {
     http_response_code(405);
-    echo json_encode(['success' => false, 'message' => 'Metoda nije dozvoljena.']);
+    echo json_encode(['success' => false]);
 }

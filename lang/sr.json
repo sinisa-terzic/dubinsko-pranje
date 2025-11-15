@@ -377,12 +377,12 @@
         "noData": "Trenutno nije dostupno !",
         "sending": "Slanje...",
         "error": "Došlo je do greške. Pokušajte ponovo.",
-        "success": "Poruka je uspješno poslana!",
+        "success": "Poruka je uspešno poslata! Kontaktiraćemo vas uskoro.",
         "validation": {
             "required": "Sva polja su obavezna.",
             "subjectLength": "Tema mora imati najmanje 2 karaktera i sadržati smislen tekst.",
             "subjectRandom": "Tema ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova.",
-            "phoneInvalid": "Unesite ispravan broj telefona.",
+            "phoneInvalid": "Unesite ispravan broj telefona (mobilni: 067 123 456, fiksni: 032 123 456)",
             "messageLength": "Poruka mora imati najmanje 5 karaktera i sadržati smislen tekst.",
             "messageRandom": "Poruka ne smije sadržavati nasumičan tekst, ponavljajuće karaktere ili izolovana slova."
         }

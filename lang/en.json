@@ -376,17 +376,15 @@
         "enterData": "Enter data",
         "noData": "Currently unavailable !",
         "sending": "Sending...",
-        "error": "An error occurred. Please try again.",
-        "success": "Message sent successfully!",
-        "contact": {
-            "validation": {
-                "required": "All fields are required.",
-                "subjectLength": "Subject must have at least 2 characters and contain meaningful text.",
-                "subjectRandom": "Subject should not contain random text, repeating characters or isolated letters.",
-                "phoneInvalid": "Please enter a valid phone number.",
-                "messageLength": "Message must have at least 5 characters and contain meaningful text.",
-                "messageRandom": "Message should not contain random text, repeating characters or isolated letters."
-            }
+        "error": "An error has occurred. Please try again.",
+        "success": "Message sent successfully! We'll contact you soon.",
+        "validation": {
+            "required": "All fields are required.",
+            "subjectLength": "Subject must have at least 2 characters and contain meaningful text.",
+            "subjectRandom": "Subject should not contain random text, repeating characters or isolated letters.",
+            "phoneInvalid": "Please enter a valid phone number (mobile: 067 123 456, landline: 032 123 456)",
+            "messageLength": "Message must have at least 5 characters and contain meaningful text.",
+            "messageRandom": "Message should not contain random text, repeating characters or isolated letters."
         }
     }
 }
