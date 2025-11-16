@@ -227,17 +227,17 @@
             {
                 "id": "exterior",
                 "price": 0.00,
-                "disabled": true
+                "disabled": false
             },
             {
                 "id": "yachtInterior",
-                "price": 1.00,
-                "disabled": true
+                "price": 0.00,
+                "disabled": false
             },
             {
                 "id": "rooms",
-                "price": 2.00,
-                "disabled": true
+                "price": 0.00,
+                "disabled": false
             }
         ]
     }

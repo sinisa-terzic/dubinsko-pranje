@@ -152,6 +152,8 @@
         "selectService": "Select Service",
         "calculatorNote": "Calculator shows starting price!",
         "dryingText": "drying",
+        "callUsText": "call us!",
+        "customPriceMessage": "Prices are created individually depending on the condition, complexity of the job and specific requirements. Our team will be happy to provide you with a free assessment and adjust the price according to your needs. Contact us for a more detailed offer!",
         "plans": {
             "dubinsko_pranje": {
                 "title": "Furniture & Rugs",

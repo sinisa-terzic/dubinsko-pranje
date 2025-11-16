@@ -152,6 +152,8 @@
         "selectService": "Izaberite servis",
         "calculatorNote": "Kalkulator prikazuje početnu cijenu!",
         "dryingText": "sušenje",
+        "callUsText": "pozovite nas!",
+        "customPriceMessage": "Cijene se kreiraju individualno u zavisnosti od stanja, kompleksnosti posla i specifičnih zahtjeva. Naš tim će vam rado pružiti besplatnu procjenu i prilagoditi cijenu prema vašim potrebama. Kontaktirajte nas za detaljniju ponudu!",
         "plans": {
             "dubinsko_pranje": {
                 "title": "Namještaj & Itisoni",
