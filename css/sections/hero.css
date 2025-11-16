@@ -72,7 +72,7 @@
 .call-options {
     width: 10vw;
     position: absolute;
-    top: -8.5vw;
+    bottom: 100%;
     background-color: #ffffff;
     right: 0;
     padding: 1vw;

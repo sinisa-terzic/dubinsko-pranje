@@ -245,8 +245,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($mail->send()) {
             $_SESSION['last_form_submission'] = time();
             echo json_encode([
-                'success' => true,
-                'message' => 'Poruka je uspješno poslana! Kontaktiraćemo vas uskoro.'
+                'success' => true
             ]);
         } else {
             throw new Exception('Mailer failed to send');
@@ -262,8 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         http_response_code(500);
         echo json_encode([
-            'success' => false,
-            'message' => 'Došlo je do greške prilikom slanja poruke. Pokušajte ponovo kasnije ili nas pozovite na +382 68 069 211'
+            'success' => false
         ]);
     }
 } else {

@@ -220,7 +220,14 @@ document.addEventListener('DOMContentLoaded', function () {
     function setupRealTimeValidation(form) {
         form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]').forEach(input => {
             input.addEventListener('blur', () => validateField(input));
+
             input.addEventListener('input', function () {
+                // SPECIJALNA LOGIKA SAMO ZA PHONE INPUT
+                if (this.name === 'phone') {
+                    this.value = UTILS.filterPhoneInput(this.value);
+                }
+
+                // ZAJEDNIČKA LOGIKA ZA SVE INPUT-E
                 if (this.classList.contains('invalid')) {
                     this.classList.remove('invalid');
                     removeFieldError(this);
@@ -347,7 +354,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const originalText = submitButton.textContent;
 
         submitButton.disabled = true;
-        submitButton.textContent = getTranslation('contact.sending') || 'Slanje...';
+        submitButton.textContent = getTranslation('contact.sending');
         submitButton.classList.add('loading');
 
         try {
@@ -361,15 +368,22 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (result.success) {
-                showNotification(getTranslation('contact.success') || 'Poruka je uspješno poslana!', 'success');
+                // ✅ USPEH - RESET FORME
+                showNotification(getTranslation('contact.success'), 'success');
+                resetForm(form);
+            } else if (response.status >= 500) {
+                // ✅ SERVER GREŠKA - RESET FORME
+                showNotification(getTranslation('contact.error'), 'error');
                 resetForm(form);
             } else {
-                showNotification(result.message, 'error');
-                if (response.status >= 500) resetForm(form);
+                // ✅ VALIDACIONA GREŠKA - NE RESETUJ
+                showNotification(getTranslation('contact.error'), 'error');
+                // Korisnik može da popravi podatke
             }
+
         } catch (error) {
-            console.error('Form submission error:', error);
-            showNotification(getTranslation('contact.error') || 'Došlo je do greške. Pokušajte ponovo.', 'error');
+            // ✅ NETWORK GREŠKA - RESET FORME
+            showNotification(getTranslation('contact.error'), 'error');
             resetForm(form);
         } finally {
             submitButton.disabled = false;
