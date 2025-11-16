@@ -7,3 +7,4 @@ sitemap.xml
 
 # Folderi koje želite da sakrijete
 .vscode/
+phpmailer/
