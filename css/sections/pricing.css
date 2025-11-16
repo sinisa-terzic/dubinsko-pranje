@@ -428,3 +428,77 @@ input:checked+.chtext {
 .pricing-modal-body::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+
+/* Stil za custom poruku u pricing modalu */
+.pricing-custom-message {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border-left: 4px solid #007bff;
+}
+
+.pricing-custom-message p {
+    margin: 0;
+    color: #495057;
+    line-height: 1.6;
+    font-size: 1.4rem;
+}
+
+/* Stil za "pozovite nas" tekst */
+.level span.call-us-trigger {
+    color: #2c5aa0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.level span.call-us-trigger:hover {
+    color: #004187;
+    text-decoration: underline;
+}
+
+/* Stil za resetovane radio dugmade */
+#checkboxes-3 input[type="radio"]:not(:checked)+span::before {
+    background-color: transparent;
+}
+
+/* Shake animacija za "pozovite nas!" tekst */
+@keyframes gentleShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-3px);
+    }
+
+    75% {
+        transform: translateX(3px);
+    }
+}
+
+.call-us-trigger.shake {
+    animation: gentleShake 0.5s ease-in-out;
+}
+
+/* Alternativno - bounce animacija ako želite gore-dole efekt */
+@keyframes gentleBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.call-us-trigger.bounce {
+    animation: gentleBounce 0.5s ease-in-out;
+}

@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let scrollTimeout;
     let pricingModalInitialized = false;
     let currentPrices = {};
+    let translationCache = {};
 
     // ==================== STRUCTURED DATA IMPROVEMENTS ====================
 
@@ -27,12 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function cleanupDuplicateStructuredData() {
         const scripts = document.querySelectorAll('script[type="application/ld+json"]');
 
-        // Zadrži samo PRVI script, ukloni ostale
         if (scripts.length > 1) {
             for (let i = 1; i < scripts.length; i++) {
                 scripts[i].remove();
             }
-            console.log('🧹 Removed duplicate structured data scripts');
         }
     }
 
@@ -40,20 +39,16 @@ document.addEventListener('DOMContentLoaded', function () {
      * Popravlja structured data probleme
      */
     function fixStructuredDataIssues(data) {
-        // 1. Popravi geoRadius (string → number)
         if (data.serviceArea && typeof data.serviceArea.geoRadius === "string") {
             data.serviceArea.geoRadius = parseInt(data.serviceArea.geoRadius);
-            console.log('🔧 Fixed geoRadius: string → number');
         }
 
-        // 2. Dodaj image property
         if (!data.image) {
             data.image = [
                 "https://perfectshine.me/img/logo/logo.png",
                 "https://perfectshine.me/img/about/puzi-hero+.webp",
                 "https://perfectshine.me/img/services/furniture-washing.webp"
             ];
-            console.log('🔧 Added missing image property');
         }
 
         return data;
@@ -64,27 +59,18 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     async function updateStructuredDataWithFixes(lang) {
         try {
-            console.log('🔄 Updating structured data with fixes...');
-
-            // 1. Ukloni duplikate
             cleanupDuplicateStructuredData();
 
-            // 2. Učitaj podatke
             let structuredData = await loadStructuredData();
 
-            // 3. Ažuriraj za jezik
             structuredData = await updateStructuredDataWithTranslations(structuredData, lang);
 
-            // 4. Popravi probleme
             structuredData = fixStructuredDataIssues(structuredData);
 
-            // 5. Inject u page
             injectStructuredData(structuredData);
 
-            console.log('✅ Structured data fixed and updated');
-
         } catch (error) {
-            console.error('❌ Error fixing structured data:', error);
+            console.error('Error fixing structured data:', error);
         }
     }
 
@@ -105,8 +91,40 @@ document.addEventListener('DOMContentLoaded', function () {
      */
     const stopPropagation = (e) => e?.stopPropagation?.();
 
-    // Koristimo debounce funkciju iz utils.js za optimizaciju performansi
     const debounce = UTILS.debounce;
+
+    /**
+     * Prikazuje loading state za promjenu jezika
+     */
+    function showLanguageLoading() {
+        body.classList.add('language-changing');
+
+        // Dodaj loading overlay ako već ne postoji
+        let loadingOverlay = document.querySelector('.language-loading-overlay');
+        if (!loadingOverlay) {
+            loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'language-loading-overlay';
+            loadingOverlay.innerHTML = `
+                <div class="language-loading-spinner"></div>
+                <p class="language-loading-text">${getTranslation('language.loading') || 'Učitavanje...'}</p>
+            `;
+            document.body.appendChild(loadingOverlay);
+        }
+
+        loadingOverlay.style.display = 'flex';
+    }
+
+    /**
+     * Sakriva loading state za promjenu jezika
+     */
+    function hideLanguageLoading() {
+        body.classList.remove('language-changing');
+
+        const loadingOverlay = document.querySelector('.language-loading-overlay');
+        if (loadingOverlay) {
+            loadingOverlay.style.display = 'none';
+        }
+    }
 
     // ==================== BROWSER HISTORY MANAGEMENT ====================
 
@@ -222,12 +240,10 @@ document.addEventListener('DOMContentLoaded', function () {
             input.addEventListener('blur', () => validateField(input));
 
             input.addEventListener('input', function () {
-                // SPECIJALNA LOGIKA SAMO ZA PHONE INPUT
                 if (this.name === 'phone') {
                     this.value = UTILS.filterPhoneInput(this.value);
                 }
 
-                // ZAJEDNIČKA LOGIKA ZA SVE INPUT-E
                 if (this.classList.contains('invalid')) {
                     this.classList.remove('invalid');
                     removeFieldError(this);
@@ -368,21 +384,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (result.success) {
-                // ✅ USPEH - RESET FORME
                 showNotification(getTranslation('contact.success'), 'success');
                 resetForm(form);
             } else if (response.status >= 500) {
-                // ✅ SERVER GREŠKA - RESET FORME
                 showNotification(getTranslation('contact.error'), 'error');
                 resetForm(form);
             } else {
-                // ✅ VALIDACIONA GREŠKA - NE RESETUJ
                 showNotification(getTranslation('contact.error'), 'error');
-                // Korisnik može da popravi podatke
             }
 
         } catch (error) {
-            // ✅ NETWORK GREŠKA - RESET FORME
+            console.error('Form submission error:', error);
             showNotification(getTranslation('contact.error'), 'error');
             resetForm(form);
         } finally {
@@ -450,7 +462,6 @@ document.addEventListener('DOMContentLoaded', function () {
         notification.className = `form-notification form-notification-${type}`;
         notification.textContent = message;
 
-        // Dodaj ARIA atribute za accessibility
         notification.setAttribute('role', 'alert');
         notification.setAttribute('aria-live', 'polite');
 
@@ -498,7 +509,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const radioPrices = currentPrices.radio_prices?.[section.planKey];
             if (!radioPrices) return;
 
-            // Postavi vrednosti za radio dugmad
             radioPrices.forEach(radioItem => {
                 const radioElement = document.getElementById(radioItem.id);
                 if (radioElement) {
@@ -509,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // Dodaj event listener za promjenu radio dugmeta
             const checkboxContainer = document.getElementById(`checkboxes-${section.sectionId}`);
             if (checkboxContainer) {
                 checkboxContainer.addEventListener('change', function (e) {
@@ -523,7 +532,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
-            // Postavi početnu vrednost za checked radio
             const checkedRadio = document.querySelector(`#checkboxes-${section.sectionId} input[type="radio"]:checked`);
             if (checkedRadio) {
                 const radioId = checkedRadio.id;
@@ -537,27 +545,73 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Ažurira prikaz cijene za radio selection
+     * Resetuje radio dugmad za hotelsku sekciju
+     */
+    function resetHotelRadios() {
+        const hotelRadios = document.querySelectorAll('#checkboxes-3 input[type="radio"]');
+        hotelRadios.forEach(radio => {
+            radio.checked = false;
+        });
+
+        // Resetuj prikaz cijene
+        const hotelOutput = document.getElementById('total-3');
+        if (hotelOutput) {
+            hotelOutput.innerHTML = '<span class="euro">€</span><span>0.00</span>';
+        }
+    }
+
+    /**
+     * Ažurira prikaz cijene za radio selection sa novom funkcionalnošću za hotele
      */
     function updateRadioPriceDisplay(output, radioItem, sectionId) {
-        let priceHtml = `<span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>`;
-        if (radioItem.plus) priceHtml += `<span class="price-plus">+</span>`;
-
-        let html = priceHtml;
-
-        // Dodaj drying text za dubinsko pranje vozila
         if (sectionId === 2 && radioItem.price === 100.00) {
             const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
-            html += ` <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>`;
+            output.innerHTML = `
+                <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
+                <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>
+            `;
+        } else if (sectionId === 3) {
+            // Specijalan slučaj za hotele - otvara callUs dialog
+            const callUsText = getTranslation('pricing.callUsText') || 'pozovite nas!';
+            output.innerHTML = `
+                <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
+                <p class="level"><span class="call-us-trigger">${callUsText}</span></p>
+            `;
+
+            // Dodaj event listener za call us trigger
+            const callUsTrigger = output.querySelector('.call-us-trigger');
+            if (callUsTrigger) {
+                callUsTrigger.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    openCallUsDialog();
+                });
+            }
+
+            // Automatski otvori callUs dialog
+            openCallUsDialog();
+        } else {
+            let priceHtml = `<span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>`;
+            if (radioItem.plus) priceHtml += `<span class="price-plus">+</span>`;
+            output.innerHTML = priceHtml;
         }
 
-        output.innerHTML = html;
-
-        // Dodaj animaciju za dugme
         const button = document.getElementById(`showFullPrice-${sectionId}`);
         if (button) {
             button.classList.add('pulse');
             setTimeout(() => button.classList.remove('pulse'), 800);
+        }
+    }
+
+    /**
+     * Otvara callUs dialog
+     */
+    function openCallUsDialog() {
+        if (callUsImg && callUsIcon) {
+            callUsImg.classList.add("callUs-is-open");
+            callUsIcon.classList.add("open-callUs-remove");
+            // Zatvori ostale UI elemente
+            UTILS.addHidden(language);
+            UTILS.addHidden(callOptions);
         }
     }
 
@@ -595,7 +649,6 @@ document.addEventListener('DOMContentLoaded', function () {
      * Postavlja sve globalne event listenere
      */
     function setupEventListeners() {
-        // Scroll event za zatvaranje UI elemenata i sticky navigation
         window.addEventListener('scroll', function () {
             closeAllUIElements();
             if (!scrollTimeout) {
@@ -606,19 +659,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Mobile navigation toggle
         btnNavEl?.addEventListener("click", function () {
             headerEl.classList.toggle("nav-open");
         });
 
-        // Close mobile navigation on link click
         document.querySelectorAll("a.main-nav-link").forEach(link => {
             link.addEventListener("click", function () {
                 headerEl.classList.toggle("nav-open");
             });
         });
 
-        // Language dropdown toggle
         languageImg?.addEventListener("click", function (e) {
             stopPropagation(e);
             UTILS.toggleHidden(language);
@@ -627,7 +677,6 @@ document.addEventListener('DOMContentLoaded', function () {
             callUsIcon?.classList.remove("open-callUs-remove");
         });
 
-        // Call options toggle
         phoneNumber?.addEventListener("click", function (e) {
             stopPropagation(e);
             UTILS.toggleHidden(callOptions);
@@ -636,7 +685,6 @@ document.addEventListener('DOMContentLoaded', function () {
             callUsIcon?.classList.remove("open-callUs-remove");
         });
 
-        // Call Us dialog toggle
         callUsIcon?.addEventListener('click', function (e) {
             stopPropagation(e);
             callUsImg?.classList.add("callUs-is-open");
@@ -645,10 +693,8 @@ document.addEventListener('DOMContentLoaded', function () {
             UTILS.addHidden(callOptions);
         });
 
-        // Call Us dialog close
         callUsClose?.addEventListener('click', closeAllUIElements);
 
-        // Close UI elements on outside click
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.language') &&
                 !e.target.closest('.call-options') &&
@@ -659,7 +705,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Prevent closing when clicking inside UI elements
         [language, callOptions, callUsImg].forEach(element => {
             element?.addEventListener('click', stopPropagation);
         });
@@ -682,10 +727,19 @@ document.addEventListener('DOMContentLoaded', function () {
      * Učitava translation fajl za dati jezik
      */
     async function loadTranslations(lang) {
+        // Koristi cache ako postoji
+        if (translationCache[lang]) {
+            return translationCache[lang];
+        }
+
         try {
             const response = await fetch(`lang/${lang}.json`);
             if (!response.ok) throw new Error('Network response was not ok');
-            return await response.json();
+            const translations = await response.json();
+
+            // Sačuvaj u cache
+            translationCache[lang] = translations;
+            return translations;
         } catch (error) {
             console.error('Error loading translations:', error);
             if (lang !== 'sr') return loadTranslations('sr');
@@ -712,12 +766,9 @@ document.addEventListener('DOMContentLoaded', function () {
         errorElements.forEach(errorElement => {
             const field = errorElement.previousElementSibling;
             if (field && (field.name === 'subject' || field.name === 'phone' || field.name === 'message')) {
-                // Ponovo validiraj polje da dobijemo prevedenu poruku
                 const isValid = validateField(field);
                 if (!isValid) {
-                    // Error poruka će biti automatski ažurirana u validateField
                 } else {
-                    // Ako je sada validno, ukloni error
                     removeFieldError(field);
                     field.classList.remove('invalid');
                 }
@@ -779,7 +830,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (value) element.placeholder = value;
         });
 
-        // Ažuriraj placeholder tekste u real-time
         updateFormPlaceholders();
 
         updateSEOMetaTags(translations);
@@ -897,13 +947,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const languageImg = document.querySelector('#languageImg img');
         const languageDropdown = document.querySelector('.language');
 
-        // Ažuriraj glavno dugme
         if (languageImg && CONFIG.languages[lang]) {
             languageImg.src = CONFIG.languages[lang].flag;
             languageImg.alt = CONFIG.languages[lang].name;
         }
 
-        // Ažuriraj dropdown menu
         const availableLanguages = Object.keys(CONFIG.languages).filter(l => l !== lang);
         const flagLinks = languageDropdown?.querySelectorAll('.flagLink') || [];
 
@@ -936,7 +984,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.currentTranslations = translations;
         applyTranslations(translations);
 
-        // Ažuriraj postojeće error poruke kada se promeni jezik
         updateExistingValidationErrors();
 
         updateLanguageDisplay(lang);
@@ -950,11 +997,21 @@ document.addEventListener('DOMContentLoaded', function () {
     async function changeLanguage(lang) {
         if (lang === currentLanguage) return;
 
-        updateHtmlLangAttribute(lang);
-        await loadAndApplyLanguage(lang);
-        await updateStructuredDataWithFixes(lang); // DODANO: Popravi structured data
-        UTILS.addHidden(language);
-        headerEl.classList.remove("nav-open");
+        // Prikaži loading state
+        showLanguageLoading();
+
+        try {
+            updateHtmlLangAttribute(lang);
+            await loadAndApplyLanguage(lang);
+            await updateStructuredDataWithFixes(lang);
+            UTILS.addHidden(language);
+            headerEl.classList.remove("nav-open");
+        } catch (error) {
+            console.error('Error changing language:', error);
+        } finally {
+            // Sakrij loading state
+            hideLanguageLoading();
+        }
     }
 
     // ==================== PRICING MODAL WITH BROWSER HISTORY ====================
@@ -992,7 +1049,11 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
         modal.style.display = 'block';
 
-        // Browser history management
+        // Resetuj radio dugmad samo za hotele (planId 3)
+        if (planId === '3') {
+            resetHotelRadios();
+        }
+
         const currentState = history.state;
         if (!currentState || currentState.modal !== 'pricing' || currentState.planId !== planId) {
             window.history.pushState({
@@ -1014,7 +1075,6 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
 
-        // Browser history management
         const currentState = history.state;
         if (currentState && currentState.modal === 'pricing') {
             if (window.location.hash && window.location.hash.startsWith('#pricing-')) {
@@ -1069,12 +1129,31 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Generiše HTML sadržaj za pricing modal
+     * Generiše HTML sadržaj za pricing modal sa custom porukom za hotele
      */
     function generatePricingContent(pricesKey) {
         const prices = currentPrices[pricesKey];
         const translations = getTranslation(`pricing.modal.prices.${pricesKey}`);
 
+        // Specijalan slučaj za hotele i jahte - prikaži custom poruku
+        if (pricesKey === 'hoteli_i_jahte') {
+            const customMessage = getTranslation('pricing.customPriceMessage') ||
+                'Cijene se kreiraju individualno u zavisnosti od stanja, kompleksnosti posla i specifičnih zahtjeva. Naš tim će vam rado pružiti besplatnu procjenu i prilagoditi cijenu prema vašim potrebama. Kontaktirajte nas za detaljniju ponudu!';
+
+            let html = '';
+            prices.forEach((category, index) => {
+                const translatedCategory = translations?.[index];
+                html += `<div class="pricing-category">
+                    <h4 class="pricing-category-title">${translatedCategory?.name || category.name}</h4>
+                    <div class="pricing-custom-message">
+                        <p>${customMessage}</p>
+                    </div>
+                </div>`;
+            });
+            return html;
+        }
+
+        // Standardni prikaz cijena za ostale kategorije
         if (!prices || !Array.isArray(prices) || prices.length === 0) {
             return '<p class="pricing-no-prices">Nema dostupnih cijena</p>';
         }
@@ -1315,15 +1394,12 @@ document.addEventListener('DOMContentLoaded', function () {
      * Ubacuje structured data u <head> stranice
      */
     function injectStructuredData(structuredData) {
-        // Remove existing structured data
         removeExistingStructuredData();
 
-        // Create new script element
         const script = document.createElement('script');
         script.type = 'application/ld+json';
         script.textContent = JSON.stringify(structuredData);
 
-        // Add to head
         document.head.appendChild(script);
     }
 
@@ -1333,46 +1409,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function removeExistingStructuredData() {
         const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
         existingScripts.forEach(script => {
-            // Remove only our structured data (not other potential JSON-LD)
             if (script.textContent.includes('Perfect Shine') ||
                 script.textContent.includes('LocalBusiness')) {
                 script.remove();
             }
         });
-    }
-
-    /**
-     * Testira structured data implementaciju
-     */
-    function testStructuredDataImplementation() {
-        console.log('=== 🧪 STRUCTURED DATA TEST ===');
-
-        // Test HTML lang attribute
-        const htmlLang = document.documentElement.getAttribute('lang');
-        console.log('1. HTML lang attribute:', htmlLang || 'MISSING');
-
-        // Test structured data script
-        const structuredDataScripts = document.querySelectorAll('script[type="application/ld+json"]');
-        console.log('2. Found structured data scripts:', structuredDataScripts.length);
-
-        structuredDataScripts.forEach((script, index) => {
-            console.log(`   Script ${index + 1}:`);
-            try {
-                const data = JSON.parse(script.textContent);
-                console.log(`   ✓ Valid JSON, type:`, data['@type'], '-', data.name);
-
-                // Test specific properties
-                if (data.serviceArea) {
-                    console.log(`   - geoRadius type:`, typeof data.serviceArea.geoRadius);
-                }
-                console.log(`   - Has image:`, !!data.image);
-
-            } catch (e) {
-                console.log(`   ✗ Invalid JSON:`, e.message);
-            }
-        });
-
-        console.log('=== ✅ END TEST ===');
     }
 
     // ==================== INITIALIZATION ====================
@@ -1387,32 +1428,23 @@ document.addEventListener('DOMContentLoaded', function () {
         setupRadioPrices();
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
-        await updateStructuredDataWithFixes(savedLanguage); // DODANO: Sa popravkama
+        await updateStructuredDataWithFixes(savedLanguage);
         checkStickyNavigation();
 
-        // Browser history handler
         setupGlobalHistoryHandler();
         setupPricingHistory();
         setupPricingModalEventListeners();
         setupPricingModalButtons();
         setupPartnersMarquee();
         setupContactForm();
-
-        console.log('🚀 Application initialized successfully');
-
-        // Run structured data test after initialization
-        setTimeout(testStructuredDataImplementation, 2000);
     }
 
     // ==================== START APPLICATION ====================
 
-    // Postavi osnovne event listenere
     setupEventListeners();
 
-    // Ažuriraj copyright godinu
     document.querySelector(".year").textContent = new Date().getFullYear();
 
-    // Language change handler
     document.querySelector('.language')?.addEventListener('click', function (e) {
         stopPropagation(e);
         const flagLink = e.target.closest('.flagLink');
@@ -1422,11 +1454,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Page load completion
     window.addEventListener('load', function () {
         body.classList.add("loaded");
     });
 
-    // Pokreni aplikaciju
     initializeApp();
 });
