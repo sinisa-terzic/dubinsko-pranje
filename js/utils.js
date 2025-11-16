@@ -1,4 +1,4 @@
-// utils.js
+// utils.js - COMPLETE FIXED VERSION
 const UTILS = {
     // DOM Utilities
     getNestedValue: (obj, path) => {
@@ -133,7 +133,7 @@ const UTILS = {
         return words.length <= 3;
     },
 
-    // Phone Input Filter - sprečava unos slova
+    // Phone Input Filter
     filterPhoneInput: (input) => {
         if (!input) return '';
 
@@ -152,7 +152,7 @@ const UTILS = {
         if (clean.startsWith('03') && clean.length === 9) return 'MNE';
         if (clean.startsWith('02') && clean.length === 9) return 'MNE';
 
-        return null; // nepoznata zemlja
+        return null;
     },
 
     // Validiraj dužinu broja prema zemlji
@@ -169,7 +169,7 @@ const UTILS = {
         return expectedLengths.includes(clean.length);
     },
 
-    // Format phone number for display (opciono)
+    // Format phone number for display
     formatPhoneDisplay: (phone) => {
         if (!phone) return '';
         const clean = phone.replace(/[^\d+]/g, '');
@@ -224,26 +224,93 @@ const UTILS = {
         if (elements.callUsIcon) elements.callUsIcon.classList.remove("open-callUs-remove");
     },
 
-    // Price Formatting
+    // Price Formatting - UPDATED SAFE VERSION
     formatPrice: (priceData, currentLanguage) => {
-        if (!priceData) return '';
+        if (!priceData) return '0.00 €';
 
-        let prefix = '';
+        let price = priceData.price?.toFixed(2) || '0.00';
+        let result = `${price} €`;
+
         if (priceData.prefix) {
             const prefixTranslations = {
                 'sr': 'od',
                 'en': 'from',
                 'ru': 'от'
             };
-            const translatedPrefix = prefixTranslations[currentLanguage] || 'od';
-            prefix = `<small>${translatedPrefix}</small> &nbsp;`;
+            const prefix = prefixTranslations[currentLanguage] || 'od';
+            result = `${prefix} ${result}`;
         }
 
-        let plus = '';
         if (priceData.plus) {
-            plus = `<span class="price-plus">+</span>`;
+            result += '+';
         }
 
-        return `${prefix}${priceData.price?.toFixed(2) || '0.00'} €${plus}`;
+        return result;
+    },
+
+    // Safe HTML creation for pricing modal - FIXED VERSION
+    createPricingContent: (pricesKey, currentPrices, currentLanguage, getTranslation) => {
+        const container = document.createElement('div');
+        container.className = 'pricing-modal-content-safe';
+
+        const prices = currentPrices[pricesKey];
+        const translations = getTranslation(`pricing.modal.prices.${pricesKey}`);
+
+        if (!prices || !Array.isArray(prices) || prices.length === 0) {
+            const noPrices = document.createElement('p');
+            noPrices.className = 'pricing-no-prices';
+            noPrices.textContent = 'Nema dostupnih cijena';
+            container.appendChild(noPrices);
+            return container;
+        }
+
+        prices.forEach((category, index) => {
+            const categoryEl = document.createElement('div');
+            categoryEl.className = 'pricing-category';
+
+            const title = document.createElement('h4');
+            title.className = 'pricing-category-title';
+            title.textContent = translations?.[index]?.name || category.name || 'Category';
+            categoryEl.appendChild(title);
+
+            const subitemsList = document.createElement('ul');
+            subitemsList.className = 'pricing-subitems';
+
+            if (category.subitems && Array.isArray(category.subitems)) {
+                category.subitems.forEach((item, itemIndex) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'pricing-subitem';
+
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'pricing-subitem-name';
+
+                    // Safe text content - no innerHTML - FIXED: koristi UTILS.cleanBulletPoints
+                    const translatedName = translations?.[index]?.subitems?.[itemIndex]?.name || item.name || '';
+                    nameSpan.textContent = UTILS.cleanBulletPoints(translatedName);
+
+                    const priceSpan = document.createElement('span');
+                    priceSpan.className = 'pricing-subitem-price';
+                    priceSpan.textContent = UTILS.formatPrice(item, currentLanguage);
+
+                    listItem.appendChild(nameSpan);
+                    listItem.appendChild(priceSpan);
+                    subitemsList.appendChild(listItem);
+                });
+            }
+
+            categoryEl.appendChild(subitemsList);
+            container.appendChild(categoryEl);
+        });
+
+        return container;
+    },
+
+    // Helper to clean bullet points safely - FIXED: dodana funkcija
+    cleanBulletPoints: (text) => {
+        if (!text) return '';
+        // Convert HTML entities to plain text safely
+        return text.replace(/&#x2022;/g, '•')
+            .replace(/&bull;/g, '•')
+            .replace(/&[#\w]+;/g, '');
     }
 };

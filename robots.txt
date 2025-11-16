@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.env
+Disallow: /send_email.php
+
+Sitemap: https://perfectshine.me/sitemap.xml

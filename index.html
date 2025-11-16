@@ -1029,21 +1029,27 @@
                     <h3 class="h3" data-i18n="contact.sendEmail">Pošalji imejl</h3>
 
                     <form class="info" method="POST" action="send_email.php" autocomplete="off">
+                        <!-- HONEYPOT FIELD - SAKRIVEN ZA BOTOVE -->
+                        <input type="text" name="website"
+                            style="display: none !important; opacity: 0; position: absolute; left: -9999px;"
+                            tabindex="-1" autocomplete="off" aria-hidden="true">
+
                         <div class="input-wrapper">
                             <input placeholder="Subject" type="text" name="subject" class="info"
-                                data-i18n-placeholder="contact.namePlaceholder">
+                                data-i18n-placeholder="contact.namePlaceholder" minlength="2" maxlength="100">
                             <button type="button" class="clear-input" aria-label="Clear input">×</button>
                         </div>
 
                         <div class="input-wrapper">
                             <input placeholder="Phone" type="tel" name="phone" class="info"
-                                data-i18n-placeholder="contact.phonePlaceholder">
+                                data-i18n-placeholder="contact.phonePlaceholder" pattern="[\d\s\+\-\(\)]{6,20}">
                             <button type="button" class="clear-input" aria-label="Clear input">×</button>
                         </div>
 
                         <div class="textarea-wrapper">
                             <textarea placeholder="Message" name="message" rows="4" class="info"
-                                data-i18n-placeholder="contact.messagePlaceholder"></textarea>
+                                data-i18n-placeholder="contact.messagePlaceholder" minlength="5"
+                                maxlength="2000"></textarea>
                             <button type="button" class="clear-input" aria-label="Clear input">×</button>
                         </div>
 
@@ -1189,6 +1195,7 @@
         <img class="open-callUs" src="img/call/operater+.png" alt="icon operater">
     </div> <!-- END PROZOR CALL US -->
 
+    <!-- OPTIMALAN REDOSLED -->
     <script src="js/config.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
