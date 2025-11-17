@@ -561,22 +561,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Ažurira prikaz cijene za radio selection sa novom funkcionalnošću za hotele
-     */
+ * Ažurira prikaz cijene za radio selection sa novom funkcionalnošću za hotele
+ */
     function updateRadioPriceDisplay(output, radioItem, sectionId) {
         if (sectionId === 2 && radioItem.price === 100.00) {
             const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
             output.innerHTML = `
-                <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
-                <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>
-            `;
+            <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
+            ${radioItem.plus ? '<span class="price-plus">+</span>' : ''}
+            <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>
+        `;
         } else if (sectionId === 3) {
             // Specijalan slučaj za hotele - otvara callUs dialog
             const callUsText = getTranslation('pricing.callUsText') || 'pozovite nas!';
             output.innerHTML = `
-                <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
-                <p class="level"><span class="call-us-trigger">${callUsText}</span></p>
-            `;
+            <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
+            ${radioItem.plus ? '<span class="price-plus">+</span>' : ''}
+            <p class="level"><span class="call-us-trigger">${callUsText}</span></p>
+        `;
 
             // Dodaj event listener za call us trigger
             const callUsTrigger = output.querySelector('.call-us-trigger');
@@ -591,6 +593,7 @@ document.addEventListener('DOMContentLoaded', function () {
             openCallUsDialog();
         } else {
             let priceHtml = `<span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>`;
+            // DODAJ PLUS ZNAK AKO POSTOJI U KONFIGURACIJI
             if (radioItem.plus) priceHtml += `<span class="price-plus">+</span>`;
             output.innerHTML = priceHtml;
         }
