@@ -39,7 +39,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="./logo.ico">
 
-    <title data-i18n="pageTitle">Dubinsko Pranje</title>
+    <title data-i18n="pageTitle">Dubinsko Pranje Tivat, Kotor, Budva | Perfect Shine</title>
 
     <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="css/base/reset.css">
@@ -223,13 +223,12 @@
 
         <div class="aboutUs">
             <span class="subheading" data-i18n="about.subheading">Dubinsko pranje Tivat, Kotor, Budva</span>
-            <h2 class="h2" data-i18n="about.title">Vodeći servis za dubinsko pranje na Crnogorskom primorju</h2>
+            <h2 class="h2" data-i18n="about.title">Perfect Shine - servis za dubinsko pranje</h2>
 
             <div class="about-description grid gap-10">
-                <p class="p text-i" data-i18n-html="about.lead">
-                    <strong>Perfect Shine nudi vrhunske usluge dubinskog pranja na području Tivta, Kotora i
-                        Budve.</strong>
-                </p>
+                <h3 class="lead text-i" data-i18n-html="about.lead">
+                    <strong>Šta je dubinsko pranje i čemu služi?</strong>
+                </h3>
 
                 <p class="p text-i" data-i18n-html="about.description1">
                     Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do pet
@@ -1034,26 +1033,31 @@
                             style="display: none !important; opacity: 0; position: absolute; left: -9999px;"
                             tabindex="-1" autocomplete="off" aria-hidden="true">
 
+                        <!-- name -->
                         <div class="input-wrapper">
                             <input placeholder="Subject" type="text" name="subject" class="info"
-                                data-i18n-placeholder="contact.namePlaceholder" minlength="2" maxlength="100">
+                                data-i18n-placeholder="contact.namePlaceholder" minlength="2" maxlength="100" disabled>
                             <button type="button" class="clear-input" aria-label="Clear input">×</button>
                         </div>
 
+                        <!-- phone -->
                         <div class="input-wrapper">
                             <input placeholder="Phone" type="tel" name="phone" class="info"
-                                data-i18n-placeholder="contact.phonePlaceholder" pattern="[\d\s\+\-\(\)]{6,20}">
+                                data-i18n-placeholder="contact.phonePlaceholder" pattern="[\d\s\+\-\(\)]{6,20}"
+                                disabled>
                             <button type="button" class="clear-input" aria-label="Clear input">×</button>
                         </div>
 
+                        <!-- message -->
                         <div class="textarea-wrapper">
                             <textarea placeholder="Message" name="message" rows="4" class="info"
-                                data-i18n-placeholder="contact.messagePlaceholder" minlength="5"
-                                maxlength="2000"></textarea>
+                                data-i18n-placeholder="contact.messagePlaceholder" minlength="5" maxlength="2000"
+                                disabled></textarea>
                             <button type="button" class="clear-input" aria-label="Clear input">×</button>
                         </div>
 
-                        <button type="submit" class="sendMsg" data-i18n="contact.sendButton">Pošalji</button>
+                        <button type="submit" class="sendMsg" data-i18n="contact.noData" disabled>Trenutno nije dostupno
+                            !</button>
                     </form>
 
                     <h3 class="h3" data-i18n="contact.address">Adresa</h3>

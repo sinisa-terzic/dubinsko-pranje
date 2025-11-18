@@ -223,8 +223,8 @@ input:checked+.chtext {
     padding: 0;
     border-radius: 12px;
     width: 90%;
-    max-width: 700px;
-    max-height: 85vh;
+    max-width: 1200px;
+    max-height: 95vh;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -274,7 +274,7 @@ input:checked+.chtext {
     padding: 2rem 3rem;
     overflow-y: auto;
     flex-grow: 1;
-    max-height: calc(85vh - 200px);
+    max-height: calc(95vh - 200px);
 }
 
 /* MODAL FOOTER - Fiksni deo */
@@ -451,13 +451,23 @@ input:checked+.chtext {
     color: #2c5aa0;
     font-weight: 600;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: all 0.1s ease;
     text-decoration: none;
+    display: block;
+    padding: 0.5rem 1rem;
+    border: 1px solid #3c7492;
+    border-radius: 2rem;
+    background-color: #fff;
 }
 
 .level span.call-us-trigger:hover {
     color: #004187;
-    text-decoration: underline;
+    border-color: #004187;
+    box-shadow: 0 2px 4px rgba(44, 90, 160, 0.2);
+}
+
+.call-us-trigger.wiggle-animation {
+    animation: wiggle 200ms 100ms 3 ease-out none;
 }
 
 /* Stil za resetovane radio dugmade */
@@ -482,23 +492,18 @@ input:checked+.chtext {
     }
 }
 
-.call-us-trigger.shake {
-    animation: gentleShake 0.5s ease-in-out;
-}
-
 /* Alternativno - bounce animacija ako želite gore-dole efekt */
-@keyframes gentleBounce {
+@keyframes wiggle {
 
-    0%,
-    100% {
-        transform: translateY(0);
+    0% {
+        transform: rotateZ(0);
     }
 
     50% {
-        transform: translateY(-3px);
+        transform: rotateZ(-3deg);
     }
-}
 
-.call-us-trigger.bounce {
-    animation: gentleBounce 0.5s ease-in-out;
+    100% {
+        transform: rotateZ(3deg);
+    }
 }

@@ -24,11 +24,11 @@
     },
     "about": {
         "subheading": "Dubinsko pranje Tivat, Kotor, Budva",
-        "title": "Vodeći servis za dubinsko pranje na Crnogorskom primorju",
-        "lead": "<strong>Perfect Shine nudi vrhunske usluge dubinskog pranja na području Tivta, Kotora i Budve.</strong>",
+        "title": "Perfect Shine - servis za dubinsko pranje",
+        "lead": "Šta je dubinsko pranje i čemu služi?",
         "description1": "Dubinsko pranje je vrsta mašinskog pranja pri kojem sredstva dopiru do dubljih slojeva, čak i do pet centimetara, kako bi efikasno uklonila nečistoće iz materijala.",
-        "description2": "Naš tim garantuje kvalitet i preciznost u dubinskom čišćenju automobila, garnitura, dušeka i itisona. Koristimo <a href=\"#featuree\" class=\"link\">savremenu opremu i ekološki prihvatljiva sredstva</a> koja efikasno uklanjaju nečistoće iz dubokih slojeva materijala.",
-        "description3": "<strong>Pružamo usluge širom crnogorskog primorja - pozovite nas za besplatnu procjenu i uverite se u kvalitet našeg rada!</strong>",
+        "description2": "Naš tim garantuje kvalitet i preciznost u dubinskom čišćenju automobila, garnitura, dušeka i itisona. Koristimo <a href=\"#featuree\" class=\"link\">savremenu opremu i ekološki prihvatljiva sredstva</a> koja efikasno uklanjaju nečistoće iz dubokih slojeva materijala, a da pri tome štitimo vaše zdravlje i materijal.",
+        "description3": "<strong class=\"highlighting\">Pružamo usluge širom crnogorskog primorja - pozovite nas za besplatnu procjenu i uverite se u kvalitet našeg rada!</strong>",
         "button": "Saznajte više »"
     },
     "services": {
@@ -152,7 +152,7 @@
         "selectService": "Izaberite servis",
         "calculatorNote": "Kalkulator prikazuje početnu cijenu!",
         "dryingText": "sušenje",
-        "callUsText": "pozovite nas!",
+        "callUsText": "pozovite nas !",
         "customPriceMessage": "Cijene se kreiraju individualno u zavisnosti od stanja, kompleksnosti posla i specifičnih zahtjeva. Naš tim će vam rado pružiti besplatnu procjenu i prilagoditi cijenu prema vašim potrebama. Kontaktirajte nas za detaljniju ponudu!",
         "plans": {
             "dubinsko_pranje": {

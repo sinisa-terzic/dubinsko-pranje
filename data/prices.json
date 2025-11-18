@@ -194,12 +194,12 @@
         "dubinsko_pranje": [
             {
                 "id": "furniture",
-                "price": 50.00,
+                "price": 25.00,
                 "plus": true
             },
             {
                 "id": "mattresses",
-                "price": 20.00,
+                "price": 10.00,
                 "plus": true
             },
             {
@@ -220,7 +220,8 @@
             },
             {
                 "id": "headlights",
-                "price": 50.00
+                "price": 40.00,
+                "plus": true
             }
         ],
         "hoteli_i_jahte": [

@@ -21,11 +21,11 @@
     },
     "about": {
         "subheading": "Deep Cleaning Tivat, Kotor, Budva",
-        "title": "Leading Deep Cleaning Service on the Montenegrin Coast",
-        "lead": "<strong>Perfect Shine offers premium deep cleaning services in the areas of Tivat, Kotor, and Budva.</strong>",
+        "title": "Perfect Shine - Deep Cleaning Service",
+        "lead": "What is deep cleaning and what is its purpose?",
         "description1": "Deep cleaning is a type of mechanical cleaning where cleaning agents penetrate into deeper layers, up to five centimeters, to effectively remove impurities from materials.",
-        "description2": "Our team guarantees quality and precision in deep cleaning of cars, furniture sets, mattresses, and rugs. We use <a href=\"#featuree\" class=\"link\">modern equipment and environmentally friendly products</a> that effectively remove impurities from deep material layers.",
-        "description3": "<strong>We provide services throughout the Montenegrin coast - call us for a free assessment and see the quality of our work for yourself!</strong>",
+        "description2": "Our team guarantees quality and precision in the deep cleaning of cars, upholstery, mattresses, and carpets. We use <a href=\"#featuree\" class=\"link\">modern equipment and eco-friendly products</a> that effectively remove impurities from the deep layers of the material, while protecting your health and the material itself.",
+        "description3": "<strong class=\"highlighting\">We provide services throughout the Montenegrin coast - call us for a free assessment and see the quality of our work for yourself!</strong>",
         "button": "Learn More »"
     },
     "services": {
@@ -152,7 +152,7 @@
         "selectService": "Select Service",
         "calculatorNote": "Calculator shows starting price!",
         "dryingText": "drying",
-        "callUsText": "call us!",
+        "callUsText": "call us !",
         "customPriceMessage": "Prices are created individually depending on the condition, complexity of the job and specific requirements. Our team will be happy to provide you with a free assessment and adjust the price according to your needs. Contact us for a more detailed offer!",
         "plans": {
             "dubinsko_pranje": {

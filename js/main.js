@@ -575,10 +575,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Specijalan slučaj za hotele - otvara callUs dialog
             const callUsText = getTranslation('pricing.callUsText') || 'pozovite nas!';
             output.innerHTML = `
-            <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
-            ${radioItem.plus ? '<span class="price-plus">+</span>' : ''}
-            <p class="level"><span class="call-us-trigger">${callUsText}</span></p>
-        `;
+        <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
+        <p class="level"><span class="call-us-trigger">${callUsText}</span></p>
+    `;
 
             // Dodaj event listener za call us trigger
             const callUsTrigger = output.querySelector('.call-us-trigger');
@@ -587,13 +586,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     e.stopPropagation();
                     openCallUsDialog();
                 });
-            }
 
-            // Automatski otvori callUs dialog
-            openCallUsDialog();
+                // Pokreni animaciju nakon kratkog delay-a
+                setTimeout(() => {
+                    callUsTrigger.classList.add('wiggle-animation');
+
+                    // Ukloni klasu nakon završetka animacije kako bi mogla ponovo da se pokrene
+                    setTimeout(() => {
+                        callUsTrigger.classList.remove('wiggle-animation');
+                    }, 1000); // 200ms * 3 + 100ms delay ≈ 700ms, dodajem više za sigurnost
+                }, 100);
+            }
         } else {
             let priceHtml = `<span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>`;
-            // DODAJ PLUS ZNAK AKO POSTOJI U KONFIGURACIJI
             if (radioItem.plus) priceHtml += `<span class="price-plus">+</span>`;
             output.innerHTML = priceHtml;
         }
@@ -963,7 +968,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (flagLinks[index] && CONFIG.languages[langCode]) {
                 flagLinks[index].style.display = 'flex';
                 flagLinks[index].setAttribute('data-lang-code', langCode);
-                flagLinks[index].querySelector('.flag').src = CONFIG.languages[langCode].flag.replace('+', '');
                 flagLinks[index].querySelector('.flag').alt = CONFIG.languages[langCode].name;
 
                 const textNode = flagLinks[index].childNodes[2];
