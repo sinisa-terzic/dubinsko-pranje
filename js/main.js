@@ -1,4 +1,4 @@
-// main.js - COMPLETE SYNCHRONIZED VERSION WITH BROWSER HISTORY & SEO
+// main.js - COMPLETE SYNCHRONIZED VERSION (ALL FORM FUNCTIONALITY REMOVED)
 document.addEventListener('DOMContentLoaded', function () {
     // ==================== GLOBAL VARIABLES ====================
     const body = document.body;
@@ -20,60 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentPrices = {};
     let translationCache = {};
 
-    // ==================== STRUCTURED DATA IMPROVEMENTS ====================
-
-    /**
-     * Uklanja duplicirane structured data script-ove
-     */
-    function cleanupDuplicateStructuredData() {
-        const scripts = document.querySelectorAll('script[type="application/ld+json"]');
-
-        if (scripts.length > 1) {
-            for (let i = 1; i < scripts.length; i++) {
-                scripts[i].remove();
-            }
-        }
-    }
-
-    /**
-     * Popravlja structured data probleme
-     */
-    function fixStructuredDataIssues(data) {
-        if (data.serviceArea && typeof data.serviceArea.geoRadius === "string") {
-            data.serviceArea.geoRadius = parseInt(data.serviceArea.geoRadius);
-        }
-
-        if (!data.image) {
-            data.image = [
-                "https://perfectshine.me/img/logo/logo.png",
-                "https://perfectshine.me/img/about/puzi-hero+.webp",
-                "https://perfectshine.me/img/services/furniture-washing.webp"
-            ];
-        }
-
-        return data;
-    }
-
-    /**
-     * Ažurira structured data sa popravkama
-     */
-    async function updateStructuredDataWithFixes(lang) {
-        try {
-            cleanupDuplicateStructuredData();
-
-            let structuredData = await loadStructuredData();
-
-            structuredData = await updateStructuredDataWithTranslations(structuredData, lang);
-
-            structuredData = fixStructuredDataIssues(structuredData);
-
-            injectStructuredData(structuredData);
-
-        } catch (error) {
-            console.error('Error fixing structured data:', error);
-        }
-    }
-
     // ==================== UTILITY FUNCTIONS ====================
 
     /**
@@ -93,24 +39,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const debounce = UTILS.debounce;
 
+
     /**
-     * Prikazuje loading state za promjenu jezika
-     */
-    function showLanguageLoading() {
+        * Prikazuje loading state za promjenu jezika
+    */
+    function showLanguageLoading(lang) {  // DODAJ lang PARAMETER
         body.classList.add('language-changing');
 
-        // Dodaj loading overlay ako već ne postoji
         let loadingOverlay = document.querySelector('.language-loading-overlay');
         if (!loadingOverlay) {
             loadingOverlay = document.createElement('div');
             loadingOverlay.className = 'language-loading-overlay';
-            loadingOverlay.innerHTML = `
-                <div class="language-loading-spinner"></div>
-                <p class="language-loading-text">${getTranslation('language.loading') || 'Učitavanje...'}</p>
-            `;
             document.body.appendChild(loadingOverlay);
         }
 
+        // Postavi tekst na osnovu jezika PRVO
+        const loadingTexts = {
+            'sr': 'Učitavanje...',
+            'en': 'Loading...',
+            'ru': 'Загрузка...'
+        };
+
+        loadingOverlay.innerHTML = `
+        <div class="language-loading-spinner"></div>
+        <p class="language-loading-text">${loadingTexts[lang] || 'Loading...'}</p>
+    `;
+
+        loadingOverlay.classList.add('active');
         loadingOverlay.style.display = 'flex';
     }
 
@@ -122,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const loadingOverlay = document.querySelector('.language-loading-overlay');
         if (loadingOverlay) {
+            loadingOverlay.classList.remove('active');
             loadingOverlay.style.display = 'none';
         }
     }
@@ -164,315 +120,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-    }
-
-    // ==================== CONTACT FORM HANDLING ====================
-
-    /**
-     * Inicijalizuje kontakt formu sa svim event listener-ima
-     */
-    function setupContactForm() {
-        const contactForm = document.querySelector('form.info');
-        if (!contactForm) return;
-
-        setupClearButtons(contactForm);
-        setupRealTimeValidation(contactForm);
-
-        contactForm.addEventListener('submit', async function (e) {
-            e.preventDefault();
-
-            const validationResult = validateContactForm(this);
-            if (!validationResult.isValid) {
-                showNotification(validationResult.message, 'error');
-                return;
-            }
-
-            await submitFormData(this);
-        });
-    }
-
-    /**
-     * Postavlja clear dugmad za input polja forme
-     */
-    function setupClearButtons(form) {
-        const clearButtons = form.querySelectorAll('.clear-input, .clear-textarea');
-
-        clearButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const input = this.closest('.input-wrapper, .textarea-wrapper').querySelector('input, textarea');
-                clearInputField(input);
-            });
-        });
-
-        form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]').forEach(input => {
-            input.addEventListener('input', () => updateClearButtonVisibility(input));
-            updateClearButtonVisibility(input);
-        });
-    }
-
-    /**
-     * Briše sadržaj input polja i resetuje stanje
-     */
-    function clearInputField(input) {
-        input.value = '';
-        input.focus();
-        input.classList.remove('valid', 'invalid');
-        removeFieldError(input);
-        updateClearButtonVisibility(input);
-        input.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-
-    /**
-     * Ažurira vidljivost clear dugmeta na osnovu sadržaja input polja
-     */
-    function updateClearButtonVisibility(input) {
-        const clearButton = input.closest('.input-wrapper, .textarea-wrapper').querySelector('.clear-input, .clear-textarea');
-        const hasValue = input.value.trim() !== '';
-        clearButton.style.opacity = hasValue ? '1' : '0';
-        clearButton.style.visibility = hasValue ? 'visible' : 'hidden';
-    }
-
-    /**
-     * Postavlja real-time validaciju za formu
-     */
-    function setupRealTimeValidation(form) {
-        form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]').forEach(input => {
-            input.addEventListener('blur', () => validateField(input));
-
-            input.addEventListener('input', function () {
-                if (this.name === 'phone') {
-                    this.value = UTILS.filterPhoneInput(this.value);
-                }
-
-                if (this.classList.contains('invalid')) {
-                    this.classList.remove('invalid');
-                    removeFieldError(this);
-                }
-                updateClearButtonVisibility(this);
-            });
-        });
-    }
-
-    /**
-     * Validira pojedinačno polje forme i prikazuje odgovarajuće errore
-     */
-    function validateField(field) {
-        const value = field.value.trim();
-        const fieldName = field.name;
-
-        if (value === '') {
-            field.classList.remove('valid', 'invalid');
-            removeFieldError(field);
-            return true;
-        }
-
-        let isValid = false;
-        let message = '';
-
-        switch (fieldName) {
-            case 'subject':
-                isValid = validateTextContent(value, 2);
-                message = isValid ? '' : (value.length < 2
-                    ? getTranslation('contact.validation.subjectLength')
-                    : getTranslation('contact.validation.subjectRandom'));
-                break;
-            case 'phone':
-                isValid = validatePhoneNumber(value);
-                message = isValid ? '' : getTranslation('contact.validation.phoneInvalid');
-                break;
-            case 'message':
-                isValid = validateTextContent(value, 5);
-                message = isValid ? '' : (value.length < 5
-                    ? getTranslation('contact.validation.messageLength')
-                    : getTranslation('contact.validation.messageRandom'));
-                break;
-        }
-
-        updateFieldAppearance(field, isValid, message);
-        return isValid;
-    }
-
-    /**
-     * Ažurira vizuelni izgled polja na osnovu validacije
-     */
-    function updateFieldAppearance(field, isValid, message) {
-        field.classList.remove('valid', 'invalid');
-        removeFieldError(field);
-
-        if (isValid) {
-            field.classList.add('valid');
-        } else {
-            field.classList.add('invalid');
-            showFieldError(field, message);
-        }
-    }
-
-    /**
-     * Validira kompletnu formu prije slanja
-     */
-    function validateContactForm(form) {
-        const subject = form.querySelector('input[name="subject"]').value.trim();
-        const phone = form.querySelector('input[name="phone"]').value.trim();
-        const message = form.querySelector('textarea[name="message"]').value.trim();
-
-        if (!subject || !phone || !message) {
-            return { isValid: false, message: getTranslation('contact.validation.required') };
-        }
-
-        if (!validateTextContent(subject, 2)) {
-            validateField(form.querySelector('input[name="subject"]'));
-            return { isValid: false, message: getTranslation('contact.validation.subjectRandom') };
-        }
-
-        if (!validatePhoneNumber(phone)) {
-            validateField(form.querySelector('input[name="phone"]'));
-            return { isValid: false, message: getTranslation('contact.validation.phoneInvalid') };
-        }
-
-        if (!validateTextContent(message, 5)) {
-            validateField(form.querySelector('textarea[name="message"]'));
-            return { isValid: false, message: getTranslation('contact.validation.messageRandom') };
-        }
-
-        return { isValid: true, message: '' };
-    }
-
-    /**
-     * Validira telefonski broj koristeći pattern-e iz config.js
-     */
-    function validatePhoneNumber(phone) {
-        const cleanPhone = phone.replace(/\s+/g, '');
-        return CONFIG.validation.phonePatterns.some(pattern => pattern.test(cleanPhone));
-    }
-
-    /**
-     * Validira tekstualni sadržaj sa anti-spam zaštitom
-     */
-    function validateTextContent(text, minLength) {
-        if (text.length < minLength) return false;
-
-        const cleanText = text.toLowerCase().replace(/\s+/g, '');
-
-        if (/(.)\1{2,}/.test(cleanText)) return false;
-        if (UTILS.isKeyboardPattern(text)) return false;
-        if (UTILS.isSequentialPattern(cleanText)) return false;
-        if (UTILS.hasIsolatedDoubleChars(text)) return false;
-        if (!UTILS.hasMeaningfulStructure(text)) return false;
-
-        return true;
-    }
-
-    /**
-     * Šalje podatke forme na server i rukuje odgovorom
-     */
-    async function submitFormData(form) {
-        const submitButton = form.querySelector('.sendMsg');
-        const originalText = submitButton.textContent;
-
-        submitButton.disabled = true;
-        submitButton.textContent = getTranslation('contact.sending');
-        submitButton.classList.add('loading');
-
-        try {
-            const formData = new FormData(form);
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: { 'X-Requested-With': 'XMLHttpRequest' }
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                showNotification(getTranslation('contact.success'), 'success');
-                resetForm(form);
-            } else if (response.status >= 500) {
-                showNotification(getTranslation('contact.error'), 'error');
-                resetForm(form);
-            } else {
-                showNotification(getTranslation('contact.error'), 'error');
-            }
-
-        } catch (error) {
-            console.error('Form submission error:', error);
-            showNotification(getTranslation('contact.error'), 'error');
-            resetForm(form);
-        } finally {
-            submitButton.disabled = false;
-            submitButton.textContent = originalText;
-            submitButton.classList.remove('loading');
-        }
-    }
-
-    /**
-     * Resetuje formu na početno stanje
-     */
-    function resetForm(form) {
-        form.reset();
-        clearFieldErrors();
-        updateClearButtonsVisibility(form);
-    }
-
-    /**
-     * Ažurira vidljivost svih clear dugmadi u formi
-     */
-    function updateClearButtonsVisibility(form) {
-        form.querySelectorAll('input[name="subject"], input[name="phone"], textarea[name="message"]').forEach(input => {
-            updateClearButtonVisibility(input);
-        });
-    }
-
-    /**
-     * Prikazuje error poruku ispod određenog polja
-     */
-    function showFieldError(field, message) {
-        removeFieldError(field);
-        const errorElement = document.createElement('span');
-        errorElement.className = 'field-error';
-        errorElement.textContent = message;
-        field.parentNode.insertBefore(errorElement, field.nextSibling);
-    }
-
-    /**
-     * Uklanja error poruku ispod određenog polja
-     */
-    function removeFieldError(field) {
-        const existingError = field.parentNode.querySelector('.field-error');
-        if (existingError) existingError.remove();
-    }
-
-    /**
-     * Uklanja sve error poruke iz forme
-     */
-    function clearFieldErrors() {
-        document.querySelectorAll('.field-error').forEach(error => error.remove());
-        document.querySelectorAll('.info input, .info textarea').forEach(field => {
-            field.classList.remove('invalid', 'valid');
-        });
-    }
-
-    /**
-     * Prikazuje notifikaciju korisniku (success/error/info)
-     */
-    function showNotification(message, type = 'info') {
-        const existingNotification = document.querySelector('.form-notification');
-        if (existingNotification) existingNotification.remove();
-
-        const notification = document.createElement('div');
-        notification.className = `form-notification form-notification-${type}`;
-        notification.textContent = message;
-
-        notification.setAttribute('role', 'alert');
-        notification.setAttribute('aria-live', 'polite');
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.style.animation = 'slideOut 0.3s ease-in';
-                setTimeout(() => notification.remove(), 300);
-            }
-        }, 5000);
     }
 
     // ==================== PRICE MANAGEMENT ====================
@@ -553,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
             radio.checked = false;
         });
 
-        // Resetuj prikaz cijene
         const hotelOutput = document.getElementById('total-3');
         if (hotelOutput) {
             hotelOutput.innerHTML = '<span class="euro">€</span><span>0.00</span>';
@@ -561,8 +207,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
- * Ažurira prikaz cijene za radio selection sa novom funkcionalnošću za hotele
- */
+     * Ažurira prikaz cijene za radio selection
+     */
     function updateRadioPriceDisplay(output, radioItem, sectionId) {
         if (sectionId === 2 && radioItem.price === 100.00) {
             const dryingText = getTranslation('pricing.dryingText') || 'sušenje';
@@ -572,14 +218,12 @@ document.addEventListener('DOMContentLoaded', function () {
             <p class="level"><span>${dryingText}</span> ~ 24<sup>h</sup></p>
         `;
         } else if (sectionId === 3) {
-            // Specijalan slučaj za hotele - otvara callUs dialog
             const callUsText = getTranslation('pricing.callUsText') || 'pozovite nas!';
             output.innerHTML = `
         <span class="euro">€</span><span>${radioItem.price?.toFixed(2) || '0.00'}</span>
         <p class="level"><span class="call-us-trigger">${callUsText}</span></p>
     `;
 
-            // Dodaj event listener za call us trigger
             const callUsTrigger = output.querySelector('.call-us-trigger');
             if (callUsTrigger) {
                 callUsTrigger.addEventListener('click', function (e) {
@@ -587,14 +231,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     openCallUsDialog();
                 });
 
-                // Pokreni animaciju nakon kratkog delay-a
                 setTimeout(() => {
                     callUsTrigger.classList.add('wiggle-animation');
-
-                    // Ukloni klasu nakon završetka animacije kako bi mogla ponovo da se pokrene
                     setTimeout(() => {
                         callUsTrigger.classList.remove('wiggle-animation');
-                    }, 1000); // 200ms * 3 + 100ms delay ≈ 700ms, dodajem više za sigurnost
+                    }, 1000);
                 }, 100);
             }
         } else {
@@ -617,7 +258,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (callUsImg && callUsIcon) {
             callUsImg.classList.add("callUs-is-open");
             callUsIcon.classList.add("open-callUs-remove");
-            // Zatvori ostale UI elemente
             UTILS.addHidden(language);
             UTILS.addHidden(callOptions);
         }
@@ -735,7 +375,6 @@ document.addEventListener('DOMContentLoaded', function () {
      * Učitava translation fajl za dati jezik
      */
     async function loadTranslations(lang) {
-        // Koristi cache ako postoji
         if (translationCache[lang]) {
             return translationCache[lang];
         }
@@ -745,7 +384,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!response.ok) throw new Error('Network response was not ok');
             const translations = await response.json();
 
-            // Sačuvaj u cache
             translationCache[lang] = translations;
             return translations;
         } catch (error) {
@@ -763,25 +401,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (htmlElement) {
             htmlElement.setAttribute('lang', lang);
         }
-    }
-
-    /**
-     * Ažurira postojeće validation error poruke kada se promeni jezik
-     */
-    function updateExistingValidationErrors() {
-        const errorElements = document.querySelectorAll('.field-error');
-
-        errorElements.forEach(errorElement => {
-            const field = errorElement.previousElementSibling;
-            if (field && (field.name === 'subject' || field.name === 'phone' || field.name === 'message')) {
-                const isValid = validateField(field);
-                if (!isValid) {
-                } else {
-                    removeFieldError(field);
-                    field.classList.remove('invalid');
-                }
-            }
-        });
     }
 
     /**
@@ -803,6 +422,159 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    // ==================== DYNAMIC META TAGS ====================
+
+    /**
+     * Ažurira dinamičke meta tagove za SEO
+     */
+    function updateDynamicMetaTags(translations) {
+        if (!translations) return;
+
+        // Ažuriraj description
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription && translations.pageDescription) {
+            metaDescription.content = translations.pageDescription;
+        }
+
+        // Ažuriraj title
+        const pageTitle = document.querySelector('title');
+        if (pageTitle && translations.pageTitle) {
+            pageTitle.textContent = translations.pageTitle;
+        }
+
+        // Ažuriraj Open Graph tagove
+        updateOpenGraphTags(translations);
+
+        // Ažuriraj Geo tagove
+        updateGeoTags(translations);
+    }
+
+    /**
+     * Ažurira Open Graph tagove
+     */
+    function updateOpenGraphTags(translations) {
+        const ogLocaleMap = { 'sr': 'sr_RS', 'en': 'en_US', 'ru': 'ru_RU' };
+
+        // Og:title
+        let ogTitle = document.querySelector('meta[property="og:title"]');
+        if (!ogTitle) {
+            ogTitle = document.createElement('meta');
+            ogTitle.setAttribute('property', 'og:title');
+            document.head.appendChild(ogTitle);
+        }
+        ogTitle.setAttribute('content', translations?.pageTitle || 'Perfect Shine - Dubinsko Pranje');
+
+        // Og:description
+        let ogDescription = document.querySelector('meta[property="og:description"]');
+        if (!ogDescription) {
+            ogDescription = document.createElement('meta');
+            ogDescription.setAttribute('property', 'og:description');
+            document.head.appendChild(ogDescription);
+        }
+        ogDescription.setAttribute('content', translations?.pageDescription ||
+            'Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju.');
+
+        // Og:locale
+        let ogLocale = document.querySelector('meta[property="og:locale"]');
+        if (!ogLocale) {
+            ogLocale = document.createElement('meta');
+            ogLocale.setAttribute('property', 'og:locale');
+            document.head.appendChild(ogLocale);
+        }
+        ogLocale.setAttribute('content', ogLocaleMap[currentLanguage] || 'sr_RS');
+
+        // Ostali OG tagovi koji su statički
+        ensureOpenGraphTags();
+    }
+
+    /**
+     * Osigurava da postoje osnovni Open Graph tagovi
+     */
+    function ensureOpenGraphTags() {
+        const requiredOgTags = [
+            { property: 'og:type', content: 'website' },
+            { property: 'og:site_name', content: 'Perfect Shine' },
+            { property: 'og:image', content: 'https://perfectshine.me/img/logo/logo.png' },
+            { property: 'og:image:width', content: '200' },
+            { property: 'og:image:height', content: '200' },
+            { property: 'og:url', content: 'https://perfectshine.me/' }
+        ];
+
+        requiredOgTags.forEach(tag => {
+            let element = document.querySelector(`meta[property="${tag.property}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.setAttribute('property', tag.property);
+                element.setAttribute('content', tag.content);
+                document.head.appendChild(element);
+            }
+        });
+    }
+
+    /**
+     * Ažurira Geo tagove
+     */
+    function updateGeoTags(translations) {
+        const geoData = {
+            'sr': {
+                region: 'ME',
+                placename: 'Kotor',
+                position: '42.369187;18.753562',
+                ICBM: '42.369187, 18.753562'
+            },
+            'en': {
+                region: 'ME',
+                placename: 'Kotor',
+                position: '42.369187;18.753562',
+                ICBM: '42.369187, 18.753562'
+            },
+            'ru': {
+                region: 'ME',
+                placename: 'Котор',
+                position: '42.369187;18.753562',
+                ICBM: '42.369187, 18.753562'
+            }
+        };
+
+        const currentGeo = geoData[currentLanguage] || geoData['sr'];
+
+        // Geo region
+        let geoRegion = document.querySelector('meta[name="geo.region"]');
+        if (!geoRegion) {
+            geoRegion = document.createElement('meta');
+            geoRegion.setAttribute('name', 'geo.region');
+            document.head.appendChild(geoRegion);
+        }
+        geoRegion.setAttribute('content', currentGeo.region);
+
+        // Geo placename
+        let geoPlacename = document.querySelector('meta[name="geo.placename"]');
+        if (!geoPlacename) {
+            geoPlacename = document.createElement('meta');
+            geoPlacename.setAttribute('name', 'geo.placename');
+            document.head.appendChild(geoPlacename);
+        }
+        geoPlacename.setAttribute('content', currentGeo.placename);
+
+        // Geo position
+        let geoPosition = document.querySelector('meta[name="geo.position"]');
+        if (!geoPosition) {
+            geoPosition = document.createElement('meta');
+            geoPosition.setAttribute('name', 'geo.position');
+            document.head.appendChild(geoPosition);
+        }
+        geoPosition.setAttribute('content', currentGeo.position);
+
+        // ICBM
+        let icbm = document.querySelector('meta[name="ICBM"]');
+        if (!icbm) {
+            icbm = document.createElement('meta');
+            icbm.setAttribute('name', 'ICBM');
+            document.head.appendChild(icbm);
+        }
+        icbm.setAttribute('content', currentGeo.ICBM);
+    }
+
     /**
      * Primjenjuje prevode na sve elemente na stranici
      */
@@ -811,7 +583,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         window.currentTranslations = translations;
 
-        // Text translations
         document.querySelectorAll('[data-i18n]').forEach(element => {
             const key = element.getAttribute('data-i18n');
             const value = UTILS.getNestedValue(translations, key);
@@ -824,14 +595,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // HTML content translations
         document.querySelectorAll('[data-i18n-html]').forEach(element => {
             const key = element.getAttribute('data-i18n-html');
             const value = UTILS.getNestedValue(translations, key);
             if (value) element.innerHTML = value;
         });
 
-        // Placeholder translations
         document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
             const key = element.getAttribute('data-i18n-placeholder');
             const value = UTILS.getNestedValue(translations, key);
@@ -839,113 +608,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         updateFormPlaceholders();
-
-        updateSEOMetaTags(translations);
-    }
-
-    /**
-     * Ažurira SEO meta tagove za trenutni jezik
-     */
-    function updateSEOMetaTags(translations) {
-        if (!translations) return;
-
-        updateHtmlLangAttribute(currentLanguage);
-
-        // Meta description
-        const metaDescription = document.querySelector('meta[name="description"]');
-        if (metaDescription && translations.pageDescription) {
-            metaDescription.content = translations.pageDescription;
-        }
-
-        // Page title
-        const pageTitle = document.querySelector('title');
-        if (pageTitle && translations.pageTitle) {
-            pageTitle.textContent = translations.pageTitle;
-        }
-
-        updateOpenGraphTags(translations);
-        updateSEOTags();
-    }
-
-    /**
-     * Ažurira Open Graph tagove za social sharing
-     */
-    function updateOpenGraphTags(translations) {
-        const ogLocaleMap = { 'sr': 'sr_RS', 'en': 'en_US', 'ru': 'ru_RU' };
-
-        // OG Locale
-        let ogLocale = document.querySelector('meta[property="og:locale"]');
-        if (!ogLocale) {
-            ogLocale = document.createElement('meta');
-            ogLocale.setAttribute('property', 'og:locale');
-            document.head.appendChild(ogLocale);
-        }
-        ogLocale.setAttribute('content', ogLocaleMap[currentLanguage] || 'sr_RS');
-
-        // OG Title
-        let ogTitle = document.querySelector('meta[property="og:title"]');
-        if (!ogTitle) {
-            ogTitle = document.createElement('meta');
-            ogTitle.setAttribute('property', 'og:title');
-            document.head.appendChild(ogTitle);
-        }
-        ogTitle.setAttribute('content', translations?.pageTitle || 'Perfect Shine - Dubinsko Pranje');
-
-        // OG Description
-        let ogDescription = document.querySelector('meta[property="og:description"]');
-        if (!ogDescription) {
-            ogDescription = document.createElement('meta');
-            ogDescription.setAttribute('property', 'og:description');
-            document.head.appendChild(ogDescription);
-        }
-        ogDescription.setAttribute('content', translations?.pageDescription ||
-            'Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju.');
-
-        // OG URL
-        let ogUrl = document.querySelector('meta[property="og:url"]');
-        if (!ogUrl) {
-            ogUrl = document.createElement('meta');
-            ogUrl.setAttribute('property', 'og:url');
-            document.head.appendChild(ogUrl);
-        }
-        ogUrl.setAttribute('content', getCurrentLanguageUrl());
-    }
-
-    /**
-     * Ažurira SEO tagove (canonical, hreflang)
-     */
-    function updateSEOTags() {
-        const currentUrl = getCurrentLanguageUrl();
-
-        // Canonical URL
-        let canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) canonical.setAttribute('href', currentUrl);
-
-        updateHreflangTags(currentUrl);
-    }
-
-    /**
-     * Ažurira hreflang tagove za multi-language SEO
-     */
-    function updateHreflangTags(currentUrl) {
-        const languages = ['sr', 'en', 'ru'];
-        const baseUrl = 'https://perfectshine.me';
-
-        languages.forEach(lang => {
-            const hreflang = document.querySelector(`link[hreflang="${lang === 'sr' ? 'sr' : lang}"]`);
-            if (hreflang) {
-                const url = lang === 'sr' ? `${baseUrl}/` : `${baseUrl}/${lang}/`;
-                hreflang.setAttribute('href', url);
-            }
-        });
-    }
-
-    /**
-     * Generiše URL za trenutni jezik
-     */
-    function getCurrentLanguageUrl() {
-        const baseUrl = 'https://perfectshine.me';
-        return currentLanguage === 'sr' ? `${baseUrl}/` : `${baseUrl}/${currentLanguage}/`;
+        updateDynamicMetaTags(translations);
     }
 
     /**
@@ -982,7 +645,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Učitava i primjenjuje jezik sa svim SEO optimizacijama
+     * Učitava i primjenjuje jezik
      */
     async function loadAndApplyLanguage(lang) {
         currentLanguage = lang;
@@ -991,8 +654,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const translations = await loadTranslations(lang);
         window.currentTranslations = translations;
         applyTranslations(translations);
-
-        updateExistingValidationErrors();
 
         updateLanguageDisplay(lang);
         setupRadioPrices();
@@ -1005,19 +666,19 @@ document.addEventListener('DOMContentLoaded', function () {
     async function changeLanguage(lang) {
         if (lang === currentLanguage) return;
 
-        // Prikaži loading state
-        showLanguageLoading();
+        showLanguageLoading(lang);  // PROSLEDI JEZIK
 
         try {
+            // Kratka zadrška od 300ms da se vidi loader
+            await new Promise(resolve => setTimeout(resolve, 300));
+
             updateHtmlLangAttribute(lang);
             await loadAndApplyLanguage(lang);
-            await updateStructuredDataWithFixes(lang);
             UTILS.addHidden(language);
             headerEl.classList.remove("nav-open");
         } catch (error) {
             console.error('Error changing language:', error);
         } finally {
-            // Sakrij loading state
             hideLanguageLoading();
         }
     }
@@ -1057,7 +718,6 @@ document.addEventListener('DOMContentLoaded', function () {
         modalContent.innerHTML = generatePricingContent(currentPlan.pricesKey);
         modal.style.display = 'block';
 
-        // Resetuj radio dugmad samo za hotele (planId 3)
         if (planId === '3') {
             resetHotelRadios();
         }
@@ -1137,13 +797,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Generiše HTML sadržaj za pricing modal sa custom porukom za hotele
+     * Generiše HTML sadržaj za pricing modal
      */
     function generatePricingContent(pricesKey) {
         const prices = currentPrices[pricesKey];
         const translations = getTranslation(`pricing.modal.prices.${pricesKey}`);
 
-        // Specijalan slučaj za hotele i jahte - prikaži custom poruku
         if (pricesKey === 'hoteli_i_jahte') {
             const customMessage = getTranslation('pricing.customPriceMessage') ||
                 'Cijene se kreiraju individualno u zavisnosti od stanja, kompleksnosti posla i specifičnih zahtjeva. Naš tim će vam rado pružiti besplatnu procjenu i prilagoditi cijenu prema vašim potrebama. Kontaktirajte nas za detaljniju ponudu!';
@@ -1161,7 +820,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return html;
         }
 
-        // Standardni prikaz cijena za ostale kategorije
         if (!prices || !Array.isArray(prices) || prices.length === 0) {
             return '<p class="pricing-no-prices">Nema dostupnih cijena</p>';
         }
@@ -1207,7 +865,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * Postavlja statički layout za partnere (za korisnike koji preferiraju smanjen motion)
+     * Postavlja statički layout za partnere
      */
     function setupStaticPartnersLayout(container) {
         container.style.transform = "none";
@@ -1262,166 +920,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // ==================== STRUCTURED DATA MANAGEMENT ====================
+    // ==================== STRUCTURED DATA LOADING ====================
 
     /**
-     * Učitava structured data iz JSON fajla
+     * Učitava i ubacuje structured data
      */
-    async function loadStructuredData() {
-        try {
-            const response = await fetch('data/structured-data.json');
-            if (!response.ok) throw new Error('Failed to load structured data');
-            return await response.json();
-        } catch (error) {
-            console.warn('Using fallback structured data:', error);
-            return getFallbackStructuredData();
-        }
-    }
-
-    /**
-     * Fallback structured data ako glavni fajl nije dostupan
-     */
-    function getFallbackStructuredData() {
-        return {
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Perfect Shine",
-            "description": "Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju",
-            "url": "https://perfectshine.me",
-            "telephone": "+38268069211",
-            "email": "info@perfectshine.me",
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Radanovići bb, Ruska garaža",
-                "addressLocality": "Kotor",
-                "addressRegion": "Crna Gora",
-                "postalCode": "85300",
-                "addressCountry": "ME"
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 42.369187,
-                "longitude": 18.753562
-            },
-            "openingHours": [
-                "Mo-Su 00:00-23:59"
-            ],
-            "areaServed": [
-                "Tivat",
-                "Kotor",
-                "Budva",
-                "Herceg Novi",
-                "Podgorica",
-                "Crna Gora"
-            ],
-            "serviceType": [
-                "Dubinsko pranje automobila",
-                "Pranje garnitura",
-                "Održavanje jahti",
-                "Čišćenje hotela",
-                "Polimerizacija farova",
-                "Dezinfekcija",
-                "Dezinsekcija"
-            ],
-            "serviceArea": {
-                "@type": "GeoCircle",
-                "geoMidpoint": {
-                    "@type": "GeoCoordinates",
-                    "latitude": 42.369187,
-                    "longitude": 18.753562
-                },
-                "geoRadius": "50000"
-            },
-            "sameAs": [
-                "https://www.instagram.com/_dubinsko_pranje_tivat",
-                "https://www.facebook.com/profile.php?id=100064044033023",
-                "https://vm.tiktok.com/ZMYUrGDGo/"
-            ],
-            "priceRange": "€€",
-            "currenciesAccepted": "EUR"
-        };
-    }
-
-    /**
-     * Ažurira structured data sa prevodima za trenutni jezik
-     */
-    async function updateStructuredDataWithTranslations(structuredData, lang) {
-        const translations = {
-            'sr': {
-                description: "Profesionalno dubinsko pranje automobila, garnitura, jahti i hotela na crnogorskom primorju",
-                serviceType: [
-                    "Dubinsko pranje automobila",
-                    "Pranje garnitura",
-                    "Održavanje jahti",
-                    "Čišćenje hotela",
-                    "Polimerizacija farova",
-                    "Dezinfekcija",
-                    "Dezinsekcija"
-                ]
-            },
-            'en': {
-                description: "Professional deep cleaning of cars, furniture, yachts and hotels on the Montenegrin coast",
-                serviceType: [
-                    "Deep car cleaning",
-                    "Furniture washing",
-                    "Yacht maintenance",
-                    "Hotel cleaning",
-                    "Headlight polymerization",
-                    "Disinfection",
-                    "Disinsection"
-                ]
-            },
-            'ru': {
-                description: "Профессиональная глубокая чистка автомобилей, мебели, яхт и отелей на черногорском побережье",
-                serviceType: [
-                    "Глубокая чистка автомобилей",
-                    "Чистка мебели",
-                    "Обслуживание яхт",
-                    "Уборка отелей",
-                    "Полимеризация фар",
-                    "Дезинфекция",
-                    "Дезинсекция"
-                ]
+    async function loadAndInjectStructuredData() {
+        if (typeof UTILS !== 'undefined' && UTILS.loadStructuredData) {
+            try {
+                const structuredData = await UTILS.loadStructuredData();
+                UTILS.injectStructuredData(structuredData);
+            } catch (error) {
+                console.warn('Error loading structured data:', error);
             }
-        };
-
-        const langData = translations[lang] || translations['sr'];
-
-        if (langData.description) {
-            structuredData.description = langData.description;
         }
-
-        if (langData.serviceType) {
-            structuredData.serviceType = langData.serviceType;
-        }
-
-        return structuredData;
-    }
-
-    /**
-     * Ubacuje structured data u <head> stranice
-     */
-    function injectStructuredData(structuredData) {
-        removeExistingStructuredData();
-
-        const script = document.createElement('script');
-        script.type = 'application/ld+json';
-        script.textContent = JSON.stringify(structuredData);
-
-        document.head.appendChild(script);
-    }
-
-    /**
-     * Uklanja postojeće structured data skripte
-     */
-    function removeExistingStructuredData() {
-        const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
-        existingScripts.forEach(script => {
-            if (script.textContent.includes('Perfect Shine') ||
-                script.textContent.includes('LocalBusiness')) {
-                script.remove();
-            }
-        });
     }
 
     // ==================== INITIALIZATION ====================
@@ -1436,15 +948,17 @@ document.addEventListener('DOMContentLoaded', function () {
         setupRadioPrices();
         updateLanguageDisplay(savedLanguage);
         await loadAndApplyLanguage(savedLanguage);
-        await updateStructuredDataWithFixes(savedLanguage);
         checkStickyNavigation();
+
+        // Učitaj structured data
+        await loadAndInjectStructuredData();
 
         setupGlobalHistoryHandler();
         setupPricingHistory();
         setupPricingModalEventListeners();
         setupPricingModalButtons();
         setupPartnersMarquee();
-        setupContactForm();
+        // FORM SETUP COMPLETELY REMOVED
     }
 
     // ==================== START APPLICATION ====================
