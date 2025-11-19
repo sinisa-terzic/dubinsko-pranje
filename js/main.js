@@ -968,6 +968,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (flagLinks[index] && CONFIG.languages[langCode]) {
                 flagLinks[index].style.display = 'flex';
                 flagLinks[index].setAttribute('data-lang-code', langCode);
+                flagLinks[index].querySelector('.flag').src = CONFIG.languages[langCode].flag.replace('+', '');
                 flagLinks[index].querySelector('.flag').alt = CONFIG.languages[langCode].name;
 
                 const textNode = flagLinks[index].childNodes[2];
