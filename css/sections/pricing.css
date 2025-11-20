@@ -223,7 +223,7 @@ input:checked+.chtext {
     padding: 0;
     border-radius: 12px;
     width: 90%;
-    max-width: 1200px;
+    max-width: 1000px;
     max-height: 95vh;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
