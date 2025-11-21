@@ -14,7 +14,7 @@
 
 .price-list-border-top {
     padding: 5px 0;
-    background: #5b5b5b;
+    background: #212121;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -152,17 +152,19 @@ input:checked+.chtext {
     color: #aeb0b5;
     font-weight: 500;
     line-height: normal;
+    letter-spacing: 1px;
 }
 
 .price-list-footer button {
-    background-color: #373737;
+    background-color: #000;
     color: #ececec;
-    padding: 7px 16px;
-    margin-top: 15px;
+    padding: 1rem 2rem;
+    margin-top: 1.4rem;
     cursor: pointer;
-    border-radius: 18px;
+    border-radius: 2rem;
     border: 2px solid #595959;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
 }
 
 /* Dodaj ovo u pricing.css */

@@ -44,21 +44,36 @@
 }
 
 /* Ostali CSS ostaje isti */
-.callUs {
+/* .callUs {
     position: fixed;
     width: 25rem;
-    bottom: 0;
-    right: 0;
+    bottom: 0px;
+    right: 0px;
     z-index: 999;
-    background-color: #ffffff;
-    border-top: 0.3rem solid var(--color-grey-light);
-    border-left: 0.3rem solid var(--color-grey-light);
-    border-radius: var(--space-40) 0 0 0;
+    background-color: rgb(255, 255, 255);
     visibility: hidden;
     transform: translateX(100%);
     opacity: 0;
-    box-shadow: -4px -4px 20px rgba(0, 0, 0, 0.1);
-    /* transition: all 0.3s ease-in-out; */
+    box-shadow: rgba(0, 0, 0, 0.1) -4px -4px 20px;
+    border-top: 0.3rem solid var(--color-grey-light);
+    border-left: 0.3rem solid var(--color-grey-light);
+    border-radius: var(--space-40) 0 0 0;
+} */
+
+.callUs {
+    position: fixed;
+    width: 28rem;
+    bottom: 0px;
+    right: 0px;
+    z-index: 999;
+    background-color: rgb(255, 255, 255);
+    visibility: hidden;
+    transform: translateX(100%);
+    opacity: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) -4px -4px 20px;
+    border-top: 0.3rem solid var(--color-grey-light);
+    border-left: 0.3rem solid var(--color-grey-light);
+    border-radius: var(--space-40) 0 0 0;
 }
 
 .callUs-is-open {
@@ -73,7 +88,7 @@
     font-weight: 700;
     color: var(--color-red-light);
     padding: var(--space-15) var(--space-20);
-    margin: 0;
+    margin: 0px;
     border-bottom: 1px solid var(--color-grey-light);
 }
 
@@ -95,28 +110,26 @@
     transform: scale(1.1);
 }
 
-/* Call Options */
 .call-options1 {
     position: absolute;
     color: black;
     text-decoration: none;
-    top: 5.2rem;
-    left: 0;
-    padding: 1.4rem;
+    top: 7rem;
+    left: 1rem;
     font-size: 1.7rem;
     flex-direction: column;
-    gap: 1.8rem;
+    gap: 2.2rem;
     font-weight: 600;
 }
 
 /* Social Media Links */
 .callUs_Social {
     position: absolute;
-    left: var(--space-10);
-    bottom: var(--space-10);
-    gap: var(--space-15);
+    bottom: var(--space-50);
     display: flex;
     align-items: center;
+    gap: 2rem;
+    left: 1.2rem;
 }
 
 .callUs_Social img {
@@ -129,6 +142,17 @@
     width: 100%;
     height: auto;
     display: block;
+}
+
+.callUsNumber {
+    font-size: 2rem;
+    padding: 1rem;
+    text-align: center;
+    color: #121212;
+    font-weight: 600;
+    letter-spacing: 2px;
+    background-color: #fdb81e;
+    border-top: 1px solid #ffffff;
 }
 
 /* Animation for call options */
