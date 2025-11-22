@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     modal: 'callUs'
                 }, '', `#callUs`);
             }
+
+            setupCallUsEventListeners();
         }
     }
 
@@ -64,12 +66,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    /**
+     * Zatvara callUs dialog bez manipulacije browser history-ja
+     */
+    function closeCallUsDialogWithoutHistory() {
+        if (callUsImg && callUsOverlay) {
+            callUsOverlay.classList.remove("active");
+            callUsImg.classList.remove("callUs-is-open");
+            callUsIcon?.classList.remove("open-callUs-remove");
+            body.classList.remove("callUs-open");
+        }
+    }
+
+    /**
+     * Postavlja event listenere za callUs dialog
+     */
+    function setupCallUsEventListeners() {
+        if (callUsOverlay) {
+            callUsOverlay.addEventListener('click', function (e) {
+                if (e.target === callUsOverlay) {
+                    closeCallUsDialog();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function callUsKeyHandler(e) {
+            if (e.key === 'Escape' && callUsImg.classList.contains("callUs-is-open")) {
+                closeCallUsDialog();
+                document.removeEventListener('keydown', callUsKeyHandler);
+            }
+        });
+    }
+
+    /**
+     * Postavlja globalni history handler za callUs
+     */
+    function setupCallUsHistoryHandler() {
+        window.addEventListener('popstate', function (event) {
+            const state = event.state;
+
+            if (!state || state.modal !== 'callUs') {
+                closeCallUsDialogWithoutHistory();
+            }
+
+            if (window.location.hash === '#callUs') {
+                openCallUsDialog();
+            }
+        });
+    }
+
     // ==================== ORIGINALNE FUNKCIJE (NETAKNUTE) ====================
 
     const closeAllUIElements = () => {
         UTILS.addHidden(language);
         UTILS.addHidden(callOptions);
-        closeCallUsDialog();
+        closeCallUsDialogWithoutHistory();
     };
 
     const stopPropagation = (e) => e?.stopPropagation?.();
@@ -113,8 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('popstate', function (event) {
             const state = event.state;
             if (!state) {
-                closePricingModalWithoutHistory();
-                closeCallUsDialog();
+                closeAllModals();
                 return;
             }
 
@@ -129,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function closeAllModals() {
         closePricingModalWithoutHistory();
-        closeCallUsDialog();
+        closeCallUsDialogWithoutHistory();
     }
 
     function closePricingModalWithoutHistory() {
@@ -294,14 +344,14 @@ document.addEventListener('DOMContentLoaded', function () {
             stopPropagation(e);
             UTILS.toggleHidden(language);
             UTILS.addHidden(callOptions);
-            closeCallUsDialog();
+            closeCallUsDialogWithoutHistory();
         });
 
         phoneNumber?.addEventListener("click", function (e) {
             stopPropagation(e);
             UTILS.toggleHidden(callOptions);
             UTILS.addHidden(language);
-            closeCallUsDialog();
+            closeCallUsDialogWithoutHistory();
         });
 
         callUsIcon?.addEventListener('click', function (e) {
@@ -326,20 +376,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         [language, callOptions, callUsImg].forEach(element => {
             element?.addEventListener('click', stopPropagation);
-        });
-
-        // ESC key za callUs
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && callUsOverlay?.classList.contains("active")) {
-                closeCallUsDialog();
-            }
-        });
-
-        // Click na overlay da zatvori
-        callUsOverlay?.addEventListener('click', function (e) {
-            if (e.target === callUsOverlay) {
-                closeCallUsDialog();
-            }
         });
     }
 
@@ -851,6 +887,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         setupGlobalHistoryHandler();
         setupPricingHistory();
+        setupCallUsHistoryHandler();
+        setupPricingModalEventListeners();
         setupPricingModalButtons();
         setupPartnersMarquee();
 

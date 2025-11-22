@@ -14,7 +14,7 @@
 
 .price-list-border-top {
     padding: 5px 0;
-    background: #212121;
+    background: #5b5b5b;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -308,7 +308,7 @@ input:checked+.chtext {
 .pricing-category {
     margin-bottom: 2.5rem;
     background: #fbfbfb;
-    padding: 20px 0 0 20px;
+    padding: 2rem 0 2rem 2rem;
     border-radius: 8px;
     border-left: 4px solid #2c5aa0;
 }
